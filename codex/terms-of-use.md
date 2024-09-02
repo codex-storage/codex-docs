@@ -1,3 +1,6 @@
+---
+lastUpdated: false
+---
 # Terms of Use
 
 Last updated: 14 February 2024
