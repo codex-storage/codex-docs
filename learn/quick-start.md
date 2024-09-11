@@ -26,7 +26,11 @@
 
  2. Verify checksum
     ```shell
+    # Linux
     sha256sum -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
+
+    # macOS
+    shasum -a 256 -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
     ```
     Make sure you get `OK` in the result
     ```
@@ -43,7 +47,13 @@
     sudo install codex-${version}-${platform}-${architecture} /usr/local/bin/codex
     ```
 
- 5. Check the result
+ 5. Install dependencies
+    ```shell
+    # Debian-based Linux
+    sudo apt update && sudo apt install libgomp1
+    ```
+
+ 6. Check the result
     ```shell
     codex --version
     ```
@@ -53,7 +63,7 @@
     Nim Compiler Version 1.6.14 [Linux: amd64]
     ```
 
- 6. Cleanup
+ 7. Cleanup
     ```shell
     rm -f \
       codex-${version}-${platform}-${architecture} \
