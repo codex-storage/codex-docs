@@ -7,7 +7,7 @@
 
 ### Get Codex binary
 
- For quick start we would use precompiled binaries from [GitHub release page](https://github.com/codex-storage/nim-codex/releases). If you rather prefer to compile from the sources, please check [Build Codex](/learn/build-codex).
+ For quick start we would use precompiled binaries from [GitHub release page](https://github.com/codex-storage/nim-codex/releases). If you rather prefer to compile from the sources, please check [Build Codex](/learn/build).
 
  1. Download binary and checksum for your platform/architecture
 
@@ -81,7 +81,7 @@
       --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
     ```
     ::: tip
-    In the example above we use [Codex Testnet](/networks/testnet#bootstrap-nodes) bootstrap nodes and thus we join Testnet. If you would like to join a different network, please use [appropriate value](/networks).
+    In the example above we use [Codex Testnet](/networks/testnet#bootstrap-nodes) bootstrap nodes and thus we join Testnet. If you would like to join a different network, please use [appropriate value](/networks/networks).
     :::
 
  2. Configure port-forwarding for the TCP/UDP ports on your Internet router
