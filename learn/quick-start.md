@@ -15,8 +15,8 @@
     **Linux/macOS**
     ```shell
     version=v0.1.3
-    platform=linux     # darwin
-    architecture=amd64 # arm64
+    platform=$(echo `uname -s` | awk '{print tolower($0)}')
+    architecture=$([[ `uname -m` == 'x86_64' ]] && echo amd64 || echo arm64)
 
     # Binary
     curl -LO https://github.com/codex-storage/nim-codex/releases/download/${version}/codex-${version}-${platform}-${architecture}.tar.gz
