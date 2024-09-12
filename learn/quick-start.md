@@ -120,7 +120,7 @@
  ```shell
  curl --request POST \
   http://localhost:8080/api/codex/v1/data \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/octet-stream' \
   --write-out '\n' \
   -T <FILE>
  ```
