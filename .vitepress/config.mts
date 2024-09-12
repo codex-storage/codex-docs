@@ -74,6 +74,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: 'What is Codex?', link: '/learn/what-is-codex' },
+          { text: 'Disclaimer Codex', link: '/codex/disclaimer' },
           { text: 'Quick start', link: '/learn/quick-start' },
           { text: 'Architecture', link: '/learn/architecture' },
           { text: 'Marketplace', link: '/learn/marketplace' },
