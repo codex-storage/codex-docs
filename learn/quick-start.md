@@ -1,6 +1,7 @@
 # Quick start
 
  To start using Codex we would need to perform the following steps:
+ - [Review the disclaimer](/codex/disclaimer)
  - [Get Codex binary](#get-codex-binary)
  - [Run Codex](#run-codex)
  - [Interact with Codex](#interact-with-codex)
