@@ -1,13 +1,13 @@
 # Quick start
 
- To start to use Codex we would need to perform the following steps
+ To start using Codex we would need to perform the following steps:
  - [Get Codex binary](#get-codex-binary)
  - [Run Codex](#run-codex)
  - [Interact with Codex](#interact-with-codex)
 
 ### Get Codex binary
 
- For quick start we would use precompiled binaries from [GitHub release page](https://github.com/codex-storage/nim-codex/releases). If you rather prefer to compile from the sources, please check [Build Codex](/learn/build).
+ For quick start we will use precompiled binaries from [GitHub release page](https://github.com/codex-storage/nim-codex/releases). If you prefer to compile from the sources, please check [Build Codex](/learn/build).
 
  1. Download binary and checksum for your platform/architecture
 
@@ -74,11 +74,11 @@
 
 ### Run Codex
 
- Currently, we can run Codex in two modes
+ Currently, we can run Codex in two modes:
  - **Client node** - you can upload/download files and purchase storage
  - **Storage node** - you can sell your local storage
 
- For quick start we will run Codex client node as an easiest way and if you would like to run a storage node please follow [Run Codex](/learn/run) and [Codex Testnet](/networks/testnet) guides.
+ For quick start we will run a Codex client node as an easy way to get started. If you would like to run a storage node please follow [Run Codex](/learn/run) and [Codex Testnet](/networks/testnet) guides.
 
  1. Run Codex client node
     ```shell
@@ -102,9 +102,9 @@
 
 ### Interact with Codex
 
- After we performed steps above, we have Codex client node up and running and can interact with it using [Codex API](/developers/api).
+ After we performed the steps above, we have a Codex client node up and running and can interact with it using [Codex API](/developers/api).
 
- We can perform basic tasks like
+ We can perform basic tasks:
 
  **Check node information**
  ```shell
@@ -123,11 +123,11 @@
   --write-out '\n' \
   -T <FILE>
  ```
- You will get CID when upload will be finished
+ You will get CID when upload will be finished.
 
  **Download file**
  ```shell
- CID="..." # paste your CID from the previous step here between the quotes
+ CID="..." # paste your CID from the previous step here between the quotes.
  ```
  ```shell
  curl http://localhost:8080/api/codex/v1/data/${CID}/network -o ${CID}
@@ -135,8 +135,8 @@
 
 ### Next steps
 
- Now we have Codex node up and running and know how to interact with it.
+ Now we have a Codex node up and running and know how to interact with it.
 
- For more advanced use cases, please check the following guides
+ For more advanced use cases, please check the following guides:
  - [Run Codex](/learn/run)
  - [Codex Testnet](/networks/testnet)
