@@ -1,8 +1,6 @@
 # What is Codex?
 
-Work in progress :construction:
-
-Codex is a decentralised data storage platform that provides exceptionally strong censorship resistance and durability guarantees. It serves as the storage layer of the [Logos](https://logos.co/) tech stack. Alongside the trustless agreement layer, [Nomos](http://nomos.tech), and the communications layer, [Waku](http://waku.org), it is one of the Logos Collective's foundational projects.
+Codex is a decentralised data storage protocol. Its primary features are strong censorship resistance and durability guarantees. It has a reference implementation by the same name, written in nim. It serves as the storage layer of the [Logos](https://logos.co/) tech stack. Alongside the trustless agreement layer, [Nomos](http://nomos.tech), and the communications layer, [Waku](http://waku.org), it is one of the Logos Collective's foundational projects.
 
 <br/>
 
@@ -34,3 +32,6 @@ The name "Codex" refers to an ancient form of book—an allusion to the data sto
 
 Codex was announced as a core Logos Collective protocol in June 2023.
 
+### Testnet
+
+Codex is currently in the testnet phase. The client implementation is free and open software. If you're interested, we encourage you to try Codex, connect to the testnet and experiment with its features. [Get started here](./quick-start.md)
