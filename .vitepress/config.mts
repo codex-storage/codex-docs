@@ -79,9 +79,7 @@ export default defineConfig({
           { text: 'Architecture', link: '/learn/architecture' },
           { text: 'Marketplace', link: '/learn/marketplace' },
           { text: 'Whitepaper', link: '/learn/whitepaper' },
-          { text: 'Build Codex', link: '/learn/build' },
-          { text: 'Run Codex', link: '/learn/run' },
-          { text: 'Deploy Codex', link: '/learn/deploy' }
+          { text: 'Build Codex', link: '/learn/build' }
         ]
       },
       {

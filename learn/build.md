@@ -148,7 +148,7 @@ The default `make` target creates the `build/codex` executable.
 
 ## Example usage
 
-See the instructions in the [Run Codex](/learn/run).
+See the instructions in the [Quick Start](/learn/quick-start).
 
 ## Tests
 
