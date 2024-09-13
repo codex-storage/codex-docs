@@ -25,27 +25,74 @@
     curl -LO https://github.com/codex-storage/nim-codex/releases/download/${version}/codex-${version}-${platform}-${architecture}.tar.gz.sha256
     ```
 
- 2. Verify checksum
-    ```shell
-    # Linux
-    sha256sum -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
+    **Windows**
+    ::: warning
+    For Windows, only amd64 architecture is supported now.
+    :::
+    ```batch
+    set version=v0.1.3
+    set platform=windows
+    if %PROCESSOR_ARCHITECTURE%==AMD64 (set architecture=amd64) else (set architecture=arm64)
 
-    # macOS
+    :: Binary
+    curl -LO https://github.com/codex-storage/nim-codex/releases/download/%version%/codex-%version%-%platform%-%architecture%-libs.zip
+
+    :: Checksum
+    curl -LO https://github.com/codex-storage/nim-codex/releases/download/%version%/codex-%version%-%platform%-%architecture%-libs.zip.sha256
+    ```
+
+ 2. Verify checksum
+
+    **Linux**
+    ```shell
+    sha256sum -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
+    ```
+
+    **macOS**
+    ```shell
     shasum -a 256 -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
     ```
+
+    **Windows**
+    ```batch
+    for /f "delims=" %a in ('certUtil -hashfile codex-%version%-%platform%-%architecture%-libs.zip SHA256 ^| findstr -vrc:"[^0123-9aAb-Cd-EfF ]"') do @set ACTUAL_HASH=%a
+    for /f "tokens=1" %a in (codex-%version%-%platform%-%architecture%-libs.zip.sha256) do set EXPECTED_HASH=%a
+    if %ACTUAL_HASH% == %EXPECTED_HASH% (echo. && echo codex-%version%-%platform%-%architecture%-libs.zip: OK) else (echo. && echo codex-%version%-%platform%-%architecture%-libs.zip: FAILED)
+    ```
+
     Make sure you get `OK` in the result
     ```
     codex-v0.1.3-linux-amd64.tar.gz: OK
     ```
 
  3. Extract binary
+
+    **Linux/macOS**
     ```shell
     tar -zxvf codex-${version}-${platform}-${architecture}.tar.gz
     ```
 
  4. Copy binary to the appropriate folder
+
+    **Linux/macOS**
     ```shell
     sudo install codex-${version}-${platform}-${architecture} /usr/local/bin/codex
+    ```
+
+    **Windows**
+    ```batch
+    :: Extract binary and libraries to the appropriate folder
+    if not exist %LOCALAPPDATA%\Codex mkdir %LOCALAPPDATA%\Codex
+    tar -xvf codex-%version%-%platform%-%architecture%-libs.zip -C %LOCALAPPDATA%\Codex
+
+    :: Rename binary
+    move /Y %LOCALAPPDATA%\Codex\codex-%version%-%platform%-%architecture%.exe %LOCALAPPDATA%\Codex\codex.exe
+
+    :: Add folder to the path permanently
+    setx PATH %PATH%%LOCALAPPDATA%\Codex;
+
+    :: Add folder to the path for the current session
+    PATH %PATH%%LOCALAPPDATA%\Codex;
     ```
 
  5. Install dependencies
@@ -65,6 +112,8 @@
     ```
 
  7. Cleanup
+
+    **Linux/macOS**
     ```shell
     rm -f \
       codex-${version}-${platform}-${architecture} \
@@ -72,6 +121,11 @@
       codex-${version}-${platform}-${architecture}.tar.gz.sha256
     ```
 
+    **Windows**
+    ```batch
+    del codex-%version%-%platform%-%architecture%-libs.zip ^
+      codex-%version%-%platform%-%architecture%-libs.zip.sha256
+    ```
 
 ### Run Codex
 
