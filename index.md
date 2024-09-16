@@ -24,7 +24,7 @@ features:
     icon: 📚
   - title: Networks
     details: Participate in Codex network as a Storage operator or Buyer
-    link: /networks
+    link: /networks/networks
     icon: 🚦
   - title: Developers
     details: Build and Codex and
