@@ -9,6 +9,7 @@
 
  The main difference between networks are following
  - Network purpose
+ - Bootstrap nodes
  - Number of storage nodes
  - Available storage volume
  - Blockchain network
