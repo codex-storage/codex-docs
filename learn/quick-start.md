@@ -14,7 +14,7 @@
 
     **Linux/macOS**
     ```shell
-    version=v0.1.3
+    version=v0.1.4
     platform=$(echo `uname -s` | awk '{print tolower($0)}')
     architecture=$([[ `uname -m` == 'x86_64' ]] && echo amd64 || echo arm64)
 
@@ -30,7 +30,7 @@
     For Windows, only amd64 architecture is supported now.
     :::
     ```batch
-    set version=v0.1.3
+    set version=v0.1.4
     set platform=windows
     if %PROCESSOR_ARCHITECTURE%==AMD64 (set architecture=amd64) else (set architecture=arm64)
 
@@ -62,7 +62,7 @@
 
     Make sure you get `OK` in the result
     ```
-    codex-v0.1.3-linux-amd64.tar.gz: OK
+    codex-v0.1.4-linux-amd64.tar.gz: OK
     ```
 
  3. Extract binary
@@ -106,8 +106,8 @@
     codex --version
     ```
     ```shell
-    Codex version:  v0.1.3
-    Codex revision: 89917d4
+    Codex version:  v0.1.4
+    Codex revision: 484124d
     Nim Compiler Version 1.6.14 [Linux: amd64]
     ```
 
