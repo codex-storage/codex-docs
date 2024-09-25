@@ -49,6 +49,7 @@ which sets the top-level log level to `info` and then for topics `marketplace` a
 
 ```shell
 codex --help
+
 Usage:
 
 codex [OPTIONS]... command
@@ -97,6 +98,7 @@ The following options are available:
      --marketplace-address  Address of deployed Marketplace contract.
      --validator            Enables validator, requires an Ethereum node [=false].
      --validator-max-slots  Maximum number of slots that the validator monitors [=1000].
+     --reward-recipient     Address to send payouts to (eg rewards and refunds).
 
 Available sub-commands:
 
@@ -104,6 +106,8 @@ codex persistence prover [OPTIONS]...
 
 The following options are available:
 
+ -cd, --circuit-dir          Directory where Codex will store proof circuit data
+                            [=/root/.cache/codex/circuits].
      --circom-r1cs          The r1cs file for the storage circuit
                             [=/root/.cache/codex/circuits/proof_main.r1cs].
      --circom-wasm          The wasm file for the storage circuit
