@@ -68,6 +68,8 @@ export default defineConfig({
 
     siteTitle: 'Codex • Docs',
 
+   logoLink: '/learn/what-is-codex',
+
     sidebar: [
       {
         text: 'Introduction',
