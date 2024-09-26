@@ -53,5 +53,67 @@ When the contract is reposted, some of the faulty node's collateral pays for the
 
 ![architect](/learn/architecture.png)
 
+### Marketplace architecture ###
+
+The marketplace consists of a smart contract that is deployed on-chain, and the sales and purchasing modules that are part of the node software. The sales module is responsible for posting storage requests to the smart contract. The purchasing module is its counterpart that storage providers use to determine which storage requests they are interested in.
+
+#### Smart contract ####
+
+The smart contract facilitates matching between storage providers and storage
+clients. A storage client can request a certain amount of storage for a certain
+duration. This request is then posted on-chain, so that storage providers can
+see it, and decide whether they want to fulfill a slot in the request.
+
+The main parameters of a storage request are:
+- the amount of bytes of storage that is requested
+- a content identifier (CID) of the data that should be stored
+- the duration for which the data should be stored
+- the number of slots (based on the erasure coding parameters)
+- an amount of tokens to pay for the storage
+
+At the protocol level a storage client is free to determine these parameters as
+it sees fit, so that it can choose a level of durability that is suitable for
+the data, and adjust for changing storage prices. Applications built on Codex
+can provide guidance to their users for picking the correct parameters,
+analogous to how Ethereum wallets help with determining gas fees.
+
+The smart contract also checks that storage providers keep their promises.
+Storage providers post collateral when they promise to fill a slot of a storage
+request. They are expected to post periodic storage proofs to the contract,
+either directly or through an aggregator. If they fail to do so repeatedly, then
+their collateral can be forfeited. Their slot is then awarded to an other
+storage provider.
+
+The smart contract indicates when a certain storage provider has to provide a
+storage proof. This is not done on a fixed time interval, but determined
+stochastically to ensure that it is not possible for a storage provider to
+predict when it should provide the next storage proof.
+
+#### Sales ####
+
+The sales module in the node software interacts with the smart contract on
+behalf of the node operator. It posts storage requests, and handles any other
+interactions that are required during the lifetime of the request. For instance,
+when a request is canceled because there are not enough interested storage
+providers, then the sales module can withdraw the tokens that were associated
+with the request.
+
+#### Purchasing ####
+
+The purchasing module is the counterpart to the sales module. It monitors the
+smart contract to be notified of incoming storage requests. It keeps a list of
+the most promising requests that it can fulfill. It will favor those requests
+that have a high reward and low collateral. As soon as it finds a suitable
+request, it will then try to first reserve and then fill a slot by downloading
+the associated data, creating a storage proof, and posting it to the smart
+contract. It will then continue to monitor the smart contract to provide it with
+storage proofs when they are required.
+
+The purchasing module contains a best effort strategy for determining which
+storage requests it is interested in. Over time, we expect more specialized
+strategies to emerge to cater to the needs of e.g. large providers versus
+providers that run a node from their home.
+
+### Whitepaper ###
 
 Read the [Codex whitepaper](/learn/whitepaper)

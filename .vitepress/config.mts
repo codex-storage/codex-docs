@@ -77,7 +77,6 @@ export default defineConfig({
           { text: 'Disclaimer Codex', link: '/codex/disclaimer' },
           { text: 'Quick start', link: '/learn/quick-start' },
           { text: 'Architecture', link: '/learn/architecture' },
-          { text: 'Marketplace', link: '/learn/marketplace' },
           { text: 'Whitepaper', link: '/learn/whitepaper' },
           { text: 'Build Codex', link: '/learn/build' },
           { text: 'Run Codex', link: '/learn/run' }
