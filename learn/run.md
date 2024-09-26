@@ -1,5 +1,9 @@
 # Run Codex
 
+[[TOC]]
+
+<hr>
+
 As for now, Codex is implemented only in [Nim](https://nim-lang.org) and can be found in [nim-codex](https://github.com/codex-storage/nim-codex) repository.
 
 It is a command-line application which may be run in a different ways:
@@ -164,6 +168,8 @@ Basically, we can run Codex in three different modes:
  - [Codex node with marketplace support](#codex-node-with-marketplace-support) - you can share files and buy the storage, this is the main mode and should be used by the end users.
  - [Codex storage node](#codex-storage-node) - should be used by storage providers or if you would like to sell your local storage.
 
+ We also will touch in some words [Codex bootstrap node](#codex-bootstrap-node).
+
 ### Using binary
 
 #### Codex node
@@ -319,21 +325,49 @@ You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplac
 
 2. Start Codex storage node
    ```shell
-     codex \
-       persistence \
-       prover \
-       --data-dir=datadir \
-       --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-       --nat=`curl -s https://ip.codex.storage` \
-       --disc-port=8090 \
-       --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
-       --eth-provider=https://rpc.testnet.codex.storage \
-       --eth-private-key=eth.key \
-       --marketplace-address=0xB119d28d3A1bFD281b23A0890B4c1B626EE8F6F0 \
-       --circuit-dir=datadir/circuits
+   codex \
+     persistence \
+     prover \
+     --data-dir=datadir \
+     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
+     --nat=`curl -s https://ip.codex.storage` \
+     --disc-port=8090 \
+     --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
+     --eth-provider=https://rpc.testnet.codex.storage \
+     --eth-private-key=eth.key \
+     --marketplace-address=0xB119d28d3A1bFD281b23A0890B4c1B626EE8F6F0 \
+     --circuit-dir=datadir/circuits
    ```
 
 After node is up and running, and your address has founds, you should be able to [Create storage availability](/learn/using#create-storage-availability).
+
+
+#### Codex bootstrap node
+
+Bootstrap nodes are used just to help peers with initial nodes discovery and we need to run Codex with some basic options:
+```shell
+codex \
+  --data-dir=datadir \
+  --nat=`curl -s https://ip.codex.storage` \
+  --disc-port=8090
+```
+
+And we can get bootstrap node SPR via [API](https://api.codex.storage/#tag/Debug/operation/getDebugInfo) call:
+```shell
+curl -s localhost:8080/api/codex/v1/debug/info | jq -r '.spr'
+```
+```shell
+spr:CiUIAhIhApd79-AxPqwRDmu7Pk-berTDtoIoMz0ovKjo85Tz8CUdEgIDARo8CicAJQgCEiECl3v34DE-rBEOa7s-T5t6tMO2gigzPSi8qOjzlPPwJR0Qjv_WtwYaCwoJBFxzjbKRAh-aKkYwRAIgCiTq5jBTaJJb6lUxN-0uNCj8lkV9AGY682D21kIAMiICIE1yxrjbDdiSCiARnS7I2zqJpXC2hOvjB4JoL9SAAk67
+```
+
+That SPR record then can be used by other peer for initial nodes discovery.
+
+We should keep in mind some important things about SPR record (see [ENR](https://eips.ethereum.org/EIPS/eip-778))
+- It uses node IP (`--nat`), discovery port (`--disc-port`) and private key (`--net-privkey`) for record creation
+- Specified data is signed on each run and will be changed but still contain specified node data when decoded
+- You can decode it by passing to the Codex node at run with `--log-level=trace`
+
+For bootstrap node, it is required to forward just discovery port on your Internet router.
 
 ### Run as a daemon in Linux
 
@@ -345,7 +379,59 @@ This functionality is not supported yet :construction:
 
 ### Using Docker
 
-To be added :construction:
+We also ship Codex in Docker containers, which can be run on `amd64` and `arm64` platforms.
+
+#### Docker entrypoint
+[Docker entrypoint](https://github.com/codex-storage/nim-codex/blob/master/docker/docker-entrypoint.sh), supports some additional options, which can be used for easier configuration:
+
+- `ENV_PATH` - path to the file, in form `env=value` which will be sourced and available for Codex at run. That is useful for Kubernetes Pods configuration.
+- `NAT_IP_AUTO` - when set to `true`, will set `CODEX_NAT` variable with container internal IP address. It also is useful for Kubernetes Pods configuration, when we perform automated tests.
+- `NAT_PUBLIC_IP_AUTO` - used to set `CODEX_NAT` to public IP address using lookup services, like [ip.codex.storage](https://ip.codex.storage). Can be used for Docker/Kubernetes, and binary as well, to set public IP in auto mode.
+- `PRIV_KEY` - can be used to pass ethereum private key, which will be saved and passed as a value of the `CODEX_ETH_PRIVATE_KEY` variable. It should be considered as unsafe option and used for testing purposes only.
+- When we set `prover` sub-command, entrypoint will run `cirdl` tool to download ceremony files, required by prover.
+
+#### Docker network
+
+When we are running Codex using Docker with default [bridge network](https://docs.docker.com/engine/network/drivers/bridge/), it will create a double NAT 
+ - One on the Docker side
+ - Second on your Internet connection
+
+If your Internet router does not support [Full Cone NAT](https://learningnetwork.cisco.com/s/question/0D56e0000CWxJ9sCQF/lets-explain-in-details-full-cone-nat-restricted-cone-nat-and-symmetric-nat-terminologies-vs-cisco-nat-terminologies), you might have an issue and peer discovery and data transport will not work or might work unexpected.
+
+In that case, we should consider to
+- Use [host network](https://docs.docker.com/engine/network/drivers/host/) which is supported only in Linux
+- Run [Using binary](#using-binary)
+- Use VM/VPS in the Cloud to run Docker with bridge or host network
+
+#### Run using Docker
+
+And we basically can use same options we [used for binary](#using-binary) and additionally it is required to mount volumes and map the ports.
+
+[Codex storage node](#codex-storage-node)
+```shell
+docker run \
+  --rm \
+  -v $PWD/datadir:/datadir \
+  -v $PWD/eth.key:/opt/eth.key \
+  -p 8070:8070 \
+  -p 8080:8080 \
+  -p 8090:8090/udp \
+  codexstorage/nim-codex:latest \
+  codex \
+    persistence \
+    prover \
+    --data-dir=/datadir \
+    --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
+    --nat=`curl -s https://ip.codex.storage` \
+    --disc-port=8090 \
+    --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
+    --eth-provider=https://rpc.testnet.codex.storage \
+    --eth-private-key=/opt/eth.key \
+    --marketplace-address=0xB119d28d3A1bFD281b23A0890B4c1B626EE8F6F0 \
+    --api-cors-origin="*" \
+    --api-bindaddr=0.0.0.0 \
+    --api-port=8080
+```
 
 ### Using Docker Compose
 
