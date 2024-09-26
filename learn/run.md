@@ -241,7 +241,7 @@ After node is up and running and port-forwarding configurations was done, we sho
 
 #### Codex node with marketplace support
 
-[Marketplace](marketplace) support permits to purchase the storage in Codex network. Basically, we should add just a `persistence` sub-command and required CLI options to the [previous run](#codex-node).
+[Marketplace](/learn/architecture.md#marketplace-architecture) support permits to purchase the storage in Codex network. Basically, we should add just a `persistence` sub-command and required CLI options to the [previous run](#codex-node).
 
 > [!NOTE]
 > Please ignore `--eth-account` CLI option, read [Known issues](#known-issues) for more details.
