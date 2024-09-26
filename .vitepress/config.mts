@@ -76,12 +76,19 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: 'What is Codex?', link: '/learn/what-is-codex' },
-          { text: 'Disclaimer Codex', link: '/codex/disclaimer' },
-          { text: 'Quick start', link: '/learn/quick-start' },
           { text: 'Architecture', link: '/learn/architecture' },
           { text: 'Whitepaper', link: '/learn/whitepaper' },
+        ]
+      },
+      {
+        text: 'Using Codex',
+        collapsed: false,
+        items: [
+          { text: 'Disclaimer Codex', link: '/codex/disclaimer' },
+          { text: 'Quick start', link: '/learn/quick-start' },
           { text: 'Build Codex', link: '/learn/build' },
-          { text: 'Run Codex', link: '/learn/run' }
+          { text: 'Run Codex', link: '/learn/run' },
+          { text: 'Using Codex', link: '/learn/using' }
         ]
       },
       {
