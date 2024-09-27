@@ -291,7 +291,7 @@ And to be able to purchase storage, we should run [Codex node with marketplace s
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
      --eth-provider=https://rpc.testnet.codex.storage \
      --eth-private-key=eth.key \
-     --marketplace-address=0xB119d28d3A1bFD281b23A0890B4c1B626EE8F6F0 \
+     --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
      --api-cors-origin="*"
    ```
 
@@ -318,9 +318,9 @@ You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplac
 
    # Download circuit files
    cirdl \
-     datadir/circuit \
+     datadir/circuits \
      https://rpc.testnet.codex.storage \
-     0xB119d28d3A1bFD281b23A0890B4c1B626EE8F6F0
+     0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6
    ```
 
 2. Start Codex storage node
@@ -335,7 +335,7 @@ You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplac
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
      --eth-provider=https://rpc.testnet.codex.storage \
      --eth-private-key=eth.key \
-     --marketplace-address=0xB119d28d3A1bFD281b23A0890B4c1B626EE8F6F0 \
+     --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
      --circuit-dir=datadir/circuits
    ```
 
@@ -427,7 +427,7 @@ docker run \
     --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
     --eth-provider=https://rpc.testnet.codex.storage \
     --eth-private-key=/opt/eth.key \
-    --marketplace-address=0xB119d28d3A1bFD281b23A0890B4c1B626EE8F6F0 \
+    --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
     --api-cors-origin="*" \
     --api-bindaddr=0.0.0.0 \
     --api-port=8080
