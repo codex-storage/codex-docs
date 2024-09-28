@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import mdFootnote from "markdown-it-footnote"
 
 // const { BASE: base = '/' } = process.env;
 
@@ -13,7 +14,10 @@ export default defineConfig({
   appearance: true,
 
   markdown: {
-    math: true
+    math: true,
+    config: (md) => {
+      md.use(mdFootnote)
+    },
   },
   //  base: base,
 
