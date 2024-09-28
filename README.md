@@ -39,7 +39,12 @@
     cd codex-docs
     ```
 
- 3. Start a local dev server with instant hot updates
+ 3. Install dependencies
+    ```shell
+    npm install
+    ```
+
+ 4. Start a local dev server with instant hot updates
     ```shell
     # Local
     npm run docs:dev
@@ -48,7 +53,7 @@
     npm run docs:dev -- --host
     ```
 
- 4. [Build the site](https://vitepress.dev/guide/deploy)
+ 5. [Build the site](https://vitepress.dev/guide/deploy)
     ```shell
     npm run docs:build
 
