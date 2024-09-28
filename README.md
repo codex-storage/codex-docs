@@ -9,7 +9,7 @@
 
  For documentation we use [VitePress](https://vitepress.dev/), which is [Vue](https://vuejs.org/)-powered static site generator built on top of [Vite](https://vitejs.dev/).
 
- To run site locally, we should clone repository and run the following command
+ To run site locally, we should clone repository, install dependencies and run the following command
  ```shell
  npm run docs:dev
  ```
