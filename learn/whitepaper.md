@@ -153,7 +153,7 @@ Erasure coding plays two main roles in Codex: _i)_ allowing data to be recovered
 **Erasure Coding for Redundancy.** As described before, a dataset $D$ is initially split into $k$ slots of size $s = \left\lceil \frac{b}{k} \right\rceil$ (Figure 1). Since $b$ may not actually be divisible by $k$, Codex will add _padding blocks_ as required so that the number of blocks in $D$ is $b_p = s \times k$.
 
 <center>
-    <image src="https://hackmd.io/_uploads/Hke8GgG0A.png" width=80%/>
+    <img src="/learn/whitepaper/dataset-and-blocks.png" width=80%/>
 </center>
     
 **Figure 1.** A padded dataset $D$ split into $k$ slots.
@@ -161,7 +161,7 @@ Erasure coding plays two main roles in Codex: _i)_ allowing data to be recovered
 Codex then erasure-codes $D$ by _interleaving_ blocks taken from each slot (Figure 2), one at a time. The procedure runs $s$ interleaving steps, where $s$ is the number of blocks in a slot.
 
 <center>
-    <image src="https://hackmd.io/_uploads/By3-8lMCR.png" width=80%/>
+    <img src="/learn/whitepaper/ec-dataset-and-blocks.png" width=80%/>
 </center>
 
 **Figure 2.** Erasure-coded dataset $D_e$ with $k + m$ slots and interleaving process.
@@ -179,7 +179,7 @@ A smarter approach would be by _sampling_: instead of downloading the entire fil
 Although the decay is always geometric, the impact of having a loss fraction that is low (e.g. less than $1\%$) can be significant: as depicted in Figure 3, for $l_i = 0.01$ we  get a $p_{\text{detect}}$ that is smaller than $0.5$ even after drawing $50$ samples. If that does not sound too bad, consider an adversarial setting in which an SP purposefully drops a very small fraction of a large file, perhaps one single block out of a million. For fractions that small ($10^{-6}$), one would require hundreds of thousands of samples to get reasonable detection probabilities, e.g. $p_{\text{detect}} > 0.99$.
     
 <center>
-    <image src="https://hackmd.io/_uploads/Hy1BdbmCA.png"/>
+    <img src="/learn/whitepaper/p-detect-plot.png"/>
 </center>
     
 **Figure 3.** Number of samples $j$ required by a verifier to assert data loss ($p_{\text{detect}}$) for various loss fractions ($l_i$).
@@ -243,7 +243,7 @@ Datasets stored in Codex need to be advertised over a Distributed Hash Table (DH
 A CID unequivocally identifies a piece of data by encoding a flavour of a hash of its content together with the type of hashing method used to compute it. In the case of a Codex dataset $D_e$ (Figure 4), this hash is taken to be the root of the SHA256 Merkle tree constructed over its blocks $\{b_1, \cdots, b_{s \times (k + m)}\}$.
 
 <div style="display: flex; justify-content: center; padding: 0 0 15px 0">
-    <image src="https://hackmd.io/_uploads/r1I_AB400.png" width="60%" />
+    <img src="/learn/whitepaper/cid.png" width="60%" />
 </div>
 
 **Figure 4.** CIDs for Codex datasets.
@@ -262,11 +262,11 @@ Other systems choose tighter coupling between the metadata and the dataset. IPFS
 
 <div style="display: flex; justify-content: center;">
     <div style="text-align: center;">
-        <img src="https://hackmd.io/_uploads/SyqhO84AR.png"/>
+        <img src="/learn/whitepaper/download.png"/>
         <p>(a)</p>
     </div>
     <div style="text-align: center;">
-        <img src="https://hackmd.io/_uploads/S1l1ry8ER0.png"/>
+        <img src="/learn/whitepaper/swarm.png"/>
         <p>(b)</p>
     </div>
 </div>
@@ -294,7 +294,7 @@ An SC that wishes Codex to store a dataset $D_e$ needs to provide $5$ main param
 As discussed in Sec. 5, these parameters may impact durability guarantees directly, and the system offers complete flexibility so that applications can tailor spending and parameters to specific needs. Applications built on Codex will need to provide guidance to their users so they can pick the correct parameters for their needs, not unlike Ethereum wallets help users determine gas fees.
 
 <center>
-    <image src="https://hackmd.io/_uploads/HkW6QFVC0.png" width=70%/>
+    <img src="/learn/whitepaper/marketplace-overview.png" width=70%/>
 </center>
 
 **Figure 6.** Storage requests and their processing by SPs.
@@ -306,7 +306,7 @@ As depicted in Figure 6, every storage request posted by an SC gets recorded on-
 To help mitigate these issues, the Codex marketplace implements a time-based, _expanding window_ mechanism to allow SPs to compete for slots. As depicted in Figure 7, each storage request is assigned a random position in a $z$-bit ID space by taking a hashing function $h$ and computing, for slot $S_i$, the value $h(u\,\|\, i)$, where $u$ is a random nonce. This will effectively disperse storage requests for slots approximately uniformly at random over the ID space.
 
 <div style="padding: 2rem 0 4rem 0">
-    <image src="https://hackmd.io/_uploads/B1hRXsNA0.png"/>
+    <img src="/learn/whitepaper/marketplace-slot-dispersal.png"/>
 </div>
     
 **Figure 7.** Slots placed at random in a $z$-bit space.
@@ -314,7 +314,7 @@ To help mitigate these issues, the Codex marketplace implements a time-based, _e
 We then allow only hosts whose blockchain IDs are within a certain "distance" of a slot to compete in filling it (Figure 8).   
 
 <div style="padding: 2rem 0 4rem 0">
-    <image src="https://hackmd.io/_uploads/SJKHYsVAR.png"/>
+    <img src="/learn/whitepaper/marketplace-expanding-window.png"/>
 </div>
 
 **Figure 8.** SP eligibility as a function of time and its distance to a slot.
@@ -400,7 +400,7 @@ We model the system using a CTMC with a multi-dimensional state space representi
 States $S_{N-K+1,f}$ for each $f$ are absorbing states. By calculating the expected time of absorption, we can quantify the reliability of the system.
     
 <center>
-    <image src="https://hackmd.io/_uploads/rkCgc-40R.png"/>
+    <img src="/learn/whitepaper/durability-analysis-plot.png"/>
 </center>
 
 **Figure 9.** $p_{\text{loss}}$ (y axis) as a function of $n$ for various values of $R_0$ and expansion factors ($R_{\text{inv}}$).
@@ -437,9 +437,7 @@ Despite our ambitious goals, Codex is a work in progress. Ongoing efforts on imp
 * **Improvements to erasure coding.** There is a large number of different codes offering different tradeoffs, e.g. non-MDS codes like turbocodes and tornado codes, which could result in better performance than the Reed-Solomon codes we currently employ.
 * **Tools and APIs.** We are currently working on creating developer tools (SDKs) and APIs to facilitate the development of decentralized applications on top of the Codex network.
 
-Codex has the potential to support a wide range of use cases, from personal data storage and decentralized web hosting to secure data backup and archival, decentralized identities, and decentralized content distribution.
-
-Ultimately, the use case for Codex is that of a durable and functional decentralized storage layer, without which no decentralized technology stack can be seriously contemplated. As the decentralized ecosystem continues to evolve, we expect Codex’s DDE-based approach to storage to play a crucial role in enabling new types of applications and services that prioritize user control, privacy, and resilience.
+Codex has the potential to support a wide range of use cases, from personal data storage and decentralized web hosting to secure data backup and archival, decentralized identities, and decentralized content distribution. Ultimately, the use case for Codex is that of a durable and functional decentralized storage layer, without which no decentralized technology stack can be seriously contemplated. As the decentralized ecosystem continues to evolve, we expect Codex’s DDE-based approach to storage to play a crucial role in enabling new types of applications and services that prioritize user control, privacy, and resilience.
 
 ## References
               
