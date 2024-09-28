@@ -11,7 +11,11 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: false,
   appearance: true,
-//  base: base,
+
+  markdown: {
+    math: true
+  },
+  //  base: base,
 
   // lite-youtube-embed
   vue: {

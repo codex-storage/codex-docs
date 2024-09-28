@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "lite-youtube-embed": "^0.3.3",
+    "markdown-it-mathjax3": "^4.3.2",
     "vitepress": "^1.3.2"
   },
   "scripts": {
