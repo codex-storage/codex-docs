@@ -96,7 +96,8 @@ export default defineConfig({
           { text: 'Quick start', link: '/learn/quick-start' },
           { text: 'Build Codex', link: '/learn/build' },
           { text: 'Run Codex', link: '/learn/run' },
-          { text: 'Using Codex', link: '/learn/using' }
+          { text: 'Using Codex', link: '/learn/using' },
+          { text: 'Local Marketplace', link: '/learn/local-marketplace' }
         ]
       },
       {
