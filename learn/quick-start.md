@@ -8,7 +8,7 @@ To run Codex through this guide we would need to perform the following steps:
 
 ## Get Codex binary
 
-For quick start we will use precompiled binaries from [GitHub release page](https://github.com/codex-storage/nim-codex/releases). If you prefer to compile from the sources, please check [Build Codex](/learn/build).
+For quick a start we will use precompiled binaries from [GitHub release page](https://github.com/codex-storage/nim-codex/releases). If you prefer to compile from the sources, please check [Build Codex](/learn/build).
 
 Please follow the steps for your OS from the list:
 - [Linux/macOS](#linux-macos)
@@ -83,9 +83,8 @@ Please follow the steps for your OS from the list:
 ### Windows
 
 1. Download binary and checksum for your platform/architecture
-   ::: warning
-   For Windows, only amd64 architecture is supported now.
-   :::
+   > [!WARNING]
+   > For Windows, only amd64 architecture is supported now.
    ```batch
    set version=v0.1.4
    set platform=windows
@@ -137,6 +136,7 @@ Please follow the steps for your OS from the list:
    Nim Compiler Version 1.6.14 [Windows: amd64]
    Compiled at 2024-06-27
    Copyright (c) 2006-2023 by Andreas Rumpf
+
    git hash: 38640664088251bbc88917b4bacfd86ec53014b8
    active boot switches: -d:release
    ```
@@ -179,9 +179,8 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
    ```
 
-   ::: tip
-   In the example above we use [Codex Testnet](/networks/testnet#bootstrap-nodes) bootstrap nodes and thus we join Testnet. If you would like to join a different network, please use [appropriate value](/networks/networks).
-   :::
+   > [!TIP]
+   > In the example above we use [Codex Testnet](/networks/testnet#bootstrap-nodes) bootstrap nodes and thus we join Testnet. If you would like to join a different network, please use [appropriate value](/networks/networks).
 
 2. Configure port-forwarding for the TCP/UDP ports on your Internet router
    | Protocol | Service   | Port   |
