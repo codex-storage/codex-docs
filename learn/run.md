@@ -311,7 +311,7 @@ That sub-command will make Codex to listen for a proof requests on the blockchai
 
 Every [network](/networks/networks) uses its own generated set of the files which are stored in the [codex-contracts-eth](https://github.com/codex-storage/codex-contracts-eth/tree/master/verifier/networks) repository and also uploaded to the CDN. Hash of the files set is also known by the [marketplace smart contract](/learn/architecture#smart-contract).
 
-To download circuit files and make them available to Codex app, we have a stand-alone utility - `cirdl`. It can be compiled from the sources (`make cirdl`) or downloaded from the [GitHub release page](https://github.com/codex-storage/nim-codex/releases).
+To download circuit files and make them available to Codex app, we have a stand-alone utility - `cirdl`. It can be [compiled from the sources](/learn/build#circuit-download-tool) or downloaded from the [GitHub release page](https://github.com/codex-storage/nim-codex/releases).
 
 > [!TIP]
 > You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.

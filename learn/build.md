@@ -146,6 +146,16 @@ make
 
 The default `make` target creates the `build/codex` executable.
 
+## Tools
+
+### Circuit download tool
+
+To build the circuit download tool located in `tools/cirdl` run:
+
+```shell
+make cirdl
+```
+
 ## Example usage
 
 See the instructions in the [Quick Start](/learn/quick-start).
