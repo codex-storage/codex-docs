@@ -5,7 +5,7 @@
 - [Install developer tools](#prerequisites)
   - [Linux](#linux)
   - [macOS](#macos)
-  - [Windows + MSYS2](#windows--msys2)
+  - [Windows + MSYS2](#windows-msys2)
   - [Other](#other)
 - [Clone and prepare the Git repository](#repository)
 - [Build the executable](#executable)
@@ -83,6 +83,13 @@ Assuming a UCRT64 environment, in Bash run
 ```shell
 pacman -Suy
 pacman -S base-devel git unzip mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-rust
+```
+
+We should downgrade GCC to version 13 [^gcc-14]
+```shell
+pacman -U --noconfirm \
+  https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gcc-13.2.0-6-any.pkg.tar.zst \
+  https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gcc-libs-13.2.0-6-any.pkg.tar.zst
 ```
 
 <!-- #### Headless Windows container -->
@@ -200,3 +207,7 @@ Use a new terminal to run:
 ```shell
 make testAll
 ```
+
+## Known issues
+
+[^gcc-14]: At the moment Codex can't be compiled with GCC 14 - [[BUG] - Compile Codex with GCC 14 #875](https://github.com/codex-storage/nim-codex/issues/875).
