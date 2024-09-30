@@ -265,9 +265,9 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
    > Please use key generation service for demo purpose only.
 
    ```shell
-   key=$(curl -s https://key.codex.storage)
-   echo $key | awk -F ':' '/address/ {print $2}' >eth.address
-   echo $key | awk -F ':' '/private/ {print $2}' >eth.key
+   response=$(curl -s https://key.codex.storage)
+   awk -F ': ' '/private/ {print $2}' <<<"${response}" > eth.key
+   awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
    chmod 600 eth.key
    ```
    Show your ethereum address:
@@ -282,16 +282,16 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
 
 4. Specify bootstrap nodes and marketplace address based on the [network](/networks/networks) you would like to join.
 
-5. Run the node
+5. Run the node:
    ```shell
    codex \
-     persistence \
      --data-dir=datadir \
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
      --nat=`curl -s https://ip.codex.storage` \
      --disc-port=8090 \
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
      --api-cors-origin="*" \
+     persistence \
      --eth-provider=https://rpc.testnet.codex.storage \
      --eth-private-key=eth.key \
      --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6
@@ -313,14 +313,13 @@ Every [network](/networks/networks) uses its own generated set of the files whic
 
 To download circuit files and make them available to Codex app, we have a stand-alone utility - `cirdl`. It can be [compiled from the sources](/learn/build#circuit-download-tool) or downloaded from the [GitHub release page](https://github.com/codex-storage/nim-codex/releases).
 
-> [!TIP]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+1. Create ethereum key
 
-1. To download circuit files, we should pass directory, RPC endpoint and marketplace address to the circuit downloader:
+2. To download circuit files, we should pass directory, RPC endpoint and marketplace address to the circuit downloader:
    ```shell
    # Create circuit files folder
-   mkdir -p datadir/circuit
-   chmod 700 datadir/circuit
+   mkdir -p datadir/circuits
+   chmod 700 datadir/circuits
 
    # Download circuit files
    cirdl \
@@ -332,18 +331,24 @@ To download circuit files and make them available to Codex app, we have a stand-
 2. Start Codex storage node
    ```shell
    codex \
-     persistence \
-     prover \
      --data-dir=datadir \
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
      --nat=`curl -s https://ip.codex.storage` \
      --disc-port=8090 \
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
+     persistence \
      --eth-provider=https://rpc.testnet.codex.storage \
      --eth-private-key=eth.key \
      --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
-     --circuit-dir=datadir/circuits
+     prover \
+     --circom-r1cs=datadir/circuits/proof_main.r1cs \
+     --circom-wasm=datadir/circuits/proof_main.wasm \
+     --circom-zkey=datadir/circuits/proof_main.zkey
    ```
+
+> [!NOTE]
+> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+
 
 After node is up and running, and your address has founds, you should be able to [sell the storage](/learn/using#create-storage-availability) using [API](/developers/api).
 
@@ -369,7 +374,7 @@ spr:CiUIAhIhApd79-AxPqwRDmu7Pk-berTDtoIoMz0ovKjo85Tz8CUdEgIDARo8CicAJQgCEiECl3v3
 
 That SPR record then can be used then by other peers for initial nodes discovery.
 
-We should keep in mind some important things about SPR record (see [ENR](https://eips.ethereum.org/EIPS/eip-778))
+We should keep in mind some important things about SPR record (see [ENR](https://eips.ethereum.org/EIPS/eip-778)):
 - It uses node IP (`--nat`), discovery port (`--disc-port`) and private key (`--net-privkey`) for record creation
 - Specified data is signed on each run and will be changed but still contain specified node data when decoded
 - You can decode it by passing to the Codex node at run and with `--log-level=trace`
@@ -389,6 +394,7 @@ This functionality is not supported yet :construction:
 We also ship Codex in Docker containers, which can be run on `amd64` and `arm64` platforms.
 
 #### Docker entrypoint
+
 [Docker entrypoint](https://github.com/codex-storage/nim-codex/blob/master/docker/docker-entrypoint.sh), supports some additional options, which can be used for easier configuration:
 
 - `ENV_PATH` - path to the file, in form `env=value` which will be sourced and available for Codex at run. That is useful for Kubernetes Pods configuration.
@@ -399,13 +405,13 @@ We also ship Codex in Docker containers, which can be run on `amd64` and `arm64`
 
 #### Docker network
 
-When we are running Codex using Docker with default [bridge network](https://docs.docker.com/engine/network/drivers/bridge/), it will create a double NAT 
+When we are running Codex using Docker with default [bridge network](https://docs.docker.com/engine/network/drivers/bridge/), it will create a double NAT:
  - One on the Docker side
  - Second on your Internet router
 
 If your Internet router does not support [Full Cone NAT](https://learningnetwork.cisco.com/s/question/0D56e0000CWxJ9sCQF/lets-explain-in-details-full-cone-nat-restricted-cone-nat-and-symmetric-nat-terminologies-vs-cisco-nat-terminologies), you might have an issue and peer discovery and data transport will not work or might work unexpected.
 
-In that case, we should consider to
+In that case, we should consider the following solutions:
 - Use [host network](https://docs.docker.com/engine/network/drivers/host/) which is supported only in Linux
 - Run [Using binary](#using-binary)
 - Use VM/VPS in the Cloud to run Docker with bridge or host network
@@ -415,6 +421,10 @@ In that case, we should consider to
 And we basically can use same options we [used for binary](#using-binary) and additionally it is required to mount volumes and map the ports.
 
 [Codex storage node](#codex-storage-node)
+
+1. Create ethereum key file
+
+2. Run Codex:
 ```shell
 docker run \
   --rm \
@@ -423,33 +433,99 @@ docker run \
   -p 8070:8070 \
   -p 8080:8080 \
   -p 8090:8090/udp \
+  -e CODEX_DATA_DIR=/datadir \
+  -e CODEX_ETH_PROVIDER=https://rpc.testnet.codex.storage \
+  -e CODEX_MARKETPLACE_ADDRESS=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
   codexstorage/nim-codex:latest \
   codex \
-    persistence \
-    prover \
     --data-dir=/datadir \
     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
     --nat=`curl -s https://ip.codex.storage` \
     --disc-port=8090 \
     --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
     --api-cors-origin="*" \
+    --api-bindaddr=0.0.0.0 \
+    --api-port=8080 \
+    persistence \
     --eth-provider=https://rpc.testnet.codex.storage \
     --eth-private-key=/opt/eth.key \
     --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
-    --api-bindaddr=0.0.0.0 \
-    --api-port=8080
+    prover \
+     --circom-r1cs=/datadir/circuits/proof_main.r1cs \
+     --circom-wasm=/datadir/circuits/proof_main.wasm \
+     --circom-zkey=/datadir/circuits/proof_main.zkey
 ```
+
+> [!NOTE]
+> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+
+> [!NOTE]
+> Currently, [Docker entrypoint](#docker-entrypoint) support just environment variables to download circuit files. We will update it soon, so we can get rid of the duplicate options.
 
 ### Using Docker Compose
 
-To be added :construction:
+For Docker Compose, it is more suitable to use [environment variables](#environment-variables) for Codex configuration and we can reuse commands from example above, for Docker.
+
+[Codex storage node](#codex-storage-node)
+
+1. Create ethereum key file
+
+2. Create `docker-compose.yaml` file:
+    ```yaml
+    services:
+      codex:
+        image: codexstorage/nim-codex:latest
+        container_name: codex
+        command:
+          - codex
+          - persistence
+          - prover
+          - --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
+          - --bootstrap-node=spr:CiUIAhIhAyUvcPkKoGE7-gh84RmKIPHJPdsX5Ugm_IHVJgF-Mmu_EgIDARo8CicAJQgCEiEDJS9w-QqgYTv6CHzhGYog8ck92xflSCb8gdUmAX4ya78QoemesAYaCwoJBES39Q2RAnVOKkYwRAIgLi3rouyaZFS_Uilx8k99ySdQCP1tsmLR21tDb9p8LcgCIG30o5YnEooQ1n6tgm9fCT7s53k6XlxyeSkD_uIO9mb3
+          - --bootstrap-node=spr:CiUIAhIhA6_j28xa--PvvOUxH10wKEm9feXEKJIK3Z9JQ5xXgSD9EgIDARo8CicAJQgCEiEDr-PbzFr74--85TEfXTAoSb195cQokgrdn0lDnFeBIP0QzOGesAYaCwoJBK6Kf1-RAnVEKkcwRQIhAPUH5nQrqG4OW86JQWphdSdnPA98ErQ0hL9OZH9a4e5kAiBBZmUl9KnhSOiDgU3_hvjXrXZXoMxhGuZ92_rk30sNDA
+          - --bootstrap-node=spr:CiUIAhIhA7E4DEMer8nUOIUSaNPA4z6x0n9Xaknd28Cfw9S2-cCeEgIDARo8CicAJQgCEiEDsTgMQx6vydQ4hRJo08DjPrHSf1dqSd3bwJ_D1Lb5wJ4Qt_CesAYaCwoJBEDhWZORAnVYKkYwRAIgFNzhnftocLlVHJl1onuhbSUM7MysXPV6dawHAA0DZNsCIDRVu9gnPTH5UkcRXLtt7MLHCo4-DL-RCMyTcMxYBXL0
+          - --bootstrap-node=spr:CiUIAhIhAzZn3JmJab46BNjadVnLNQKbhnN3eYxwqpteKYY32SbOEgIDARo8CicAJQgCEiEDNmfcmYlpvjoE2Np1Wcs1ApuGc3d5jHCqm14phjfZJs4QrvWesAYaCwoJBKpA-TaRAnViKkcwRQIhANuMmZDD2c25xzTbKSirEpkZYoxbq-FU_lpI0K0e4mIVAiBfQX4yR47h1LCnHznXgDs6xx5DLO5q3lUcicqUeaqGeg
+          - --bootstrap-node=spr:CiUIAhIhAgybmRwboqDdUJjeZrzh43sn5mp8jt6ENIb08tLn4x01EgIDARo8CicAJQgCEiECDJuZHBuioN1QmN5mvOHjeyfmanyO3oQ0hvTy0ufjHTUQh4ifsAYaCwoJBI_0zSiRAnVsKkcwRQIhAJCb_z0E3RsnQrEePdJzMSQrmn_ooHv6mbw1DOh5IbVNAiBbBJrWR8eBV6ftzMd6ofa5khNA2h88OBhMqHCIzSjCeA
+          - --bootstrap-node=spr:CiUIAhIhAntGLadpfuBCD9XXfiN_43-V3L5VWgFCXxg4a8uhDdnYEgIDARo8CicAJQgCEiECe0Ytp2l-4EIP1dd-I3_jf5XcvlVaAUJfGDhry6EN2dgQsIufsAYaCwoJBNEmoCiRAnV2KkYwRAIgXO3bzd5VF8jLZG8r7dcLJ_FnQBYp1BcxrOvovEa40acCIDhQ14eJRoPwJ6GKgqOkXdaFAsoszl-HIRzYcXKeb7D9
+        environment:
+          - CODEX_DATA_DIR=/datadir
+          - NAT_PUBLIC_IP_AUTO=https://ip.codex.storage
+          - CODEX_DISC_PORT=8090
+          - CODEX_LISTEN_ADDRS=/ip4/0.0.0.0/tcp/8070
+          - CODEX_API_CORS_ORIGIN="*"
+          - CODEX_API_PORT=8080
+          - CODEX_API_BINDADDR=0.0.0.0
+          - CODEX_ETH_PROVIDER=https://rpc.testnet.codex.storage
+          - CODEX_ETH_PRIVATE_KEY=/opt/eth.key
+          - CODEX_MARKETPLACE_ADDRESS=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6
+          - CODEX_CIRCOM_R1CS=/datadir/circuits/proof_main.r1cs
+          - CODEX_CIRCOM_WASM=/datadir/circuits/proof_main.wasm
+          - CODEX_CIRCOM_ZKEY=/datadir/circuits/proof_main.zkey
+        ports:
+          - 8080:8080/tcp # API
+          - 8090:8090/udp # Discovery
+          - 8070:8070/tcp # Transport
+        volumes:
+          - ./datadir:/datadir
+          - ./eth.key:/opt/eth.key
+        logging:
+          driver: json-file
+          options:
+            max-size: 100m
+            max-file: 5
+    ```
+
+3. Run Codex:
+   ```shell
+   docker compose up -d
+   ```
+
+> [!NOTE]
+> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
 
 ### On Kubernetes
 
-To be added :construction:
-
 Helm chart code is available in [helm-charts](https://github.com/codex-storage/helm-charts) repository, but chart was not published yet.
-
 
 ## Known issues
 
