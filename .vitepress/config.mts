@@ -76,7 +76,7 @@ export default defineConfig({
 
     siteTitle: 'Codex • Docs',
 
-   logoLink: '/learn/what-is-codex',
+    logoLink: '/learn/what-is-codex',
 
     sidebar: [
       {
@@ -97,6 +97,7 @@ export default defineConfig({
           { text: 'Build Codex', link: '/learn/build' },
           { text: 'Run Codex', link: '/learn/run' },
           { text: 'Using Codex', link: '/learn/using' },
+          { text: 'Local Two Client Test', link: '/learn/local-two-client-test' },
           { text: 'Local Marketplace', link: '/learn/local-marketplace' }
         ]
       },
