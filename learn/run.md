@@ -1,8 +1,7 @@
+---
+outline: [2, 4]
+---
 # Run Codex
-
-[[TOC]]
-
-<hr>
 
 As for now, Codex is implemented only in [Nim](https://nim-lang.org) and can be found in [nim-codex](https://github.com/codex-storage/nim-codex) repository.
 
