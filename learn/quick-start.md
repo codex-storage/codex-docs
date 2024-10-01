@@ -202,4 +202,4 @@ Want to stay up-date, or looking for further assistance? Try our [discord-server
 
 Ready to explore Codex functionality? Please [Join Codex Testnet](/networks/testnet).
 
-If you want to run Codex locally without joining the Testnet, consider trying the [two-client-test](https://github.com/codex-storage/nim-codex/blob/master/docs/TwoClientTest.md) or the [marketplace-test](https://github.com/codex-storage/nim-codex/blob/master/docs/Marketplace.md).
+If you want to run Codex locally without joining the Testnet, consider trying the [Codex Two-Client Test](/learn/local-two-client-test) or the [Running a Local Codex Network with Marketplace Support](/learn/local-marketplace).
