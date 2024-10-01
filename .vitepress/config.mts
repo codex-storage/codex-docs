@@ -1,10 +1,10 @@
-import { defineConfig } from 'vitepress'
-import mdFootnote from "markdown-it-footnote"
-
+// import { defineConfig } from 'vitepress'
+import mdFootnote from 'markdown-it-footnote'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 // const { BASE: base = '/' } = process.env;
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default withMermaid({
   lang: 'en-US',
   title: 'Codex Docs',
   description: 'Decentralised data storage platform',
@@ -20,6 +20,10 @@ export default defineConfig({
     },
   },
   //  base: base,
+
+  mermaid:{
+    //mermaidConfig !theme here works for ligth mode since dark theme is forced in dark mode
+  },
 
   // lite-youtube-embed
   vue: {
@@ -98,7 +102,8 @@ export default defineConfig({
           { text: 'Run Codex', link: '/learn/run' },
           { text: 'Using Codex', link: '/learn/using' },
           { text: 'Local Two Client Test', link: '/learn/local-two-client-test' },
-          { text: 'Local Marketplace', link: '/learn/local-marketplace' }
+          { text: 'Local Marketplace', link: '/learn/local-marketplace' },
+          { text: 'Download Flow', link: '/learn/download-flow' }
         ]
       },
       {
