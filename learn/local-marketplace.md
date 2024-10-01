@@ -1,3 +1,6 @@
+---
+outline: [2, 3]
+---
 # Running a Local Codex Network with Marketplace Support
 
 This tutorial will teach you how to run a small Codex network with the
@@ -551,7 +554,7 @@ This should print a list of offers, with the one you just created figuring
 among them (for our tutorial, there will be only one offer returned
 at this time).
 
-## 4.2. Buy Storage
+### 4.2. Buy Storage
 
 Before we can buy storage, we must have some actual data to request
 storage for. Start by uploading a small file to your client node.
@@ -607,7 +610,7 @@ The parameters under `--data` say that:
    the storage provider(s). If slot are not filled by the `expire` interval,
    the request will timeout and fail. 
 
-## 4.3. Track your Storage Requests
+### 4.3. Track your Storage Requests
 
 POSTing a storage request will make it available in the storage market,
 and a storage node will eventually pick it up.
