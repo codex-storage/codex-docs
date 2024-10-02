@@ -226,10 +226,10 @@ curl -s localhost:8080/api/codex/v1/debug/info | jq -r '.announceAddresses'
 ]
 ```
 Basically, for P2P communication we should specify and configure two ports:
-| # | Protocol function                                                        | CLI option       | Example                                |
-| - | ------------------------------------------------------------------------ | ---------------- | -------------------------------------- |
-| 1 | [Discovery](https://docs.libp2p.io/concepts/discovery-routing/overview/) | `--disc-port`    | `--disc-port=8090`                     |
-| 2 | [Transport](https://docs.libp2p.io/concepts/transports/overview/)        | `--listen-addrs` | `--listen-addrs=/ip4/0.0.0.0/tcp/8070` |
+| # | Protocol | Function                                                                 | CLI option       | Example                                |
+| - | -------- | ------------------------------------------------------------------------ | ---------------- | -------------------------------------- |
+| 1 | UDP      | [Discovery](https://docs.libp2p.io/concepts/discovery-routing/overview/) | `--disc-port`    | `--disc-port=8090`                     |
+| 2 | TCP      | [Transport](https://docs.libp2p.io/concepts/transports/overview/)        | `--listen-addrs` | `--listen-addrs=/ip4/0.0.0.0/tcp/8070` |
 
 And, also it is required to setup port-forwarding on your Internet router, to make your node accessible for participants [^port-forwarding].
 
@@ -312,7 +312,7 @@ Every [network](/networks/networks) uses its own generated set of the files whic
 
 To download circuit files and make them available to Codex app, we have a stand-alone utility - `cirdl`. It can be [compiled from the sources](/learn/build#circuit-download-tool) or downloaded from the [GitHub release page](https://github.com/codex-storage/nim-codex/releases).
 
-1. Create ethereum key
+1. Create ethereum key file
    <details>
    <summary>example</summary>
 
