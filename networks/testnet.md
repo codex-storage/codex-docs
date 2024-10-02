@@ -31,7 +31,11 @@ It is mostly the same as a [Basic guide](#basic-guide), but uses Discord capabil
  - [Git installed](https://git-scm.com/downloads)
  - Configure port forwarding on your Internet router
 
+Steps for [Linux/macOS](#basic-linux-macos) and [Windows](#basic-windows) are slightly different, so please use ones for your OS.
+
 <hr>
+
+### Linux/macOS {#basic-linux-macos}
 
 1. Open console and clone the repository:
    ```shell
@@ -49,38 +53,79 @@ It is mostly the same as a [Basic guide](#basic-guide), but uses Discord capabil
    sudo apt update && sudo apt install libgomp1
    ```
 
-4. Download Codex binaries from GitHub releases
+4. Download Codex binaries from GitHub releases:
    ```shell
    ./download_online.sh
    ```
 
-5. Generate an ethereum keypair
+5. Generate an ethereum keypair:
    ```shell
    ./generate.sh
    ```
    Your private key will be saved to `eth.key` and address to  `eth.address` file.
 
-6. Fill-up your address with tokens
+6. Fill-up your address shown on the screen with the tokens:
    - Use the web faucets to mint some [ETH](https://faucet-eth.testnet.codex.storage) and [TST](https://faucet-tst.testnet.codex.storage) tokens.
    - We can also do this using Discord [# bot](https://discord.com/channels/895609329053474826/1230785221553819669) channel
      - Use `/set ethaddress` command to enter your generated address
      - Use `/mint` command to receive ETH and TST tokens
      - Use `/balance` command to check if you have received test tokens successfully
 
-7. Run Codex node
+7. Run Codex node:
    ```shell
    ./run_client.sh
    ```
 
-8. Configure [port forwarding](https://en.wikipedia.org/wiki/Port_forwarding) on your Internet router
-   | # | Protocol | Port   | Description       |
-   | - | -------- | ------ | ----------------- |
-   | 1 | `UDP`    | `8090` | `Codex Discovery` |
-   | 2 | `TCP`    | `8070` | `Codex Transport` |
+8. Configure [port forwarding](#basic-common) and we are ready go to.
+
+### Windows {#basic-windows}
+
+1. Open command prompt (`cmd`) and clone the repository:
+   ```batch
+   git clone https://github.com/codex-storage/codex-testnet-starter
+   ```
+
+2. Navigate to the scripts folder:
+   ```batch
+   cd codex-testnet-starter\scripts\windows
+   ```
+
+3. Download Codex binaries from GitHub releases:
+   ```batch
+   download-online.bat
+   ```
+
+4. Generate an ethereum keypair:
+   ```batch
+   generate.bat
+   ```
+   Your private key will be saved to `eth.key` and address to  `eth.address` file.
+
+5. Fill-up your address shown on the screen with the tokens:
+   - Use the web faucets to mint some [ETH](https://faucet-eth.testnet.codex.storage) and [TST](https://faucet-tst.testnet.codex.storage) tokens.
+   - We can also do this using Discord [# bot](https://discord.com/channels/895609329053474826/1230785221553819669) channel
+     - Use `/set ethaddress` command to enter your generated address
+     - Use `/mint` command to receive ETH and TST tokens
+     - Use `/balance` command to check if you have received test tokens successfully
+
+6. Run Codex node:
+   ```batch
+   run-client.bat
+   ```
+
+ 7. Configure [port forwarding](#basic-common) and we are ready go to.
+
+### All OS {#basic-common}
+
+Configure [port forwarding](https://en.wikipedia.org/wiki/Port_forwarding) on your Internet router
+| # | Protocol | Port   | Description       |
+| - | -------- | ------ | ----------------- |
+| 1 | `UDP`    | `8090` | `Codex Discovery` |
+| 2 | `TCP`    | `8070` | `Codex Transport` |
 
 After your node is up and running, you can use the [Codex API](/developers/api) to be able to interact with your Codex node, please check our [API walk-through](/learn/using) for more details.
 
-You also can use [Codex Marketplace UI](https://marketplace.codex.storage) to interact with your local Codex node.
+You also can use [Codex App UI](https://app.codex.storage) to interact with your local Codex node.
 
 Need help? Reach out to us in [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel or check [troubleshooting guide](#troubleshooting).
 
