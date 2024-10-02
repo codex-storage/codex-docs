@@ -246,7 +246,7 @@ codex \
 
 After node is up and running and port-forwarding configurations was done, we should be able to [Upload a file](/learn/using#upload-a-file)/[Download a file](/learn/using#download-a-file) in the network using [API](/developers/api).
 
-You also can use [Codex Marketplace UI](https://marketplace.codex.storage) for files upload/download.
+You also can use [Codex App UI](https://app.codex.storage) for files upload/download.
 
 And to be able to purchase a storage, we should run [Codex node with marketplace support](#codex-node-with-marketplace-support).
 
@@ -298,7 +298,7 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
 
 After node is up and running, and your address has founds, you should be able to [Purchase storage](/learn/using#purchase-storage) using [API](/developers/api).
 
-You also can use [Codex Marketplace UI](https://marketplace.codex.storage) for storage purchase.
+You also can use [Codex App UI](https://app.codex.storage) for storage purchase.
 
 #### Codex storage node
 
@@ -369,7 +369,7 @@ To download circuit files and make them available to Codex app, we have a stand-
 
 After node is up and running, and your address has founds, you should be able to [sell the storage](/learn/using#create-storage-availability) using [API](/developers/api).
 
-You also can use [Codex Marketplace UI](https://marketplace.codex.storage) to sell the storage.
+You also can use [Codex App UI](https://app.codex.storage) to sell the storage.
 
 #### Codex bootstrap node
 

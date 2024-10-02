@@ -192,7 +192,7 @@ If you would like to purchase or sell storage, please consider to run [Codex nod
 
 ## Interact with Codex
 
-When your Codex node is up and running you can interact with it using [Codex Marketplace UI](https://marketplace.codex.storage) for files sharing.
+When your Codex node is up and running you can interact with it using [Codex App UI](https://app.codex.storage) for files sharing.
 
 Also, you can interact with Codex using [Codex API](/developers/api) and for a walk-through of the API, consider following the [Using Codex](/learn/using) guide.
 
