@@ -360,7 +360,7 @@ To download circuit files and make them available to Codex app, we have a stand-
      --eth-private-key=eth.key \
      --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
      prover \
-     --circuit-dir
+     --circuit-dir=datadir/circuits
    ```
 
 > [!NOTE]
@@ -547,9 +547,7 @@ For Docker Compose, it is more suitable to use [environment variables](#environm
           - CODEX_ETH_PROVIDER=https://rpc.testnet.codex.storage
           - CODEX_ETH_PRIVATE_KEY=/opt/eth.key
           - CODEX_MARKETPLACE_ADDRESS=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6
-          - CODEX_CIRCOM_R1CS=/datadir/circuits/proof_main.r1cs
-          - CODEX_CIRCOM_WASM=/datadir/circuits/proof_main.wasm
-          - CODEX_CIRCOM_ZKEY=/datadir/circuits/proof_main.zkey
+          - CODEX_CIRCUIT_DIR=/datadir/circuits
         ports:
           - 8080:8080/tcp # API
           - 8090:8090/udp # Discovery
