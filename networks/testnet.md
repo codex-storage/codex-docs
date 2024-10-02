@@ -1,14 +1,96 @@
+---
+outline: [2, 4]
+---
 # Codex Testnet
 
- Work in progress :construction:
+Codex Testnet was launched and ready to be used for testing.
 
- Please follow [Codex Testnet Starter](https://testnet.codex.storage).
+Your participation in the Codex Testnet is subject to the [Codex Testnet Terms and Conditions](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Terms%20and%20Conditions.pdf) and [Codex Testnet Privacy Policy](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Privacy%20Policy.pdf).
 
- Your participation in the Codex Testnet is subject to the [Codex Testnet Terms and Conditions](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Terms%20and%20Conditions.pdf) and [Codex Testnet Privacy Policy](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Privacy%20Policy.pdf).
 
-### Testnet data
+We have several guides and you can use one more suitable for you
+- [Discord guide](#discord-guide)
+- [Basic guide](#basic-guide)
+- [Advanced guide](#advanced-guide)
 
-#### Bootstrap nodes
+Guides were tested on the following OS:
+ - Linux: Ubuntu 24.04, Debian 12, Fedora 40
+ - macOS: 15
+ - Windows: 11, Srv 2022
+
+## Discord guide
+
+You can join [Codex Discord server](https://discord.gg/codex-storage) and jump into the [#:tv:|join-testnet](https://discord.com/channels/895609329053474826/1289923125928001702) channel.
+
+It is mostly the same as a [Basic guide](#basic-guide), but uses Discord capabilities to make a walk-through and you also can get a support in the [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel.
+
+## Basic guide
+
+**Prerequisites**
+
+ - [Git installed](https://git-scm.com/downloads)
+ - Configure port forwarding on your Internet router
+
+<hr>
+
+1. Open console and clone the repository:
+   ```shell
+   git clone https://github.com/codex-storage/codex-testnet-starter
+   ```
+
+2. Navigate to the scripts folder:
+   ```shell
+   cd codex-testnet-starter/scripts
+   ```
+
+3. Install dependencies when required:
+   ```shell
+   # Debian-based Linux
+   sudo apt update && sudo apt install libgomp1
+   ```
+
+4. Download Codex binaries from GitHub releases
+   ```shell
+   ./download_online.sh
+   ```
+
+5. Generate an ethereum keypair
+   ```shell
+   ./generate.sh
+   ```
+   Your private key will be saved to `eth.key` and address to  `eth.address` file.
+
+6. Fill-up your address with tokens
+   - Use the web faucets to mint some [ETH](https://faucet-eth.testnet.codex.storage) and [TST](https://faucet-tst.testnet.codex.storage) tokens.
+   - We can also do this using Discord [# bot](https://discord.com/channels/895609329053474826/1230785221553819669) channel
+     - Use `/set ethaddress` command to enter your generated address
+     - Use `/mint` command to receive ETH and TST tokens
+     - Use `/balance` command to check if you have received test tokens successfully
+
+7. Run Codex node
+   ```shell
+   ./run_client.sh
+   ```
+
+8. Configure [port forwarding](https://en.wikipedia.org/wiki/Port_forwarding) on your Internet router
+   | # | Protocol | Port   | Description       |
+   | - | -------- | ------ | ----------------- |
+   | 1 | `UDP`    | `8090` | `Codex Discovery` |
+   | 2 | `TCP`    | `8070` | `Codex Transport` |
+
+After your node is up and running, you can use the [Codex API](/developers/api) to be able to interact with your Codex node, please check our [API walk-through](/learn/using) for more details.
+
+You also can use [Codex Marketplace UI](https://marketplace.codex.storage) to interact with your local Codex node.
+
+Need help? Reach out to us in [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel or check [troubleshooting guide](#troubleshooting).
+
+## Advanced guide
+
+Work in progress :construction:
+
+## Testnet data
+
+### Bootstrap nodes
 **Codex**
 ```shell
 spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
@@ -31,7 +113,7 @@ enode://6eeb3b3af8bef5634b47b573a17477ea2c4129ab3964210afe3b93774ce57da832eb110f
 enode://6ba0e8b5d968ca8eb2650dd984cdcf50acc01e4ea182350e990191aadd79897801b79455a1186060aa3818a6bc4496af07f0912f7af53995a5ddb1e53d6f31b5@209.38.160.40:40070
 ```
 
-#### Marketplace
+### Smart contracts
 
 | Contract    | Address                                                                                                                                   |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -39,7 +121,7 @@ enode://6ba0e8b5d968ca8eb2650dd984cdcf50acc01e4ea182350e990191aadd79897801b79455
 | Verifier    | [`0x02dd582726F7507D7d0F8bD8bf8053d3006F9092`](https://explorer.testnet.codex.storage/address/0x02dd582726F7507D7d0F8bD8bf8053d3006F9092) |
 | Marketplace | [`0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6`](https://explorer.testnet.codex.storage/address/0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6) |
 
-#### Endpoints
+### Endpoints
 
 | # | Service         | URL                                                                          |
 | - | --------------- | ---------------------------------------------------------------------------- |
@@ -48,3 +130,7 @@ enode://6ba0e8b5d968ca8eb2650dd984cdcf50acc01e4ea182350e990191aadd79897801b79455
 | 3 | Faucet ETH      | [faucet-eth.testnet.codex.storage](https://faucet-eth.testnet.codex.storage) |
 | 4 | Faucet TST      | [faucet-tst.testnet.codex.storage](https://faucet-tst.testnet.codex.storage) |
 | 5 | Status page     | [status.testnet.codex.storage](https://status.testnet.codex.storage)         |
+
+## Troubleshooting
+
+Work in progress :construction:
