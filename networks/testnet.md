@@ -16,7 +16,7 @@ We have several guides and you can use one more suitable for you
 Guides were tested on the following OS:
  - Linux: Ubuntu 24.04, Debian 12, Fedora 40
  - macOS: 15
- - Windows: 11, Srv 2022
+ - Windows: 11, Server 2022
 
 ## Discord guide
 
