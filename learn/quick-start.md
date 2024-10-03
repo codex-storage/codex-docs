@@ -133,7 +133,7 @@ Please follow the steps for your OS from the list:
    ```shell
    Codex version:  v0.1.4
    Codex revision: 484124d
-   Nim Compiler Version 1.6.14 [Windows: amd64]
+   Nim Compiler Version 1.6.21 [Windows: amd64]
    Compiled at 2024-06-27
    Copyright (c) 2006-2023 by Andreas Rumpf
 
@@ -156,12 +156,12 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    **Linux/macOS**
    ```shell
    codex \
-   --data-dir=datadir \
-   --disc-port=8090 \
-   --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
-   --nat=`curl -s https://ip.codex.storage` \
-   --api-cors-origin="*" \
-   --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
+     --data-dir=datadir \
+     --disc-port=8090 \
+     --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
+     --nat=`curl -s https://ip.codex.storage` \
+     --api-cors-origin="*" \
+     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
    ```
 
    **Windows**
@@ -171,12 +171,12 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
 
    :: Run
    codex ^
-   --data-dir=datadir ^
-   --disc-port=8090 ^
-   --listen-addrs=/ip4/0.0.0.0/tcp/8070 ^
-   --nat=%nat% ^
-   --api-cors-origin="*" ^
-   --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
+     --data-dir=datadir ^
+     --disc-port=8090 ^
+     --listen-addrs=/ip4/0.0.0.0/tcp/8070 ^
+     --nat=%nat% ^
+     --api-cors-origin="*" ^
+     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
    ```
 
    > [!TIP]
