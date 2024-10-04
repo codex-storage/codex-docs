@@ -85,6 +85,10 @@ Please follow the steps for your OS from the list:
 1. Download binary and checksum for your platform/architecture
    > [!WARNING]
    > For Windows, only amd64 architecture is supported now.
+
+   > [!WARNING]
+   > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail.
+
    ```batch
    set version=v0.1.4
    set platform=windows
@@ -120,10 +124,10 @@ Please follow the steps for your OS from the list:
    move /Y %LOCALAPPDATA%\Codex\codex-%version%-%platform%-%architecture%.exe %LOCALAPPDATA%\Codex\codex.exe
 
    :: Add folder to the path permanently
-   setx PATH %PATH%%LOCALAPPDATA%\Codex;
+   setx PATH "%PATH%%LOCALAPPDATA%\Codex;"
 
    :: Add folder to the path for the current session
-   PATH %PATH%%LOCALAPPDATA%\Codex;
+   PATH "%PATH%%LOCALAPPDATA%\Codex;"
    ```
 
 4. Check the result
@@ -165,9 +169,13 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    ```
 
    **Windows**
+
+   > [!WARNING]
+   > Windows might at this stage prompt you to grant internet access to Codex. You must allow it for things to work.
+
    ```batch
    :: Get Public IP
-   for /f "delims=" %a in ('curl -s https://ip.codex.storage') do @set nat=%a
+   for /f "delims=" %a in ('curl -s --ssl-reqd ip.codex.storage') do @set nat=%a
 
    :: Run
    codex ^
