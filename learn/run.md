@@ -296,6 +296,9 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
      --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6
    ```
 
+> [!NOTE]
+> Codex also has a marketplace contract address autodiscovery mechanism based on the chain id, that mapping is done in the [source code](https://github.com/codex-storage/nim-codex/blob/master/codex/contracts/deployment.nim). In that way we can skip `--marketplace-address` argument or use it to override a hardcoded value.
+
 After node is up and running, and your address has founds, you should be able to [Purchase storage](/learn/using#purchase-storage) using [API](/developers/api).
 
 You also can use [Codex App UI](https://app.codex.storage) for storage purchase.
