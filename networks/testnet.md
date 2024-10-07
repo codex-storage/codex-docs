@@ -3,33 +3,36 @@ outline: [2, 4]
 ---
 # Codex Testnet
 
-Codex Testnet was launched and ready to be used for testing.
+The Codex Testnet has been launched and is ready to be used for testing.
 
 Your participation in the Codex Testnet is subject to the [Codex Testnet Terms and Conditions](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Terms%20and%20Conditions.pdf) and [Codex Testnet Privacy Policy](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Privacy%20Policy.pdf).
 
+**Guides.** We have basic guides covering how to set up a Storage Client which can be used to upload and persist files by buying storage in the Codex network. We recommend that you start with those.
 
-We have several guides and you can use one more suitable for you
-- [Discord guide](#discord-guide)
-- [Basic guide](#basic-guide)
-- [Advanced guide](#advanced-guide)
+Running a Storage Provider is more involved and is covered as a separate guide which demonstrates the storage sales side, as well as how to run Codex with its own local Ethereum execution client.
 
-Guides were tested on the following OS:
+Guides are available either on Discord, as step-by-step, interactive guides, or here as simple instructions that you can follow:
+
+- **Basic: running a storage client.** [[Discord](#sc-guide-discord) | [html](#sc-guide-web)]
+- **Advanced: Running a storage provider.** [[html](#sp-guide-web)]
+
+The guides were tested on the following operating systems:
+
  - Linux: Ubuntu 24.04, Debian 12, Fedora 40
  - macOS: 15
  - Windows: 11, Server 2022
 
-## Discord guide
+## Running a Storage Client (Discord Version) {#sc-guide-discord}
 
 You can join [Codex Discord server](https://discord.gg/codex-storage) and jump into the [#:tv:|join-testnet](https://discord.com/channels/895609329053474826/1289923125928001702) channel.
 
-It is mostly the same as a [Basic guide](#basic-guide), but uses Discord capabilities to make a walk-through and you also can get a support in the [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel.
+It is mostly the same as a [Web guide](#sc-guide-web), but uses Discord capabilities so you can have an interactive, step-by-step guide, and you also can get a support in the [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel.
 
-## Basic guide
+## Running a Storage Client (Web Version) {#sc-guide-web}
 
 **Prerequisites**
 
- - [Git installed](https://git-scm.com/downloads)
- - Configure port forwarding on your Internet router
+ - Access to your Internet router so you can [configure port forwarding](#basic-common)
 
 Steps for [Linux/macOS](#basic-linux-macos) and [Windows](#basic-windows) are slightly different, so please use ones for your OS.
 
@@ -37,14 +40,14 @@ Steps for [Linux/macOS](#basic-linux-macos) and [Windows](#basic-windows) are sl
 
 ### Linux/macOS {#basic-linux-macos}
 
-1. Open console and clone the repository:
+1. Download the master tarball from the Codex testnet starter repository, and untar its contents:
    ```shell
-   git clone https://github.com/codex-storage/codex-testnet-starter
+   curl -LO https://github.com/codex-storage/codex-testnet-starter/archive/master.tar.gz
    ```
 
 2. Navigate to the scripts folder:
    ```shell
-   cd codex-testnet-starter/scripts
+   cd codex-testnet-starter-master/scripts
    ```
 
 3. Install dependencies when required:
@@ -80,14 +83,35 @@ Steps for [Linux/macOS](#basic-linux-macos) and [Windows](#basic-windows) are sl
 
 ### Windows {#basic-windows}
 
-1. Open command prompt (`cmd`) and clone the repository:
+1. Download the master tarball from the Codex testnet starter repository, and untar its contents:
+   > [!WARNING]
+   > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail - in particular, if temporarily disabling your antivirus fixes it, then it is likely to be the culprit.
+
    ```batch
-   git clone https://github.com/codex-storage/codex-testnet-starter
+   curl -LO https://github.com/codex-storage/codex-testnet-starter/archive/master.tar.gz
+   ```
+
+   If you see an error like:
+
+   ```batch
+   curl: (35) schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
+   ```
+
+   You may need to add the `--ssl-no-revoke` option to your curl call, e.g.:
+
+   ```batch
+   curl -LO --ssl-no-revoke https://github.com/codex-storage/codex-testnet-starter/archive/master.tar.gz
+   ```
+
+1. Extract the contents of the tar file, and then delete it:
+   ```batch
+   tar xzvf master.tar.gz
+   del master.tar.gz
    ```
 
 2. Navigate to the scripts folder:
    ```batch
-   cd codex-testnet-starter\scripts\windows
+   cd codex-testnet-starter-master\scripts\windows
    ```
 
 3. Download Codex binaries from GitHub releases:
@@ -129,13 +153,13 @@ You also can use [Codex App UI](https://app.codex.storage) to interact with your
 
 Need help? Reach out to us in [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel or check [troubleshooting guide](#troubleshooting).
 
-## Advanced guide
+## Running a Storage Provider (Web Version) {#sp-guide-web}
 
 Work in progress :construction:
 
-## Testnet data
+## Testnet Data
 
-### Bootstrap nodes
+### Bootstrap Nodes
 **Codex**
 ```shell
 spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P

@@ -87,7 +87,7 @@ Please follow the steps for your OS from the list:
    > For Windows, only amd64 architecture is supported now.
 
    > [!WARNING]
-   > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail.
+   > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail - in particular, if temporarily disabling your antivirus fixes it, then it is likely to be the culprit.
 
    ```batch
    set version=v0.1.4
@@ -100,6 +100,18 @@ Please follow the steps for your OS from the list:
    :: Checksum
    curl -LO https://github.com/codex-storage/nim-codex/releases/download/%version%/codex-%version%-%platform%-%architecture%-libs.zip.sha256
    ```
+
+   If you see an error like:
+
+   ```batch
+   curl: (35) schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
+   ```
+
+   You may need to add the `--ssl-no-revoke` option to your curl calls, i.e., modify the calls above so they look like this:
+
+   ```batch
+    curl -LO --ssl-no-revoke https://...
+    ```
 
 2. Verify checksum
    ```batch
