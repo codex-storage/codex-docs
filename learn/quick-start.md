@@ -18,7 +18,7 @@ Please follow the steps for your OS from the list:
 
 1. Download binary and checksum for your platform/architecture
    ```shell
-   version=v0.1.4
+   version=v0.1.5
    platform=$(echo `uname -s` | awk '{print tolower($0)}')
    architecture=$([[ `uname -m` == 'x86_64' ]] && echo amd64 || echo arm64)
 

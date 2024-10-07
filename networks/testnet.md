@@ -13,8 +13,8 @@ Running a Storage Provider is more involved and is covered as a separate guide w
 
 Guides are available either on Discord, as step-by-step, interactive guides, or here as simple instructions that you can follow:
 
-- **Basic: running a storage client.** [[Discord](#sc-guide-discord) | [html](#sc-guide-web)]
-- **Advanced: Running a storage provider.** [[html](#sp-guide-web)]
+- **Basic: running a storage client.** [[Discord](#sc-guide-discord) | [web](#sc-guide-web)]
+- **Advanced: Running a storage provider.** [[web](#sp-guide-web)]
 
 The guides were tested on the following operating systems:
 
@@ -43,6 +43,8 @@ Steps for [Linux/macOS](#basic-linux-macos) and [Windows](#basic-windows) are sl
 1. Download the master tarball from the Codex testnet starter repository, and untar its contents:
    ```shell
    curl -LO https://github.com/codex-storage/codex-testnet-starter/archive/master.tar.gz
+   tar xzvf master.tar.gz
+   rm master.tar.gz
    ```
 
 2. Navigate to the scripts folder:
