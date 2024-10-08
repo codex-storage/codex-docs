@@ -18,7 +18,7 @@ Please follow the steps for your OS from the list:
 
 1. Download binary and checksum for your platform/architecture
    ```shell
-   version=v0.1.5
+   version=v0.1.6
    platform=$(echo `uname -s` | awk '{print tolower($0)}')
    architecture=$([[ `uname -m` == 'x86_64' ]] && echo amd64 || echo arm64)
 
@@ -43,7 +43,7 @@ Please follow the steps for your OS from the list:
 
    Make sure you get `OK` in the result
    ```
-   codex-v0.1.4-linux-amd64.tar.gz: OK
+   codex-v0.1.6-linux-amd64.tar.gz: OK
    ```
 
 3. Extract binary
@@ -67,9 +67,9 @@ Please follow the steps for your OS from the list:
    codex --version
    ```
    ```shell
-   Codex version:  v0.1.4
-   Codex revision: 484124d
-   Nim Compiler Version 1.6.14 [Linux: amd64]
+   Codex version:  v0.1.6
+   Codex revision: 47061bf
+   Nim Compiler Version 1.6.21 [Linux: amd64]
    ```
 
 7. Cleanup
@@ -90,7 +90,7 @@ Please follow the steps for your OS from the list:
    > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail - in particular, if temporarily disabling your antivirus fixes it, then it is likely to be the culprit.
 
    ```batch
-   set version=v0.1.4
+   set version=v0.1.6
    set platform=windows
    if %PROCESSOR_ARCHITECTURE%==AMD64 (set architecture=amd64) else (set architecture=arm64)
 
@@ -122,7 +122,7 @@ Please follow the steps for your OS from the list:
 
    Make sure you get `OK` in the result
    ```
-   codex-v0.1.4-windows-amd64-libs.zip: OK
+   codex-v0.1.6-windows-amd64-libs.zip: OK
    ```
 
 3. Extract binary and libraries
@@ -147,8 +147,8 @@ Please follow the steps for your OS from the list:
    codex --version
    ```
    ```shell
-   Codex version:  v0.1.4
-   Codex revision: 484124d
+   Codex version:  v0.1.6
+   Codex revision: 47061bf
    Nim Compiler Version 1.6.21 [Windows: amd64]
    Compiled at 2024-06-27
    Copyright (c) 2006-2023 by Andreas Rumpf
