@@ -30,7 +30,7 @@ Despite their potential benefits, however, the lack of efficient and reliable de
 
 In response to these challenges, we introduce Codex: a novel Erasure Coded Decentralized Storage Network which relies on erasure coding for redundancy and efficient proofs of storage. This method provides unparalleled reliability and allows for the storage of large datasets, larger than any single node in the network, in a durable and secure fashion. Our compact and efficient proofs of storage can detect and prevent catastrophic data loss with great accuracy, while incurring relatively modest hardware and electricity requirements -- two preconditions for achieving true decentralization. In addition, we introduce and formalize in this paper the notion of durability in decentralized storage networks through a new concept we call the _Decentralized Durability Engine_ (DDE).
 
-The remainder of this paper is organized as follows. First, we discuss the context on which Codex is built on (Sec. 2) by expanding on the issues of centralized cloud storage, and providing background on previous takes at decentralized alternatives -- namely, p2p networks, blockchains, and DSNs. Then, we  introduce the conceptual framework that underpins Codex in Sec. 3 -- the Decentralized Durability Engine (DDE) -- followed by a more detailed descriptions of the mechanisms behind Codex and how it materializes as a DDE in Sec. 4. Sec. 5 then presents a preliminary reliability analysis, which places Codex's storage parameters alongside more formal durability guarantees. Finally, Sec. 6 provides conclusions and ongoing work.
+The remainder of this paper is organized as follows. First, we discuss the context on which Codex is built (Sec. 2) by expanding on the issues of centralized cloud storage, and providing background on previous takes at decentralized alternatives -- namely, p2p networks, blockchains, and DSNs. Then, we  introduce the conceptual framework that underpins Codex in Sec. 3 -- the Decentralized Durability Engine (DDE) -- followed by a more detailed descriptions of the mechanisms behind Codex and how it materializes as a DDE in Sec. 4. Sec. 5 then presents a preliminary reliability analysis, which places Codex's storage parameters alongside more formal durability guarantees. Finally, Sec. 6 provides conclusions and ongoing work.
 
 ## 2. Background and Context
 
@@ -104,7 +104,7 @@ We start this section by laying out key concepts required to understand how Code
 
 ### 4.1. Concepts
 
-In the context of Codex (and of storage systems in genreral), two properties appear as fundamental:
+In the context of Codex (and of storage systems in general), two properties appear as fundamental:
 
 **Availability.** A system is said to be _available_ when it is able to provide its intended service, and _unavailable_ otherwise. The availability of a system over any given interval of time is given by [^tanembaum]:
 
@@ -205,16 +205,17 @@ async def proving_loop(
     await contract.next_period()
     if contract.is_proof_required():
       randomness = contract.get_randomness()
+      data_samples = collect_samples(randomness)
       merkle_proofs = compute_merkle_proofs(slot_root, randomness)
       post(
         zk_proof(
           public = [randomness, dataset_root, slot_index],
-          private = [slot_root, merkle_proofs]
+          private = [slot_root, merkle_proofs, data_samples]
         ))
 ```
 **Algorithm 1.** Codex's proving loop (ran on SPs, off-chain).
 
-It then uses this randomness to determine the indices of the blocks within the locally erasure-coded slot that it needs to provide proofs for, and computes Merkle inclusion proofs for each (line $10$). The zero-knowledge proof is then constructed by running a verification of those inclusion proofs against the dataset root in a zk-SNARK, in which the randomness, the dataset (Merkle) root, and the slot index are taken as public inputs, and the inclusion proofs and the slot (Merkle) root are private instead (lines $12$ - $15$). Once the proof is calculated, it is posted on-chain (line $11$), where it is verified. 
+It then uses this randomness to determine the indices of the blocks within the locally erasure-coded slot that it needs to provide proofs. It collects these indices as data samples (line $10$), and computes Merkle inclusion proofs for each (line $11$). The zero-knowledge proof is then constructed by running a verification of those inclusion proofs against the dataset root in a zk-SNARK, in which the randomness, the dataset (Merkle) root, and the slot index are taken as public inputs, and the inclusion proofs and the slot (Merkle) root are private instead (lines $13$ - $16$). Once the proof is calculated, it is posted on-chain (line $12$), where it is verified. 
 
 ```python=
 def is_proof_required()
