@@ -293,7 +293,7 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
      persistence \
      --eth-provider=https://rpc.testnet.codex.storage \
      --eth-private-key=eth.key \
-     --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6
+     --marketplace-address=0xfE822Df439d987849a90B64a4C0e26a297DBD47F
    ```
 
 > [!NOTE]
@@ -347,7 +347,7 @@ To download circuit files and make them available to Codex app, we have a stand-
    cirdl \
      datadir/circuits \
      https://rpc.testnet.codex.storage \
-     0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6
+     0xfE822Df439d987849a90B64a4C0e26a297DBD47F
    ```
 
 2. Start Codex storage node
@@ -361,7 +361,7 @@ To download circuit files and make them available to Codex app, we have a stand-
      persistence \
      --eth-provider=https://rpc.testnet.codex.storage \
      --eth-private-key=eth.key \
-     --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
+     --marketplace-address=0xfE822Df439d987849a90B64a4C0e26a297DBD47F \
      prover \
      --circuit-dir=datadir/circuits
    ```
@@ -486,7 +486,7 @@ docker run \
     persistence \
     --eth-provider=https://rpc.testnet.codex.storage \
     --eth-private-key=/opt/eth.key \
-    --marketplace-address=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6 \
+    --marketplace-address=0xfE822Df439d987849a90B64a4C0e26a297DBD47F \
     prover \
     --circuit-dir=/datadir/circuits
 ```
@@ -549,7 +549,7 @@ For Docker Compose, it is more suitable to use [environment variables](#environm
           - CODEX_API_BINDADDR=0.0.0.0
           - CODEX_ETH_PROVIDER=https://rpc.testnet.codex.storage
           - CODEX_ETH_PRIVATE_KEY=/opt/eth.key
-          - CODEX_MARKETPLACE_ADDRESS=0xCDef8d6884557be4F68dC265b6bB2E3e52a6C9d6
+          - CODEX_MARKETPLACE_ADDRESS=0xfE822Df439d987849a90B64a4C0e26a297DBD47F
           - CODEX_CIRCUIT_DIR=/datadir/circuits
         ports:
           - 8080:8080/tcp # API
