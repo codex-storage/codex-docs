@@ -205,7 +205,6 @@ async def proving_loop(
     await contract.next_period()
     if contract.is_proof_required():
       randomness = contract.get_randomness()
-      data_samples = collect_samples(randomness)
       merkle_proofs = compute_merkle_proofs(slot_root, randomness)
       post(
         zk_proof(
