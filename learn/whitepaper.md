@@ -214,7 +214,7 @@ async def proving_loop(
 ```
 **Algorithm 1.** Codex's proving loop (ran on SPs, off-chain).
 
-It then uses this randomness to determine the indices of the blocks within the locally erasure-coded slot that it needs to provide proofs. It collects these indices as data samples (line $10$), and computes Merkle inclusion proofs for each (line $11$). The zero-knowledge proof is then constructed by running a verification of those inclusion proofs against the dataset root in a zk-SNARK, in which the randomness, the dataset (Merkle) root, and the slot index are taken as public inputs, and the inclusion proofs and the slot (Merkle) root are private instead (lines $13$ - $16$). Once the proof is calculated, it is posted on-chain (line $12$), where it is verified. 
+It then uses this randomness to determine the indices of the blocks within the locally erasure-coded slot that it needs to provide proofs for, and computes Merkle inclusion proofs for each (line $10$). The zero-knowledge proof is then constructed by running a verification of those inclusion proofs against the dataset root in a zk-SNARK, in which the randomness, the dataset (Merkle) root, and the slot index are taken as public inputs, and the inclusion proofs and the slot (Merkle) root are private instead (lines $12$ - $15$). Once the proof is calculated, it is posted on-chain (line $11$), where it is verified.
 
 ```python=
 def is_proof_required()
