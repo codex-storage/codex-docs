@@ -210,7 +210,7 @@ async def proving_loop(
       post(
         zk_proof(
           public = [randomness, dataset_root, slot_index],
-          private = [slot_root, merkle_proofs, data_samples]
+          private = [slot_root, merkle_proofs]
         ))
 ```
 **Algorithm 1.** Codex's proving loop (ran on SPs, off-chain).
