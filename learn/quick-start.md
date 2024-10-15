@@ -16,53 +16,18 @@ Please follow the steps for your OS from the list:
 
 ### Linux/macOS
 
-1. Download binary and checksum for your platform/architecture
+1. Install latest Codex release
    ```shell
-   version=v0.1.6
-   platform=$(echo `uname -s` | awk '{print tolower($0)}')
-   architecture=$([[ `uname -m` == 'x86_64' ]] && echo amd64 || echo arm64)
-
-   # Binary
-   curl -LO https://github.com/codex-storage/nim-codex/releases/download/${version}/codex-${version}-${platform}-${architecture}.tar.gz
-
-   # Checksum
-   curl -LO https://github.com/codex-storage/nim-codex/releases/download/${version}/codex-${version}-${platform}-${architecture}.tar.gz.sha256
+   curl -s https://get.codex.storage/install.sh | bash
    ```
 
-2. Verify checksum
-
-   **Linux**
-   ```shell
-   sha256sum -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
-   ```
-
-   **macOS**
-   ```shell
-   shasum -a 256 -c codex-${version}-${platform}-${architecture}.tar.gz.sha256
-   ```
-
-   Make sure you get `OK` in the result
-   ```
-   codex-v0.1.6-linux-amd64.tar.gz: OK
-   ```
-
-3. Extract binary
-   ```shell
-   tar -zxvf codex-${version}-${platform}-${architecture}.tar.gz
-   ```
-
-4. Copy binary to the appropriate folder
-   ```shell
-   sudo install codex-${version}-${platform}-${architecture} /usr/local/bin/codex
-   ```
-
-5. Install dependencies
+2. Install dependencies
    ```shell
    # Debian-based Linux
    sudo apt update && sudo apt install libgomp1
    ```
 
-6. Check the result
+3. Check the result
    ```shell
    codex --version
    ```
@@ -70,14 +35,6 @@ Please follow the steps for your OS from the list:
    Codex version:  v0.1.6
    Codex revision: 47061bf
    Nim Compiler Version 1.6.21 [Linux: amd64]
-   ```
-
-7. Cleanup
-   ```shell
-   rm -f \
-     codex-${version}-${platform}-${architecture} \
-     codex-${version}-${platform}-${architecture}.tar.gz \
-     codex-${version}-${platform}-${architecture}.tar.gz.sha256
    ```
 
 ### Windows
