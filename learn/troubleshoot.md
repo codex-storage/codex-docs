@@ -10,7 +10,7 @@ Having trouble getting your Codex node connected to the testnet? Here's a list o
 You've probably already considered these. But just in case:
 
 1. Are you using a VPN? Make sure it's configured correctly to forward the right ports, and make sure you announce your node by the public IP address where you can be reached.
-1. Are a firewall or other security software? Make sure it's configured to allow incoming connections to Codex's discovery and peer-to-peer ports.
+1. Are you using a firewall or other security software? Make sure it's configured to allow incoming connections to Codex's discovery and peer-to-peer ports.
 
 ## Check your announce address
 
