@@ -153,7 +153,7 @@ After your node is up and running, you can use the [Codex API](/developers/api) 
 
 You also can use [Codex App UI](https://app.codex.storage) to interact with your local Codex node.
 
-Need help? Reach out to us in [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel or check [troubleshooting guide](#troubleshooting).
+Need help? Reach out to us in [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel or check [troubleshooting guide](/learn/troubleshoot.md).
 
 ## Running a Storage Provider (Web Version) {#sp-guide-web}
 
@@ -201,7 +201,3 @@ enode://6ba0e8b5d968ca8eb2650dd984cdcf50acc01e4ea182350e990191aadd79897801b79455
 | 3 | Faucet ETH      | [faucet-eth.testnet.codex.storage](https://faucet-eth.testnet.codex.storage) |
 | 4 | Faucet TST      | [faucet-tst.testnet.codex.storage](https://faucet-tst.testnet.codex.storage) |
 | 5 | Status page     | [status.testnet.codex.storage](https://status.testnet.codex.storage)         |
-
-## Troubleshooting
-
-Work in progress :construction:
