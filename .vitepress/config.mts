@@ -103,7 +103,8 @@ export default withMermaid({
           { text: 'Using Codex', link: '/learn/using' },
           { text: 'Local Two Client Test', link: '/learn/local-two-client-test' },
           { text: 'Local Marketplace', link: '/learn/local-marketplace' },
-          { text: 'Download Flow', link: '/learn/download-flow' }
+          { text: 'Download Flow', link: '/learn/download-flow' },
+          { text: 'Troubleshoot', link: '/learn/troubleshoot' }
         ]
       },
       {
