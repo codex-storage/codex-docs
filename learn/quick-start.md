@@ -1,4 +1,4 @@
-# Quick start
+# Quick Start
 
 To run Codex through this guide we would need to perform the following steps:
 - [Review the disclaimer](/codex/disclaimer)

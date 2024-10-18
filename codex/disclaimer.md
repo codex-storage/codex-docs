@@ -1,4 +1,4 @@
-# Disclaimer Codex
+# Disclaimer
 
 The code and instructions provided within this repository and related repositories are provided “as-is”, without warranty of any kind, express or implied, including but not limited to the safety or correctness, or performance of the code or instructions provided. We make no assurance that the code will work as intended, and users may experience delays, failures, errors, omissions or loss of transmitted information whilst using or running Codex.
 
