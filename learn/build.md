@@ -225,7 +225,7 @@ make testAll
 ## Building Within Docker
 
 For the specific case of Linux distributions which ship with gcc 14
-and a downgrade to $3 is not possible/desirable, building within a Docker
+and a downgrade to 13 is not possible/desirable, building within a Docker
 container and pulling the binaries out by copying or mounting remains an
 option; e.g.:
 
@@ -233,8 +233,7 @@ option; e.g.:
 # Clone original repo.
 git clone https://github.com/codex-storage/nim-codex
 
-# Build inside docker, with correct dependencies, using external repo.
-# This should also keep modifications in the external repo (to be tested).
+# Build inside docker
 docker build -t codexstorage/nim-codex:latest -f nim-codex/docker/codex.Dockerfile nim-codex
 
 # Extract executable
