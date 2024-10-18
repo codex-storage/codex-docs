@@ -28,6 +28,10 @@ The current implementation of Codex's zero-knowledge proving circuit requires th
 
 ### Linux
 
+> [!WARNING]
+> Linux builds currently require gcc $\leq$ 13. If this is not an option in your
+> system, you can try [building within Docker](#building-within-docker) as a workaround.
+
 *Package manager commands may require `sudo` depending on OS setup.*
 
 On a bare bones installation of Debian (or a distribution derived from Debian, such as Ubuntu), run
@@ -50,6 +54,16 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs/ | sh -s -- --default-
 
 . "$HOME/.cargo/env"
 ```
+
+Note that you will currently not be able to build Codex with gcc 14. To verify that 
+you have a supported version, run:
+
+``shell
+gcc --version
+```
+
+If you get a number that starts with 14 (e.g. `14.2.0`), then you need to either
+downgrade, or try a workaround like [building within Docker](#building-within-docker).
 
 ### macOS
 
@@ -208,6 +222,25 @@ Use a new terminal to run:
 make testAll
 ```
 
-## Known issues
+## Building Within Docker
 
-[^gcc-14]: At the moment Codex can't be compiled with GCC 14 - [[BUG] - Compile Codex with GCC 14 #875](https://github.com/codex-storage/nim-codex/issues/875).
+For the specific case of Linux distributions which ship with gcc 14
+and a downgrade to $3 is not possible/desirable, building within a Docker
+container and pulling the binaries out by copying or mounting remains an
+option; e.g.:
+
+```bash=
+# Clone original repo.
+git clone https://github.com/codex-storage/nim-codex
+
+# Build inside docker, with correct dependencies, using external repo.
+# This should also keep modifications in the external repo (to be tested).
+docker build -t codexstorage/nim-codex:latest -f nim-codex/docker/codex.Dockerfile nim-codex
+
+# Extract executable
+docker create --name=codex-build codexstorage/nim-codex:latest
+docker cp codex-build:/usr/local/bin/codex ./codex
+docker cp codex-build:/usr/local/bin/cirdl ./cirdl
+```
+
+and voilà, you should have the binaries available in the current folder.
