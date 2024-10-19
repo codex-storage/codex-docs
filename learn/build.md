@@ -58,7 +58,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs/ | sh -s -- --default-
 Note that you will currently not be able to build Codex with gcc 14. To verify that 
 you have a supported version, run:
 
-``shell
+```shell
 gcc --version
 ```
 
