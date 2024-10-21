@@ -31,11 +31,6 @@ Please follow the steps for your OS from the list:
    ```shell
    codex --version
    ```
-   ```shell
-   Codex version:  v0.1.6
-   Codex revision: 47061bf
-   Nim Compiler Version 1.6.21 [Linux: amd64]
-   ```
 
 ### Windows
 
@@ -47,7 +42,6 @@ Please follow the steps for your OS from the list:
    > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail - in particular, if temporarily disabling your antivirus fixes it, then it is likely to be the culprit.
 
    ```batch
-   set version=v0.1.6
    set platform=windows
    if %PROCESSOR_ARCHITECTURE%==AMD64 (set architecture=amd64) else (set architecture=arm64)
 
@@ -79,7 +73,7 @@ Please follow the steps for your OS from the list:
 
    Make sure you get `OK` in the result
    ```
-   codex-v0.1.6-windows-amd64-libs.zip: OK
+   codex-v0.1.7-windows-amd64-libs.zip: OK
    ```
 
 3. Extract binary and libraries
@@ -102,16 +96,6 @@ Please follow the steps for your OS from the list:
 4. Check the result
    ```shell
    codex --version
-   ```
-   ```shell
-   Codex version:  v0.1.6
-   Codex revision: 47061bf
-   Nim Compiler Version 1.6.21 [Windows: amd64]
-   Compiled at 2024-06-27
-   Copyright (c) 2006-2023 by Andreas Rumpf
-
-   git hash: 38640664088251bbc88917b4bacfd86ec53014b8
-   active boot switches: -d:release
    ```
 
 5. Cleanup
