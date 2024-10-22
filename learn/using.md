@@ -56,7 +56,7 @@ CID="..."
 ```
 
 ```shell
-curl "http://localhost:8080/api/codex/v1/data/${CID}/network" \
+curl "http://localhost:8080/api/codex/v1/data/${CID}/network/stream" \
   -o "${CID}.png"
 ```
 
@@ -194,7 +194,7 @@ set CID="..."
 ```
 
 ```batch
-curl "http://localhost:8080/api/codex/v1/data/%CID%/network" ^
+curl "http://localhost:8080/api/codex/v1/data/%CID%/network/stream" ^
   -o "%CID%.png"
 ```
 
