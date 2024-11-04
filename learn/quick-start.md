@@ -73,7 +73,7 @@ Please follow the steps for your OS from the list:
 
    Make sure you get `OK` in the result
    ```
-   codex-v0.1.7-windows-amd64-libs.zip: OK
+   codex-v0.1.8-windows-amd64-libs.zip: OK
    ```
 
 3. Extract binary and libraries
