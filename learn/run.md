@@ -420,7 +420,7 @@ We also ship Codex in Docker containers, which can be run on `amd64` and `arm64`
 - `ENV_PATH` - path to the file, in form `env=value` which will be sourced and available for Codex at run. That is useful for Kubernetes Pods configuration.
 - `NAT_IP_AUTO` - when set to `true`, will set `CODEX_NAT` variable with container internal IP address. It also is useful for Kubernetes Pods configuration, when we perform automated tests.
 - `NAT_PUBLIC_IP_AUTO` - used to set `CODEX_NAT` to public IP address using lookup services, like [ip.codex.storage](https://ip.codex.storage). Can be used for Docker/Kubernetes to set public IP in auto mode.
-- `PRIV_KEY` - can be used to pass ethereum private key, which will be saved and passed as a value of the `CODEX_ETH_PRIVATE_KEY` variable. It should be considered as unsafe option and used for testing purposes only.
+- `ETH_PRIVATE_KEY` - can be used to pass ethereum private key, which will be saved and passed as a value of the `CODEX_ETH_PRIVATE_KEY` variable. It should be considered as unsafe option and used for testing purposes only.
 - When we set `prover` sub-command, entrypoint will run `cirdl` tool to download ceremony files, required by [Codex storage node](#codex-storage-node).
 
 #### Docker network
