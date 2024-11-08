@@ -34,23 +34,13 @@ Please follow the steps for your OS from the list:
 
 ### Windows
 
-1. Download binary and checksum for your platform/architecture
-   > [!WARNING]
-   > For Windows, only amd64 architecture is supported now.
+1. Install latest Codex release
+   ```batch
+    curl -sO https://get.codex.storage/install.cmd && install.cmd 
+   ```
 
    > [!WARNING]
    > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail - in particular, if temporarily disabling your antivirus fixes it, then it is likely to be the culprit.
-
-   ```batch
-   set platform=windows
-   if %PROCESSOR_ARCHITECTURE%==AMD64 (set architecture=amd64) else (set architecture=arm64)
-
-   :: Binary
-   curl -LO https://github.com/codex-storage/nim-codex/releases/download/%version%/codex-%version%-%platform%-%architecture%-libs.zip
-
-   :: Checksum
-   curl -LO https://github.com/codex-storage/nim-codex/releases/download/%version%/codex-%version%-%platform%-%architecture%-libs.zip.sha256
-   ```
 
    If you see an error like:
 
@@ -64,44 +54,20 @@ Please follow the steps for your OS from the list:
     curl -LO --ssl-no-revoke https://...
     ```
 
-2. Verify checksum
-   ```batch
-   for /f "delims=" %a in ('certUtil -hashfile codex-%version%-%platform%-%architecture%-libs.zip SHA256 ^| findstr -vrc:"[^0123-9aAb-Cd-EfF ]"') do @set ACTUAL_HASH=%a
-   for /f "tokens=1" %a in (codex-%version%-%platform%-%architecture%-libs.zip.sha256) do set EXPECTED_HASH=%a
-   if %ACTUAL_HASH% == %EXPECTED_HASH% (echo. && echo codex-%version%-%platform%-%architecture%-libs.zip: OK) else (echo. && echo codex-%version%-%platform%-%architecture%-libs.zip: FAILED)
-    ```
+2. Update path using console output
+    - Current session only
+      ```batch
+      :: Default installation directory
+      set "PATH=%PATH%%LOCALAPPDATA%\Codex;"
+      ```
 
-   Make sure you get `OK` in the result
-   ```
-   codex-v0.1.8-windows-amd64-libs.zip: OK
-   ```
+    - Update PATH permanently
+      - Control Panel --> System --> Advanced System settings --> Environment Variables
+      - Alternatively, type `environment variables` into the Windows Search box
 
-3. Extract binary and libraries
-   ```batch
-   if not exist %LOCALAPPDATA%\Codex mkdir %LOCALAPPDATA%\Codex
-   tar -xvf codex-%version%-%platform%-%architecture%-libs.zip -C %LOCALAPPDATA%\Codex
-
-4. Rename binary and update user `path` variable
-   ```batch
-   :: Rename binary
-   move /Y %LOCALAPPDATA%\Codex\codex-%version%-%platform%-%architecture%.exe %LOCALAPPDATA%\Codex\codex.exe
-
-   :: Add folder to the path permanently
-   setx PATH "%PATH%%LOCALAPPDATA%\Codex;"
-
-   :: Add folder to the path for the current session
-   PATH "%PATH%%LOCALAPPDATA%\Codex;"
-   ```
-
-4. Check the result
+3. Check the result
    ```shell
    codex --version
-   ```
-
-5. Cleanup
-   ```batch
-   del codex-%version%-%platform%-%architecture%-libs.zip ^
-     codex-%version%-%platform%-%architecture%-libs.zip.sha256
    ```
 
 ## Run Codex
@@ -125,12 +91,30 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
 
    > [!WARNING]
    > Windows might at this stage prompt you to grant internet access to Codex. You must allow it for things to work.
+   > It also might be required to add incoming firewall rules for Codex and we can use `netsh` utility.
+
+   <details>
+   <summary>add firewall rules using netsh</summary>
+
+   ```batch
+   :: Add rules
+   netsh advfirewall firewall add rule name="Allow Codex (TCP-In)" protocol=TCP dir=in localport=8070 action=allow
+   netsh advfirewall firewall add rule name="Allow Codex (UDP-In)" protocol=UDP dir=in localport=8090 action=allow
+
+   :: List rules
+   netsh advfirewall firewall show rule name=all | find /I "Codex"
+
+   :: Delete rules
+   netsh advfirewall firewall delete rule name="Allow Codex (TCP-In)"
+   netsh advfirewall firewall delete rule name="Allow Codex (UDP-In)"
+   ```
+   </details>
 
    ```batch
    :: Get Public IP
-   for /f "delims=" %a in ('curl -s --ssl-reqd ip.codex.storage') do @set nat=%a
+   for /f "delims=" %a in ('curl -s --ssl-reqd ip.codex.storage') do set nat=%a
 
-   :: Run
+   :: Run Codex
    codex ^
      --data-dir=datadir ^
      --disc-port=8090 ^
