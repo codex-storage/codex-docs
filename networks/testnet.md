@@ -40,48 +40,36 @@ Steps for [Linux/macOS](#basic-linux-macos) and [Windows](#basic-windows) are sl
 
 ### Linux/macOS {#basic-linux-macos}
 
-1. Download the master tarball from the Codex testnet starter repository, and untar its contents:
+1. Install Codex binaries from GitHub releases:
    ```shell
-   curl -LO https://github.com/codex-storage/codex-testnet-starter/archive/master.tar.gz
-   tar xzvf master.tar.gz
-   rm master.tar.gz
+   curl -s https://get.codex.storage/install.sh | bash
    ```
 
-2. Navigate to the scripts folder:
-   ```shell
-   cd codex-testnet-starter-master/scripts
-   ```
-
-3. Install dependencies when required:
+2. Install dependencies when required:
    ```shell
    # Debian-based Linux
    sudo apt update && sudo apt install libgomp1
    ```
 
-4. Download Codex binaries from GitHub releases:
+3. Generate an ethereum keypair:
    ```shell
-   ./download_online.sh
-   ```
-
-5. Generate an ethereum keypair:
-   ```shell
-   ./generate.sh
+   curl -s https://get.codex.storage/generate.sh | bash
    ```
    Your private key will be saved to `eth.key` and address to  `eth.address` file.
 
-6. Fill-up your address shown on the screen with the tokens:
+4. Fill-up your address shown on the screen with the tokens:
    - Use the web faucets to mint some [ETH](https://faucet-eth.testnet.codex.storage) and [TST](https://faucet-tst.testnet.codex.storage) tokens.
    - We can also do this using Discord [# bot](https://discord.com/channels/895609329053474826/1230785221553819669) channel
      - Use `/set ethaddress` command to enter your generated address
      - Use `/mint` command to receive ETH and TST tokens
      - Use `/balance` command to check if you have received test tokens successfully
 
-7. Run Codex node:
+5. Run Codex node:
    ```shell
-   ./run_client.sh
+   curl -s https://get.codex.storage/run.sh | bash
    ```
 
-8. Configure [port forwarding](#basic-common) and we are ready go to.
+6. Configure [port forwarding](#basic-common) and we are ready go to.
 
 ### Windows {#basic-windows}
 
