@@ -68,7 +68,6 @@ The following options are available:
  -i, --listen-addrs         Multi Addresses to listen on [=/ip4/0.0.0.0/tcp/0].
  -a, --nat                  NAT traversal method for determining the public address. 
                             Options: any, none, upnp, pmp, extip:<IP> [any]
- -e, --disc-ip              Discovery listen address [=0.0.0.0].
  -u, --disc-port            Discovery (UDP) port [=8090].
      --net-privkey          Source of network (secp256k1) private key file path or name [=key].
  -b, --bootstrap-node       Specifies one or more bootstrap nodes to use when connecting to the network.
