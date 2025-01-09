@@ -66,7 +66,8 @@ The following options are available:
  -d, --data-dir             The directory where codex will store configuration and data
                             [=/root/.cache/codex].
  -i, --listen-addrs         Multi Addresses to listen on [=/ip4/0.0.0.0/tcp/0].
- -a, --nat                  IP Addresses to announce behind a NAT [=127.0.0.1].
+ -a, --nat                  NAT traversal method for determining the public address. 
+                            Options: any, none, upnp, pmp, extip:<IP> [any]
  -e, --disc-ip              Discovery listen address [=0.0.0.0].
  -u, --disc-port            Discovery (UDP) port [=8090].
      --net-privkey          Source of network (secp256k1) private key file path or name [=key].
@@ -200,7 +201,7 @@ Also, to make your Codex node accessible for other network participants, it is r
 codex \
   --data-dir=datadir \
   --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-  --nat=<your public IP>
+  --nat=any
 ```
 
 > [!TIP]
@@ -211,7 +212,7 @@ After that, node will announce itself using your public IP, default UDP ([discov
 codex \
   --data-dir=datadir \
   --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-  --nat=`curl -s https://ip.codex.storage` \
+  --nat=any \
   --disc-port=8090 \
   --listen-addrs=/ip4/0.0.0.0/tcp/8070
 ```
@@ -231,14 +232,14 @@ Basically, for P2P communication we should specify and configure two ports:
 | 1 | UDP      | [Discovery](https://docs.libp2p.io/concepts/discovery-routing/overview/) | `--disc-port`    | `--disc-port=8090`                     |
 | 2 | TCP      | [Transport](https://docs.libp2p.io/concepts/transports/overview/)        | `--listen-addrs` | `--listen-addrs=/ip4/0.0.0.0/tcp/8070` |
 
-And, also it is required to setup port-forwarding on your Internet router, to make your node accessible for participants [^port-forwarding].
+And, also it is required to setup [port-forwarding](#port-forwarding) on your Internet router, to make your node accessible for participants.
 
 So, a fully working basic configuration will looks like following:
 ```shell
 codex \
   --data-dir=datadir \
   --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-  --nat=`curl -s https://ip.codex.storage` \
+  --nat=any \
   --disc-port=8090 \
   --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
   --api-cors-origin="*"
@@ -286,7 +287,7 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
    codex \
      --data-dir=datadir \
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-     --nat=`curl -s https://ip.codex.storage` \
+     --nat=any \
      --disc-port=8090 \
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
      --api-cors-origin="*" \
@@ -355,7 +356,7 @@ To download circuit files and make them available to Codex app, we have a stand-
    codex \
      --data-dir=datadir \
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-     --nat=`curl -s https://ip.codex.storage` \
+     --nat=any \
      --disc-port=8090 \
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
      persistence \
@@ -380,7 +381,7 @@ Bootstrap nodes are used just to help peers with the initial nodes discovery and
 ```shell
 codex \
   --data-dir=datadir \
-  --nat=`curl -s https://ip.codex.storage` \
+  --nat=any \
   --disc-port=8090
 ```
 
@@ -395,7 +396,7 @@ spr:CiUIAhIhApd79-AxPqwRDmu7Pk-berTDtoIoMz0ovKjo85Tz8CUdEgIDARo8CicAJQgCEiECl3v3
 That SPR record then can be used then by other peers for initial nodes discovery.
 
 We should keep in mind some important things about SPR record (see [ENR](https://eips.ethereum.org/EIPS/eip-778)):
-- It uses node IP (`--nat`), discovery port (`--disc-port`) and private key (`--net-privkey`) for record creation
+- It uses nodes public IP, discovery port (`--disc-port`) and private key (`--net-privkey`) for record creation
 - Specified data is signed on each run and will be changed but still contain specified node data when decoded
 - You can decode it by passing to the Codex node at run and with `--log-level=trace`
 
@@ -477,7 +478,7 @@ docker run \
   codex \
     --data-dir=/datadir \
     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-    --nat=`curl -s https://ip.codex.storage` \
+    --nat=any \
     --disc-port=8090 \
     --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
     --api-cors-origin="*" \
@@ -577,10 +578,63 @@ For Docker Compose, it is more suitable to use [environment variables](#environm
 
 Helm chart code is available in [helm-charts](https://github.com/codex-storage/helm-charts) repository, but chart was not published yet.
 
+## How-tos
+
+### NAT Configuration 
+
+Use the `--nat` CLI flag to specify how your codex node should handle NAT traversal. Below are the available options:
+
+**any**(default): This option will automatically try to detect your public IP by checking the routing table or using UPnP/PMP NAT traversal techniques. If successful, it will use the detected public IP and port for the announce address.
+
+**upnp**: This option exclusively uses [UPnP](https://en.wikipedia.org/wiki/Universal_Plug_and_Play) to detect the public IP and create a port mapping entry, if your device supports UPnP.
+
+**pmp**: This option uses only [NAT-PMP](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol) to detect the public IP and create a port mapping entry, if your device supports NAT-PMP.
+
+**extIP:[Your Public IP]**:Use this option if you want to manually specify an external IP address and port for the announce address. When selecting this option, you'll need to configure **port forwarding** on your router to ensure that incoming traffic is directed to the correct internal IP and port.
+
+### Port Forwarding 
+
+If you're running on a private network, you'll need to set up port forwarding to ensure seamless communication between the codex node and its peers. It's also recommended to configure appropriate firewall rules for TCP and UDP traffic.
+While the specific steps required vary based on your router, they can be summarised as follows:
+1. Find your public IP address by either visiting [ip-codex](https://ip.codex.storage/) or running `curl ip.codex.storage`
+2. Identify your [private](#determine-your-private-ip) IP address 
+3. Access your router's settings by entering its IP address (typically [http://192.168.1.1](http://192.168.1.1/)) in your web browser
+4. Sign in with administrator credentials and locate the port forwarding settings
+5. Set up the discovery port forwarding rule with these settings:
+    - External Port: 8090
+    - Internal Port: 8090
+    - Protocol: UDP
+    - IP Address: Your device's private IP address
+6. Set up the libp2p port forwarding rule with these settings:
+    - External Port: 8070
+    - Internal Port: 8070
+    - Protocol: TCP
+    - IP Address: Your device's private IP address
+
+#### Determine your private IP
+
+To determine your private IP address, run the appropriate command for your OS:
+
+**Linux**: 
+```shell
+ip addr show | grep "inet " | grep -v 127.0.0.1
+```
+
+**Windows**: 
+```shell
+ipconfig | findstr /i "IPv4 Address"
+```
+
+**MacOs**: 
+```shell
+ifconfig | grep "inet " | grep -v 127.0.0.1
+```
+
+
+
 ## Known issues
 
 [^multivalue-env-var]: Environment variables like `CODEX_BOOTSTRAP_NODE` and `CODEX_LISTEN_ADDRS` does not support multiple values. Please check [[Feature request] Support multiple SPR records via environment variable #525](https://github.com/codex-storage/nim-codex/issues/525), for more information.
 [^sub-commands]: Sub-commands `persistence` and `persistence prover` can't be set via environment variables.
 [^data-dir]: We should set data-dir explicitly when we use GitHub releases - [[BUG] Change codex default datadir from compile-time to run-time #923](https://github.com/codex-storage/nim-codex/issues/923)
-[^port-forwarding]: [NAT traversal #753](https://github.com/codex-storage/nim-codex/issues/753) is not implemented yet and we would need to setup port-forwarding for discovery and transport protocols.
 [^eth-account]: Please ignore `--eth-account` CLI option - [Drop support for --eth-account #727](https://github.com/codex-storage/nim-codex/issues/727).
