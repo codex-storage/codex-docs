@@ -49,6 +49,7 @@ export default withMermaid({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Whitepaper', link: '/learn/whitepaper' },
+      { text: 'Tokenomics Litepaper', link: '/learn/tokenomics-litepaper' },
       {
         text: 'Codex',
         items: [
