@@ -82,7 +82,7 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
      --data-dir=datadir \
      --disc-port=8090 \
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
-     --nat=`curl -s https://ip.codex.storage` \
+     --nat=any \
      --api-cors-origin="*" \
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
    ```
@@ -111,15 +111,12 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    </details>
 
    ```batch
-   :: Get Public IP
-   for /f "delims=" %a in ('curl -s --ssl-reqd ip.codex.storage') do set nat=%a
-
    :: Run Codex
    codex ^
      --data-dir=datadir ^
      --disc-port=8090 ^
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 ^
-     --nat=%nat% ^
+     --nat=any ^
      --api-cors-origin="*" ^
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
    ```
