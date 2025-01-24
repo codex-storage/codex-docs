@@ -91,6 +91,7 @@ export default withMermaid({
           { text: 'What is Codex?', link: '/learn/what-is-codex' },
           { text: 'Architecture', link: '/learn/architecture' },
           { text: 'Whitepaper', link: '/learn/whitepaper' },
+          { text: 'Tokenomics Litepaper', link: '/learn/tokenomics-litepaper' }
         ]
       },
       {
