@@ -72,6 +72,7 @@ The following options are available:
      --net-privkey          Source of network (secp256k1) private key file path or name [=key].
  -b, --bootstrap-node       Specifies one or more bootstrap nodes to use when connecting to the network.
      --max-peers            The maximum number of peers to connect to [=160].
+     --num-threads          Number of worker threads (\"0\" = use as many threads as there are CPU cores available).
      --agent-string         Node agent string which is used as identifier in network [=Codex].
      --api-bindaddr         The REST API bind address [=127.0.0.1].
  -p, --api-port             The REST Api port [=8080].
