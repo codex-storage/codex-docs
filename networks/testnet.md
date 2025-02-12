@@ -3,165 +3,165 @@ outline: [2, 4]
 ---
 # Codex Testnet
 
-The Codex Testnet has been launched and is ready to be used for testing.
+La red de pruebas (Testnet) de Codex ha sido lanzada y está lista para ser utilizada para pruebas.
 
-Your participation in the Codex Testnet is subject to the [Codex Testnet Terms and Conditions](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Terms%20and%20Conditions.pdf) and [Codex Testnet Privacy Policy](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Privacy%20Policy.pdf).
+Tu participación en la Testnet de Codex está sujeta a los [Términos y Condiciones de la Testnet de Codex](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Terms%20and%20Conditions.pdf) y a la [Política de Privacidad de la Testnet de Codex](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Privacy%20Policy.pdf).
 
-**Guides.** We have basic guides covering how to set up a Storage Client which can be used to upload and persist files by buying storage in the Codex network. We recommend that you start with those.
+**Guías.** Tenemos guías básicas que cubren cómo configurar un Cliente de Almacenamiento, que puede ser utilizado para subir y almacenar archivos comprando espacio de almacenamiento en la red Codex. Recomendamos que comiences con estas.
 
-Running a Storage Provider is more involved and is covered as a separate guide which demonstrates the storage sales side, as well as how to run Codex with its own local Ethereum execution client.
+Ejecutar un Proveedor de Almacenamiento es más complejo y está cubierto en una guía separada, la cual demuestra el lado de la venta de almacenamiento, así como también cómo ejecutar Codex con su propio cliente de ejecución de Ethereum local.
 
-Guides are available either on Discord, as step-by-step, interactive guides, or here as simple instructions that you can follow:
+Las guías están disponibles en Discord, como guías interactivas paso a paso, o aquí como instrucciones simples que puedes seguir:
 
-- **Basic: running a storage client.** [[Discord](#sc-guide-discord) | [web](#sc-guide-web)]
-- **Advanced: Running a storage provider.** [[web](#sp-guide-web)]
+- **Básico: Ejecutando un cliente de almacenamiento.** [[Discord](#sc-guide-discord) | [Web](#sc-guide-web)]
+- **Avanzado: Ejecutando un proveedor de almacenamiento.** [[Web](#sp-guide-web)]
 
-The guides were tested on the following operating systems:
+Las guías fueron probadas en los siguientes sistemas operativos:
 
- - Linux: Ubuntu 24.04, Debian 12, Fedora 40
- - macOS: 15
- - Windows: 11, Server 2022
+- Linux: Ubuntu 24.04, Debian 12, Fedora 40
+- macOS: 15
+- Windows: 11, Server 2022
 
-## Running a Storage Client (Discord Version) {#sc-guide-discord}
+## Ejecutando un Cliente de Almacenamiento (Versión Discord) {#sc-guide-discord}
 
-You can join [Codex Discord server](https://discord.gg/codex-storage) and jump into the [#:tv:|join-testnet](https://discord.com/channels/895609329053474826/1289923125928001702) channel.
+Puedes unirte al [servidor de Discord de Codex](https://discord.gg/codex-storage) e ingresar al canal [#:tv:|join-testnet](https://discord.com/channels/895609329053474826/1289923125928001702).
 
-It is mostly the same as a [Web guide](#sc-guide-web), but uses Discord capabilities so you can have an interactive, step-by-step guide, and you also can get a support in the [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel.
+Es prácticamente lo mismo que la [Guía Web](#sc-guide-web), pero utiliza las capacidades de Discord para que puedas tener una guía interactiva paso a paso, y también puedes obtener soporte en el canal [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224).
 
-## Running a Storage Client (Web Version) {#sc-guide-web}
+## Ejecutando un Cliente de Almacenamiento (Versión Web) {#sc-guide-web}
 
-**Prerequisites**
+**Prerrequisitos**
 
- - Access to your Internet router so you can [configure port forwarding](#basic-common)
+- Acceso a tu enrutador de Internet para que puedas [configurar el reenvío de puertos](#basic-common)
 
-Steps for [Linux/macOS](#basic-linux-macos) and [Windows](#basic-windows) are slightly different, so please use ones for your OS.
+Los pasos para [Linux/macOS](#basic-linux-macos) y [Windows](#basic-windows) son ligeramente diferentes, así que por favor utiliza los que correspondan a tu sistema operativo.
 
 <hr>
 
 ### Linux/macOS {#basic-linux-macos}
 
-1. Download the master tarball from the Codex testnet starter repository, and untar its contents:
+1. Descarga el archivo tarball maestro del repositorio de inicio de la testnet de Codex, y descomprime su contenido:
    ```shell
    curl -LO https://github.com/codex-storage/codex-testnet-starter/archive/master.tar.gz
    tar xzvf master.tar.gz
    rm master.tar.gz
    ```
 
-2. Navigate to the scripts folder:
+2. Navega a la carpeta de scripts:
    ```shell
    cd codex-testnet-starter-master/scripts
    ```
 
-3. Install dependencies when required:
+3. Instala las dependencias cuando sea necesario:
    ```shell
-   # Debian-based Linux
+   #  Linux basado en Debian
    sudo apt update && sudo apt install libgomp1
    ```
 
-4. Download Codex binaries from GitHub releases:
+4. Descarga los binarios de Codex desde las versiones de GitHub:
    ```shell
    ./download_online.sh
    ```
 
-5. Generate an ethereum keypair:
+5. Genera claves Ethereum:
    ```shell
    ./generate.sh
    ```
-   Your private key will be saved to `eth.key` and address to  `eth.address` file.
+   Tu clave privada se guardará en el archivo `eth.key` y la dirección en el archivo  `eth.address` .
 
-6. Fill-up your address shown on the screen with the tokens:
-   - Use the web faucets to mint some [ETH](https://faucet-eth.testnet.codex.storage) and [TST](https://faucet-tst.testnet.codex.storage) tokens.
-   - We can also do this using Discord [# bot](https://discord.com/channels/895609329053474826/1230785221553819669) channel
-     - Use `/set ethaddress` command to enter your generated address
-     - Use `/mint` command to receive ETH and TST tokens
-     - Use `/balance` command to check if you have received test tokens successfully
+6. Completa tu dirección que se muestra en la pantalla con los tokens:
+   - Usa los grifos web para acuñar algunos [ETH](https://faucet-eth.testnet.codex.storage) y los tokens [TST](https://faucet-tst.testnet.codex.storage) .
+   - También podemos hacer esto usando el canal Discord [# bot](https://discord.com/channels/895609329053474826/1230785221553819669) .
+     - Use `/set ethaddress` comando para ingresar su dirección generada
+     - Use `/mint` comando para recibir ETH y tokens TST
+     - Use `/balance` comando para verificar si recibió los tokens de prueba con éxito
 
-7. Run Codex node:
+7. Ejecuta el nodo Codex:
    ```shell
    ./run_client.sh
    ```
 
-8. Configure [port forwarding](#basic-common) and we are ready go to.
+8. Configura el [reenvío de puertos](#basic-common) y ya estaría.
 
 ### Windows {#basic-windows}
 
-1. Download the master tarball from the Codex testnet starter repository, and untar its contents:
-   > [!WARNING]
-   > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail - in particular, if temporarily disabling your antivirus fixes it, then it is likely to be the culprit.
+1. Descarga el archivo tarball maestro del repositorio de inicio de la testnet de Codex, y descomprime su contenido:
+   > [¡ATENCIÓN!]
+   > El software antivirus de Windows y los firewalls integrados pueden causar que los pasos fallen. Cubriremos algunos posibles errores aquí, pero considera siempre revisar tu configuración si las peticiones fallan - en particular, si deshabilitar temporalmente tu antivirus lo soluciona, entonces es probable que este sea el culpable.
 
    ```batch
    curl -LO https://github.com/codex-storage/codex-testnet-starter/archive/master.tar.gz
    ```
 
-   If you see an error like:
+   Si ves un error como:
 
    ```batch
    curl: (35) schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
    ```
 
-   You may need to add the `--ssl-no-revoke` option to your curl call, e.g.:
+   Puede que necesites añadir la opción  `--ssl-no-revoke`  a tu llamada curl, por ejemplo:
 
    ```batch
    curl -LO --ssl-no-revoke https://github.com/codex-storage/codex-testnet-starter/archive/master.tar.gz
    ```
 
-1. Extract the contents of the tar file, and then delete it:
+2. Extrae el contenido del archivo tar, y luego elimínalo:
    ```batch
    tar xzvf master.tar.gz
    del master.tar.gz
    ```
 
-2. Navigate to the scripts folder:
+3. Navega a la carpeta de scripts:
    ```batch
    cd codex-testnet-starter-master\scripts\windows
    ```
 
-3. Download Codex binaries from GitHub releases:
+4. Descarga los binarios de Codex desde las versiones de GitHub:
    ```batch
    download-online.bat
    ```
 
-4. Generate an ethereum keypair:
+5. Genera claves de Ethereum:
    ```batch
    generate.bat
    ```
-   Your private key will be saved to `eth.key` and address to  `eth.address` file.
+  Tu clave privada se guardará en el archivo  `eth.key` y la dirección en el archivo  `eth.address` .
 
-5. Fill-up your address shown on the screen with the tokens:
-   - Use the web faucets to mint some [ETH](https://faucet-eth.testnet.codex.storage) and [TST](https://faucet-tst.testnet.codex.storage) tokens.
-   - We can also do this using Discord [# bot](https://discord.com/channels/895609329053474826/1230785221553819669) channel
-     - Use `/set ethaddress` command to enter your generated address
-     - Use `/mint` command to receive ETH and TST tokens
-     - Use `/balance` command to check if you have received test tokens successfully
+5. Completa tu dirección que se muestra en la pantalla con los tokens:
+   - Usa los grifos web para acuñar algunos [ETH](https://faucet-eth.testnet.codex.storage) y los tokens [TST](https://faucet-tst.testnet.codex.storage) .
+   - También podemos hacer esto usando el canal Discord [# bot](https://discord.com/channels/895609329053474826/1230785221553819669) .
+     - Use `/set ethaddress` comando para ingresar su dirección generada
+     - Use `/mint` comando para recibir ETH y tokens TST
+     - Use `/balance` comando para verificar si recibió los tokens de prueba con éxito
 
-6. Run Codex node:
+
+7. Ejecuta el nodo Codex:
    ```batch
    run-client.bat
    ```
 
- 7. Configure [port forwarding](#basic-common) and we are ready go to.
+ 8. Configura el [reenvío de puertos](#basic-common) y ya estaría.
 
-### All OS {#basic-common}
+### Todos los SO {#basic-common}
 
-Configure [port forwarding](https://en.wikipedia.org/wiki/Port_forwarding) on your Internet router
-| # | Protocol | Port   | Description       |
+Configura el [reenvío de puertos](https://en.wikipedia.org/wiki/Port_forwarding) en tu router
+| # | Protocolo | Puerto   | Descripción      |
 | - | -------- | ------ | ----------------- |
-| 1 | `UDP`    | `8090` | `Codex Discovery` |
-| 2 | `TCP`    | `8070` | `Codex Transport` |
+| 1 | `UDP`    | `8090` | `Descubrimiento de Codex` |
+| 2 | `TCP`    | `8070` | `Transporte de Codex` |
 
-After your node is up and running, you can use the [Codex API](/developers/api) to be able to interact with your Codex node, please check our [API walk-through](/learn/using) for more details.
+Una vez que tu nodo esté en funcionamiento, puedes utilizar la [API de Codex](/developers/api) para interactuar con tu nodo Codex. Por favor, revisa nuestro [recorrido por la API](/learn/using) para más detalles.
 
-You also can use [Codex App UI](https://app.codex.storage) to interact with your local Codex node.
+También puedes utilizar la [Interfaz de Usuario de la App de Codex](https://app.codex.storage) para interactuar con tu nodo Codex local.
 
-Need help? Reach out to us in [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) channel or check [troubleshooting guide](/learn/troubleshoot.md).
+¿Necesitas ayuda? Contáctanos en el canal [#:sos:|node-help](https://discord.com/channels/895609329053474826/1286205545837105224) o revisa la [guía de resolución de problemas](/learn/troubleshoot.md).
 
-## Running a Storage Provider (Web Version) {#sp-guide-web}
+## Ejecutando un Proveedor de Almacenamiento (Versión Web) {#sp-guide-web}
+Trabajo en progreso :construction:
 
-Work in progress :construction:
+## Datos de la Testnet
 
-## Testnet Data
-
-### Bootstrap Nodes
+### Nodos Bootstrap
 **Codex**
 ```shell
 spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
@@ -184,20 +184,20 @@ enode://6eeb3b3af8bef5634b47b573a17477ea2c4129ab3964210afe3b93774ce57da832eb110f
 enode://6ba0e8b5d968ca8eb2650dd984cdcf50acc01e4ea182350e990191aadd79897801b79455a1186060aa3818a6bc4496af07f0912f7af53995a5ddb1e53d6f31b5@209.38.160.40:40070
 ```
 
-### Smart contracts
+### Contratos Inteligentes
 
-| Contract    | Address                                                                                                                                   |
+| Contract    | Dirección                                                                                                                                   |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Token       | [`0x34a22f3911De437307c6f4485931779670f78764`](https://explorer.testnet.codex.storage/address/0x34a22f3911De437307c6f4485931779670f78764) |
-| Verifier    | [`0x02dd582726F7507D7d0F8bD8bf8053d3006F9092`](https://explorer.testnet.codex.storage/address/0x02dd582726F7507D7d0F8bD8bf8053d3006F9092) |
+| Dirección    | [`0x02dd582726F7507D7d0F8bD8bf8053d3006F9092`](https://explorer.testnet.codex.storage/address/0x02dd582726F7507D7d0F8bD8bf8053d3006F9092) |
 | Marketplace | [`0xAB03b6a58C5262f530D54146DA2a552B1C0F7648`](https://explorer.testnet.codex.storage/address/0xAB03b6a58C5262f530D54146DA2a552B1C0F7648) |
 
-### Endpoints
+### Puntos de Acceso (Endpoints)
 
 | # | Service         | URL                                                                          |
 | - | --------------- | ---------------------------------------------------------------------------- |
-| 1 | Geth Public RPC | [rpc.testnet.codex.storage](https://rpc.testnet.codex.storage)               |
-| 2 | Block explorer  | [explorer.testnet.codex.storage](https://explorer.testnet.codex.storage)     |
+| 1 | Geth RPC Público | [rpc.testnet.codex.storage](https://rpc.testnet.codex.storage)               |
+| 2 | Explorador de Bloques  | [explorer.testnet.codex.storage](https://explorer.testnet.codex.storage)     |
 | 3 | Faucet ETH      | [faucet-eth.testnet.codex.storage](https://faucet-eth.testnet.codex.storage) |
 | 4 | Faucet TST      | [faucet-tst.testnet.codex.storage](https://faucet-tst.testnet.codex.storage) |
-| 5 | Status page     | [status.testnet.codex.storage](https://status.testnet.codex.storage)         |
+| 5 | Página de Estado     | [status.testnet.codex.storage](https://status.testnet.codex.storage)         |
