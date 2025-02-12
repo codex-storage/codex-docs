@@ -1,19 +1,20 @@
-# Codex networks
+# Redes de Codex
 
- At Codex, we are launching several networks which are used for different purposes
- | Network            | Status                  | Blockchain                                                              | Purpose                                                                 |
+En Codex, estamos lanzando varias redes que se utilizan para diferentes propósitos.
+ | Red         | Estado               | Blockchain                                                              | Propósito                                                                |
  | ------------------ | ----------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
- | Devnet             | :building_construction: | [Geth PoA](https://geth.ethereum.org/docs/fundamentals/private-network) | Dedicated for development purposes and following latest `master` builds |
- | [Testnet](testnet) | :white_check_mark:      | [Geth PoA](https://geth.ethereum.org/docs/fundamentals/private-network) | A public network for testing purposes, following latest releases        |
- | Mainnet            | :construction:          | :construction:                                                          | A main public network                                                   |
+ | Devnet             | :building_construction: | [Geth PoA](https://geth.ethereum.org/docs/fundamentals/private-network) | Dedicada a fines de desarrollo y siguiendo las últimas compilaciones de la rama principal `master`  |
+ | [Testnet](testnet) | :white_check_mark:      | [Geth PoA](https://geth.ethereum.org/docs/fundamentals/private-network) | Una red pública para fines de prueba, siguiendo las últimas versiones publicadas       |
+ | Mainnet            | :construction:          | :construction:                                                          | Una red pública principal                                            |
 
- The main difference between networks are following
- - Network purpose
- - Bootstrap nodes
- - Number of storage nodes
- - Available storage volume
- - Blockchain network
- - Marketplace contract version
- - Circuit files set used for proof verification
+La principal diferencia entre las redes es la siguiente:
 
- The easiest way to start to use Codex is to [Join Testnet](testnet).
+*   Propósito de la red
+*   Nodos de bootstrap
+*   Número de nodos de almacenamiento
+*   Volumen de almacenamiento disponible
+*   Red Blockchain
+*   Versión del contrato Marketplace
+*   Conjunto de archivos de circuito utilizados para la verificación de pruebas
+
+La forma más fácil de empezar a usar Codex es [unirse a la Testnet](testnet).
