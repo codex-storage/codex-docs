@@ -1,276 +1,277 @@
 ---
 outline: [1, 3]
 ---
-# Codex Tokenomics Litepaper - Testnet Version
+# Codex Tokenomics Litepaper - Versión Testnet
 
-**Codex: A Decentralized Storage Protocol for Durable Information**
+**Codex: Un Protocolo de Almacenamiento Descentralizado para Información Duradera**
 
-# Legal Notices
+# Avisos Legales
 
-*The information contained in this document is intended to be made available for informational purposes only and does not constitute a prospectus, nor an offer to buy, a solicitation or an invitation to buy, or a recommendation for any token or any security. Neither this document nor any of its content should be considered as creating any expectations or forming the basis of any contract, commitment or binding obligation. No information herein should be considered to contain or be relied upon as a promise, representation, warranty or guarantee, whether express or implied and whether as to the past, present or the future in relation to the projects and matters described herein. The information presented is a summary and does not purport to be accurate, reliable or complete. This document is under continuous legal review and may be amended or supplemented at any time without prior notice.  No responsibility will be borne for the accuracy, reliability or completeness of information contained herein. Because of the high degree of risk and uncertainty described above, undue reliance should not be placed by anyone on any matters described in this document. Any tokens referenced in this document have not been registered under any securities laws and may not be offered or sold in any jurisdiction where such offer or sale would be prohibited.*
+*La información contenida en este documento tiene como objetivo ser puesta a disposición únicamente con fines informativos y no constituye un prospecto, ni una oferta de compra, una solicitud o una invitación a comprar, ni una recomendación para ningún token o valor. Ni este documento ni ninguno de sus contenidos deben considerarse como la creación de expectativas o la base de ningún contrato, compromiso u obligación vinculante. Ninguna información aquí contenida debe considerarse como conteniendo o debiendo ser invocada como una promesa, representación, garantía, ya sea expresa o implícita, y ya sea en relación con el pasado, el presente o el futuro en relación con los proyectos y asuntos aquí descritos. La información presentada es un resumen y no pretende ser precisa, fiable o completa. Este documento está bajo revisión legal continua y puede ser modificado o complementado en cualquier momento sin previo aviso. No se asumirá ninguna responsabilidad por la precisión, fiabilidad o integridad de la información contenida en este documento. Debido al alto grado de riesgo e incertidumbre descrito anteriormente, nadie debe depositar una confianza indebida en ningún asunto descrito en este documento. Cualquier token al que se haga referencia en este documento no ha sido registrado bajo ninguna ley de valores y no puede ser ofrecido o vendido en ninguna jurisdicción donde dicha oferta o venta esté prohibida.*
 
-*This document may contain forward-looking statements that are based only on current expectations, estimates, forecasts, assumptions and projections about the technology, industry and markets in general. The forward looking statements, projects, content and any other matters described in this document are subject to a high degree of risk and uncertainty. The roadmap, results, project descriptions, technical details, functionalities, and other features are subject to change based on, among other things, market conditions, technical developments, and regulatory environment. The actual development and results, including the order and the timeline, might differ materially from those anticipated in these forward-looking statements.*
+*Este documento puede contener declaraciones prospectivas que se basan únicamente en expectativas, estimaciones, previsiones, suposiciones y proyecciones actuales sobre la tecnología, la industria y los mercados en general. Las declaraciones prospectivas, los proyectos, el contenido y cualquier otro asunto descrito en este documento están sujetos a un alto grado de riesgo e incertidumbre. La hoja de ruta, los resultados, las descripciones de los proyectos, los detalles técnicos, las funcionalidades y otras características están sujetos a cambios basados, entre otras cosas, en las condiciones del mercado, los desarrollos técnicos y el entorno regulatorio. El desarrollo y los resultados reales, incluyendo el orden y el calendario, podrían diferir materialmente de los previstos en estas declaraciones prospectivas.*
 
-*The information contained in this document does not constitute financial, legal, tax, investment, professional or other advice and should not be treated as such.*
+*La información contenida en este documento no constituye asesoramiento financiero, legal, fiscal, de inversión, profesional o de otro tipo y no debe ser tratada como tal.*
 
-# Overview
+# Descripción General
 
-## Scope
+## Alcance
 
-This document describes the Codex Tokenomics with elements that reflect the Testnet deployment of the Codex Protocol.
+Este documento describe los Tokenomics de Codex con elementos que reflejan el despliegue de Testnet del Protocolo Codex.
 
-## What Codex Does
+## Qué Hace Codex
 
-Codex is a state-of-the-art decentralized storage platform that offers a novel solution that enhances data durability guarantees for storing vast amounts of data while eliminating any reliance on centralized institutions that could lead to a single point of failure.
+Codex es una plataforma de almacenamiento descentralizada de última generación que ofrece una solución novedosa que mejora las garantías de durabilidad de los datos para almacenar grandes cantidades de datos, eliminando al mismo tiempo cualquier dependencia de instituciones centralizadas que puedan conducir a un único punto de fallo.
 
-While centralized storage systems such as Google Cloud tout eleven nines of durability, durable file storage in distributed systems that provide censorship resistance and privacy are a vital prerequisite to use cases such as preserving factual records of history in network states.
+Mientras que los sistemas de almacenamiento centralizados como Google Cloud pregonan once nueves de durabilidad, el almacenamiento duradero de archivos en sistemas distribuidos que proporcionan resistencia a la censura y privacidad es un requisito previo vital para casos de uso como la preservación de registros factuales de la historia en los estados de la red.
 
-While no system can guarantee absolute protection against data loss, through its technical architecture, economic incentives, and algorithmic encoding, Codex is designed to provide highly decentralized data storage with high durability, resiliency to cloud failures, and resistance to censorship.
+Aunque ningún sistema puede garantizar una protección absoluta contra la pérdida de datos, a través de su arquitectura técnica, incentivos económicos y codificación algorítmica, Codex está diseñado para proporcionar un almacenamiento de datos altamente descentralizado con alta durabilidad, resistencia a los fallos de la nube y resistencia a la censura.
 
-## How Codex Works
+## Cómo Funciona Codex
 
-Codex operates as a network of storage nodes, referred to herein as **Storage Providers** (SP), that store user data for the duration of a contract entered into by SPs and storage users, referred to herein simply as **Clients**.
+Codex opera como una red de nodos de almacenamiento, denominados aquí **Proveedores de Almacenamiento** (SP), que almacenan los datos del usuario durante la duración de un contrato celebrado por los SP y los usuarios de almacenamiento, denominados aquí simplemente **Clientes**.
 
-Storage contracts are initiated by a **Client** requesting to store a specified amount of data, for a specified amount of time, and at a specific price per the full contract. **Storage Providers** commit to slots to store redundant fragments of this data.
+Los contratos de almacenamiento son iniciados por un **Cliente** que solicita almacenar una cantidad específica de datos, durante una cantidad específica de tiempo, y a un precio específico por la totalidad del contrato. Los **Proveedores de Almacenamiento** se comprometen a espacios para almacenar fragmentos redundantes de estos datos.
 
-The fact that **SPs** must post collateral (stake) in order to fill a slot helps protect against Sybil attacks, promoting diversity in storage nodes fulfilling each contract. Additionally, this collateral acts as an economic incentive to ensure that **SPs** fulfill their obligations to periodically prove that they are still in possession of the data in question.
+El hecho de que los **SPs** deban depositar colateral (stake) para ocupar un espacio ayuda a proteger contra los ataques Sybil, promoviendo la diversidad en los nodos de almacenamiento que cumplen cada contrato. Además, este colateral actúa como un incentivo económico para garantizar que los **SPs** cumplan con sus obligaciones de probar periódicamente que todavía están en posesión de los datos en cuestión.
 
-This is achieved by periodic challenges to **SPs** to provide cryptographic proofs that demonstrate the data they have contracted to store can be retrieved. Codex incorporates Zero Knowledge (ZK) and Data Availability Sampling (DAS) to achieve low-cost, highly efficient, and reliable data loss detection.
+Esto se logra mediante desafíos periódicos a los **SPs** para proporcionar pruebas criptográficas que demuestren que los datos que han contratado para almacenar pueden ser recuperados. Codex incorpora Zero Knowledge (ZK) y Data Availability Sampling (DAS) para lograr una detección de pérdida de datos de bajo costo, altamente eficiente y fiable.
 
-**SPs** are required to respond to these challenges, sending their proofs to **Validators,** who verify the validity of the proofs and posts to the blockchain only the absence of a proof. This reduces costs of validating proofs, while not affecting the **Protocol**’s security.
+Los **SPs** están obligados a responder a estos desafíos, enviando sus pruebas a los **Validadores,** quienes verifican la validez de las pruebas y publican en la blockchain sólo la ausencia de una prueba. Esto reduce los costos de validación de las pruebas, sin afectar la seguridad del **Protocolo**.
 
-Should SPs fail to prove a fixed number of times they still have the data in question, or send an invalid proof, their collateral is partially slashed. The slash penalty is a fixed percentage of the total collateral. This slashing continues until a certain number of slashings is reached, at which point the entire collateral is slashed. At this moment, the SP slot is considered “abandoned”. The slashed collateral is used as an incentive for a new **SP** to take over the failed slot through the “slot recovery mechanism” (discussed further later). This ensures the collateral provides an economic incentive to ensure the durability of the data.
+Si los SPs no prueban un número fijo de veces que todavía tienen los datos en cuestión, o envían una prueba no válida, su colateral se reduce parcialmente. La penalización por slash es un porcentaje fijo del colateral total. Este slashing continúa hasta que se alcanza un cierto número de slashings, momento en el cual todo el colateral se reduce. En este momento, el espacio del SP se considera "abandonado". El colateral reducido se utiliza como incentivo para que un nuevo **SP** se haga cargo del espacio fallido a través del "mecanismo de recuperación de espacios" (discutido más adelante). Esto asegura que el colateral proporcione un incentivo económico para asegurar la durabilidad de los datos.
 
-Codex is thus designed such that rational behavior for **SPs** consists of storing the data in the most space-efficient manner to minimize excess storage costs, while balancing the need for enough redundancy to recover from the possibility of data loss/corruption by the penalty of forfeiture of their collateral (slashing).
+Codex está por lo tanto diseñado de tal manera que el comportamiento racional para los **SPs** consiste en almacenar los datos de la manera más eficiente en cuanto a espacio para minimizar los costos excesivos de almacenamiento, al tiempo que se equilibra la necesidad de suficiente redundancia para recuperarse de la posibilidad de pérdida/corrupción de datos por la penalización de la pérdida de su colateral (slashing).
 
-While Codex’s tech maximizes recoverability and durability in the event of partial data loss, Codex’s economic incentives coordinate rational actors to provide a stable and predictable environment for data storage users. At the heart of these economic incentives is the Codex utility token (CDX), which serves as the collateral to protect file durability and facilitate slot repair, and the means of payment to coordinate successful storage contracts.
+Mientras que la tecnología de Codex maximiza la recuperabilidad y la durabilidad en el caso de una pérdida parcial de datos, los incentivos económicos de Codex coordinan a los actores racionales para proporcionar un entorno estable y predecible para los usuarios de almacenamiento de datos. En el corazón de estos incentivos económicos está el token de utilidad Codex (CDX), que sirve como colateral para proteger la durabilidad de los archivos y facilitar la reparación de los espacios, y el medio de pago para coordinar los contratos de almacenamiento exitosos.
 
-# Contract Lifecycle
+# Ciclo de Vida del Contrato
 
-The marketplace coordinates matching **Clients** who want to pay for storing files with **Storage Providers** who are offering storage space and posting collateral in order to earn payments for the contract.
+El mercado coordina el emparejamiento de **Clientes** que quieren pagar por almacenar archivos con **Proveedores de Almacenamiento** que ofrecen espacio de almacenamiento y depositan colateral con el fin de obtener pagos por el contrato.
 
-## Contract Request Initiation
+## Inicio de la Solicitud de Contrato
 
-As a design principle, **Clients** should post the deal terms they are looking for, and Storage Providers prioritize which deals meet their criteria and pose the best deals to take.
+Como principio de diseño, los **Clientes** deben publicar los términos del acuerdo que están buscando, y los Proveedores de Almacenamiento priorizan qué acuerdos cumplen con sus criterios y presentan las mejores ofertas para tomar.
 
-When the contract request is created, the **Client** deposits the full price of the length of the contract at that time. This deposit acts as a spam prevention mechanism and ensures that **SP** time and resources are not wasted filling slots for deals that a **Client** does not complete payment for.
+Cuando se crea la solicitud de contrato, el **Cliente** deposita el precio total de la duración del contrato en ese momento. Este depósito actúa como un mecanismo de prevención de spam y asegura que el tiempo y los recursos de **SP** no se desperdicien llenando espacios para acuerdos por los cuales un **Cliente** no completa el pago.
 
-## Storage Providers Fill Requests
+## Los Proveedores de Almacenamiento Llenan las Solicitudes
 
-Ahead of matching with storage contracts, **Storage Providers** specify their aggregate availabilities for new contracts.
+Antes de emparejarse con contratos de almacenamiento, los **Proveedores de Almacenamiento** especifican sus disponibilidades agregadas para nuevos contratos.
 
-Based on each **SPs’** availabilities, a queue is created for each **SP**, ranking the open **Client** request for contract deals with the most favorable deals at the top. Over time, this queue resolves by pairing **SPs** with contracts that are compatible with their availabilities, starting with the highest ranked deals first.
+En base a las disponibilidades de cada **SP**, se crea una cola para cada **SP**, clasificando la solicitud de **Cliente** abierta para acuerdos de contrato con los acuerdos más favorables en la parte superior. Con el tiempo, esta cola se resuelve emparejando **SPs** con contratos que son compatibles con sus disponibilidades, comenzando con los acuerdos mejor clasificados primero.
 
-At launch, **SPs** will not be able to customize the queue creation algorithm, which means **SPs** with the same availabilities will have identical queues (other than differences due to a randomness function that increases **SP** diversity per each contract). In the future, **SPs** are expected to be able to customize their queue ranking algorithm.
+En el lanzamiento, los **SPs** no podrán personalizar el algoritmo de creación de colas, lo que significa que los **SPs** con las mismas disponibilidades tendrán colas idénticas (aparte de las diferencias debidas a una función de aleatoriedad que aumenta la diversidad de **SP** por cada contrato). En el futuro, se espera que los **SPs** puedan personalizar su algoritmo de clasificación de colas.
 
-If a **SP** matches with a storage contract and they're eligible to reserve a slot in the contract, they reserve an open slot, download the slot data from the **Client** or existing **SPs** whose data can be used to reconstruct the slot’s contents, create an initial storage proof, and submit this proof, along with collateral, to the **Protocol**.
+Si un **SP** coincide con un contrato de almacenamiento y es elegible para reservar un espacio en el contrato, reserva un espacio abierto, descarga los datos del espacio del **Cliente** o de los **SPs** existentes cuyos datos pueden utilizarse para reconstruir el contenido del espacio, crea una prueba de almacenamiento inicial y envía esta prueba, junto con el colateral, al **Protocolo**.
 
-Note that a slot is not considered confirmed as filled until after an **SP** both posts associated collateral and produces a proof for the slot.
+Tenga en cuenta que un espacio no se considera confirmado como llenado hasta después de que un **SP** publique tanto el colateral asociado como produzca una prueba para el espacio.
 
-## Contract Expires Before Beginning
+## El Contrato Caduca Antes de Comenzar
 
-If there are still empty slots when the timeout/expiry for the contract request expires, the deal is terminated.
+Si todavía hay espacios vacíos cuando el tiempo de espera/vencimiento de la solicitud de contrato expira, el acuerdo se termina.
 
-The **Storage Providers** who did fill slots, if any, are compensated for the amount of time which they did store the slot data, at the contract requests specified price per TB per Month. The remainder of the **Client**’s deposit is returned. 
+Los **Proveedores de Almacenamiento** que sí llenaron espacios, si los hay, son compensados por la cantidad de tiempo durante el cual almacenaron los datos del espacio, al precio especificado en las solicitudes de contrato por TB por Mes. El resto del depósito del **Cliente** es devuelto.
 
-As there is a high probability of having at least a few slots occupied, there should be no need for further penalties on the **Client** to prevent spam requests and incentivise **Clients** to submit attractive deals.
+Como hay una alta probabilidad de tener al menos algunos espacios ocupados, no debería haber necesidad de más sanciones para el **Cliente** para prevenir solicitudes de spam e incentivar a los **Clientes** a presentar acuerdos atractivos.
 
-## Contract Begins
+## El Contrato Comienza
 
-The contract begins if *all* slots are occupied, that is, **SPs** have downloaded the data, posted collateral, and posted proofs before the timeout/expiry for the contract request is reached.
+El contrato comienza si *todos* los espacios están ocupados, es decir, los **SPs** han descargado los datos, publicado el colateral y publicado las pruebas antes de que se alcance el tiempo de espera/vencimiento de la solicitud de contrato.
 
-At this moment, a *protocol fee* is applied on the user’s deposit. The proceedings are burned.
+En este momento, se aplica una *tasa de protocolo* sobre el depósito del usuario. El producto se quema.
 
-The remaining of the client’s deposit is held by the protocol and will be used to pay **SPs** at the end of the contract.
+El resto del depósito del cliente es retenido por el protocolo y se utilizará para pagar a los **SPs** al final del contrato.
 
-## Contract is Running
+## El Contrato Está en Curso
 
-**Storage Providers** must submit proofs to **Validators** according to the storage request’s proof frequency, a parameter set by the Client in the request.
+Los **Proveedores de Almacenamiento** deben enviar pruebas a los **Validadores** de acuerdo con la frecuencia de prueba de la solicitud de almacenamiento, un parámetro establecido por el Cliente en la solicitud.
 
-### Missing Proofs
+### Falta de Pruebas
 
-If an **SP** fails to submit proofs within the rolling last periods, they are partially slashed. The penalty is a fixed percentage of the collateral. Upon provision of a proof after being partially slashed, the SP should top up the missing collateral.
+Si un **SP** no envía pruebas dentro de los últimos períodos de tiempo, se le reduce parcialmente. La penalización es un porcentaje fijo del colateral. Tras la presentación de una prueba después de haber sido parcialmente reducido, el SP debe reponer el colateral faltante.
 
-Should the SP be slashed enough times, their entire collateral will be slashed and confiscated, and the SP is considered to have abandoned its slot. The provision of a correct proof at this moment will not revert the start of the slot recovery mechanism.
+Si el SP es reducido suficientes veces, todo su colateral será reducido y confiscado, y se considera que el SP ha abandonado su espacio. La provisión de una prueba correcta en este momento no revertirá el inicio del mecanismo de recuperación del espacio.
 
-## A Slot in the Contract is Abandoned
+## Un Espacio en el Contrato es Abandonado
 
-When an **SP** fails to submit enough proofs such that they are slashed enough times, their slot is considered abandoned. In order to incentivize a new **SP** to come in and takeover the abandoned slot (slot recovery), 50% of the collateral confiscated from the **SP** which has abandoned the slot is used as an incentive to the new **SP**. The remaining confiscated collateral is burned.
+Cuando un **SP** no envía suficientes pruebas de tal manera que se le reduce suficientes veces, su espacio se considera abandonado. Con el fin de incentivar a un nuevo **SP** a entrar y hacerse cargo del espacio abandonado (recuperación del espacio), el 50% del colateral confiscado del **SP** que ha abandonado el espacio se utiliza como un incentivo para el nuevo **SP**. El colateral confiscado restante se quema.
 
-This helps align the economic incentive for **SPs** to take over abandoned slots before filling new deals, since they can effectively earn forfeited collateral for taking over and fulfilling abandoned slots.
+Esto ayuda a alinear el incentivo económico para que los **SPs** se hagan cargo de los espacios abandonados antes de llenar nuevos acuerdos, ya que pueden ganar colateral perdido por hacerse cargo y cumplir los espacios abandonados.
 
-## Contract Defaults
+## El Contrato Incumple
 
-If, at any time during the life of the storage contract, the number of slots currently in an abandoned state (not yet recovered), meets or exceeds the maximum number of storage slots that can be lost before the data is unrecoverable, then the entire storage deal is considered to be in a *failed* state.
+Si, en cualquier momento durante la vida del contrato de almacenamiento, el número de espacios actualmente en un estado abandonado (aún no recuperado), alcanza o excede el número máximo de espacios de almacenamiento que se pueden perder antes de que los datos sean irrecuperables, entonces todo el acuerdo de almacenamiento se considera que está en un estado *fallido*.
 
-Each **Storage Providers** posted collateral is burned. This incentivizes **SPs** not to let storage deals to be at risk of defaulting. **SPs** are incentivized to *proactively* avoid this by diversifying their infrastructure and the storage contracts they enter, and *reactively* by backing up their own slot data, or even backing up data from other slots so they can better assist slot recovery, as the deal approaches a failed state.
+El colateral publicado por cada **Proveedor de Almacenamiento** se quema. Esto incentiva a los **SPs** a no dejar que los acuerdos de almacenamiento corran el riesgo de incumplimiento. Los **SPs** están incentivados a *evitar proactivamente* esto diversificando su infraestructura y los contratos de almacenamiento en los que entran, y *reactivamente* haciendo copias de seguridad de los datos de sus propios espacios, o incluso haciendo copias de seguridad de los datos de otros espacios para que puedan ayudar mejor a la recuperación del espacio, a medida que el acuerdo se acerca a un estado fallido.
 
-Clients also receive back any leftover from their original payment.
+Los Clientes también reciben de vuelta cualquier sobrante de su pago original.
 
-## Contract Ends Its Full Duration
+## El Contrato Termina Su Duración Completa
 
-When a started contract reaches its pre-specified duration without having previously defaulted, the contract completes.
+Cuando un contrato iniciado alcanza su duración pre-especificada sin haber incumplido previamente, el contrato se completa.
 
-All collateral is returned to **SPs t**hat currently fill the slots (note due to slot recovery these are not necessarily the same **SPs** that filled the slots at contract inception), and all remaining payment is returned to the client.
+Todo el colateral es devuelto a los **SPs** que actualmente llenan los espacios (tenga en cuenta que, debido a la recuperación de los espacios, estos no son necesariamente los mismos **SPs** que llenaron los espacios al principio del contrato), y todo el pago restante es devuelto al cliente.
 
-Deals can not be automatically rolled forward or extended. If a **Client** desires to continue a deal, they must create a new storage contract request. Otherwise, Clients can retrieve their data.
+Los acuerdos no pueden renovarse o extenderse automáticamente. Si un **Cliente** desea continuar un acuerdo, debe crear una nueva solicitud de contrato de almacenamiento. De lo contrario, los clientes pueden recuperar sus datos.
 
-# CDX Testnet  Tokenomics
+# CDX Testnet Tokenomics
 
-The CDX token does not exist in the Testnet Phase. The description below refers to the mechanics of a Testnet token and not CDX itself and will be referred to as *CDX (Testnet token)* for this purpose.
+El token CDX no existe en la Fase Testnet. La descripción a continuación se refiere a la mecánica de un token Testnet y no al CDX en sí, y se denominará *CDX (Token Testnet)* para este propósito.
 
-For the avoidance of doubt, the *CDX (Testnet token)* are virtual items with no value of any kind and they are not convertible to any other currency, token, or any other form of property. They are solely intended to be utilised for the purposes of enabling the tokenomics and facilitating the different roles in this Testnet Phase.
+Para evitar dudas, los *CDX (Token Testnet)* son elementos virtuales sin valor de ningún tipo y no son convertibles a ninguna otra moneda, token o cualquier otra forma de propiedad. Están destinados únicamente a ser utilizados con el fin de habilitar la tokenomía y facilitar los diferentes roles en esta Fase Testnet.
 
 ## Roles
 
-The Codex protocol has two primary roles fulfilled by network participants.
+El protocolo Codex tiene dos roles principales cumplidos por los participantes de la red.
 
-- **Clients**: pay Storage Providers in *CDX (Testnet token)* to securely store their data on the Codex network for an agreed upon amount of time.
-- **Storage Providers**: post *CDX (Testnet token)* collateral to enter into storage contracts with Clients in exchange for a *CDX (Testnet token)* denominated payment.
-- **Validators**: post *CDX (Testnet token)* collateral to validate storage proofs in exchange for a *CDX (Testnet token)* denominated payment.
+- **Clientes**: pagan a los Proveedores de Almacenamiento en *CDX (Token Testnet)* para almacenar de forma segura sus datos en la red Codex durante una cantidad de tiempo acordada.
+- **Proveedores de Almacenamiento**: publican colateral *CDX (Token Testnet)* para celebrar contratos de almacenamiento con los Clientes a cambio de un pago denominado en *CDX (Token Testnet)*.
+- **Validadores**: publican colateral *CDX (Token Testnet)* para validar pruebas de almacenamiento a cambio de un pago denominado en *CDX (Token Testnet)*.
 
-## Token Utility
+## Utilidad del Token
 
-The *CDX (Testnet token)* is used as both a form of posted collateral and a means of payment in order to secure the network and access its services.
+El *CDX (Token Testnet)* se utiliza tanto como una forma de colateral publicado como un medio de pago para asegurar la red y acceder a sus servicios.
 
-Collateral is primarily used as a spam and sybil-attack prevention mechanism, liability insurance (e.g. compensating Clients in case of catastrophic loss of data), and to enforce rational behavior.
+El colateral se utiliza principalmente como un mecanismo de prevención de spam y ataques Sybil, seguro de responsabilidad (por ejemplo, compensación a los Clientes en caso de pérdida catastrófica de datos) y para hacer cumplir el comportamiento racional.
 
-Payments are made by Clients to Providers for services rendered, such as for storing data for a certain amount of time or retrieving data. This is implemented through the Marketplace contract, which serves as an escrow. Data in a storage contract is distributed into slots where each is, ideally, hosted by a different Storage Provider.
+Los pagos son realizados por los Clientes a los Proveedores por los servicios prestados, como el almacenamiento de datos durante un cierto período de tiempo o la recuperación de datos. Esto se implementa a través del contrato Marketplace, que actúa como un depósito en garantía. Los datos en un contrato de almacenamiento se distribuyen en espacios donde cada uno es, idealmente, alojado por un Proveedor de Almacenamiento diferente.
 
-### **For Clients**
+### **Para los Clientes**
 
-- Pay storage costs and fees in *CDX (Testnet token)* for storing files.
+- Pagar los costos de almacenamiento y las tarifas en *CDX (Token Testnet)* para almacenar archivos.
 
-### **For Storage Providers**
+### **Para los Proveedores de Almacenamiento**
 
-- Post collateral in *CDX (Testnet token)* when committing to new storage contracts. This collateral is slashed if they do not fulfill their agreed upon services.
-- Earn *CDX (Testnet token)* from the collateral of slashed Storage Providers by participating in the slot recovery mechanism.
-- Earn *CDX (Testnet token)* from Clients when successfully completing the storage service.
+- Publicar colateral en *CDX (Token Testnet)* al comprometerse con nuevos contratos de almacenamiento. Este colateral se reduce si no cumplen con sus servicios acordados.
+- Ganar *CDX (Token Testnet)* del colateral de los Proveedores de Almacenamiento reducidos participando en el mecanismo de recuperación de espacios.
+- Ganar *CDX (Token Testnet)* de los Clientes al completar con éxito el servicio de almacenamiento.
 
-### For Validators
+### Para los Validadores
 
-- Post collateral in *CDX (Testnet token)* to operate the validation service. This collateral is slashed if they do not mark a proof as missing within a predetermined period.
-- Earn *CDX (Testnet token)* from the collateral of slashed Storage Providers by marking proofs as missed
+- Publicar colateral en *CDX (Token Testnet)* para operar el servicio de validación. Este colateral se reduce si no marcan una prueba como faltante dentro de un período predeterminado.
+- Ganar *CDX (Token Testnet)* del colateral de los Proveedores de Almacenamiento reducidos marcando las pruebas como perdidas.
 
-Figure below depicts the flow of the *CDX (Testnet token)* token within the system.
+La siguiente figura muestra el flujo del token *CDX (Token Testnet)* dentro del sistema.
 
-![Flow of the *CDX token within the system](/learn/tokenomics-token-flow.png)
+![Flujo del token *CDX dentro del sistema](/learn/tokenomics-token-flow.png)
 
-## Value Capture and Accrual Mechanisms
+## Mecanismos de Captura y Acumulación de Valor
 
-Codex creates *value* to participants:
+Codex crea *valor* para los participantes:
 
-- Clients can benefit from storing data with strong durability guarantees;
-- Storage Providers can earn yield from their spare resources or capital by providing a service.
-- Validators earn payouts for marking proofs as missing.
+- Los clientes pueden beneficiarse del almacenamiento de datos con fuertes garantías de durabilidad;
+- Los proveedores de almacenamiento pueden obtener rendimiento de sus recursos o capital de repuesto al proporcionar un servicio.
+- Los validadores obtienen pagos por marcar las pruebas como perdidas.
 
-Clients need *CDX (Testnet token)* tokens to request storage deals. *CDX (Testnet token)* captures the value created to Clients by being a *Value Transfer Token* to them.
+Los clientes necesitan tokens *CDX (Token Testnet)* para solicitar acuerdos de almacenamiento. *CDX (Token Testnet)* captura el valor creado para los Clientes al ser un *Token de Transferencia de Valor* para ellos.
 
-Storage Providers and Validators are rewarded in *CDX (Testnet token)* token and also need it as a proof of commitment to the Protocol. They risk being slashed in exchange for rewards. *CDX (Testnet token)* captures the value created to Providers by being a *Work Token* to them.
+Los proveedores de almacenamiento y los validadores son recompensados con el token *CDX (Token Testnet)* y también lo necesitan como prueba de compromiso con el Protocolo. Se arriesgan a ser reducidos a cambio de recompensas. *CDX (Token Testnet)* captura el valor creado para los Proveedores al ser un *Token de Trabajo* para ellos.
 
-The following mechanisms describe how the value accrues to the *CDX (Testnet token)* token.
+Los siguientes mecanismos describen cómo el valor se acumula en el token *CDX (Token Testnet)*.
 
-### Protocol Fee over Contracts
+### Tarifa de Protocolo sobre los Contratos
 
-If the contract is canceled before it starts, Client's deposited amount is charged a small penalty and returned, aiding to prevent low quality spam deal requests.
+Si el contrato se cancela antes de que comience, al monto depositado por el Cliente se le cobra una pequeña penalización y se devuelve, lo que ayuda a prevenir solicitudes de acuerdos de spam de baja calidad.
 
-If the contract successfully initiates, the protocol collects a fee for facilitating the transaction. The remaining amount is made available for payments to Storage Providers.
+Si el contrato se inicia con éxito, el protocolo cobra una tarifa por facilitar la transacción. El monto restante se pone a disposición para los pagos a los Proveedores de Almacenamiento.
 
-The collected fees are burned in both cases. This creates a small but constant deflationary force on the token supply, which is proportional to the product demand.
+Las tarifas cobradas se queman en ambos casos. Esto crea una fuerza deflacionaria pequeña pero constante en el suministro del token, que es proporcional a la demanda del producto.
 
-## Behavior & Motivations
+## Comportamiento y Motivaciones
 
-### Clients
+### Clientes
 
-Clients have the following rational behavior:
+Los clientes tienen el siguiente comportamiento racional:
 
-- Requesting storage from the network with a fee at fair market rates
-- Providing data to storage nodes that meet their criteria
+- Solicitar almacenamiento de la red con una tarifa a tasas de mercado justas
+- Proporcionar datos a los nodos de almacenamiento que cumplan con sus criterios
 
-They may also exhibit the following adversarial behavior, whether for profit driven, malicious, or censorship motivations:
+También pueden exhibir el siguiente comportamiento desfavorable, ya sea por motivaciones impulsadas por las ganancias, maliciosas o de censura:
 
-- Requesting storage from the network but never making the data available for any or all slots
-- Requesting storage from the network but not releasing the data within required time period to begin the contract successfully
-- Requesting storage from the network but not releasing the data to specific Providers
-- Attacking SPs that host their data to attempt to relieve their payment obligations at the end of the contract.
+- Solicitar almacenamiento a la red, pero nunca hacer que los datos estén disponibles para ninguno o todos los espacios.
+- Solicitar almacenamiento a la red, pero no liberar los datos dentro del período de tiempo requerido para comenzar el contrato con éxito
+- Solicitar almacenamiento a la red, pero no liberar los datos a Proveedores específicos
+- Atacar a los SP que alojan sus datos para intentar aliviar sus obligaciones de pago al final del contrato.
 
-### **Storage Providers**
+### **Proveedores de Almacenamiento**
 
-Storage Providers have the following rational behavior:
+Los proveedores de almacenamiento tienen el siguiente comportamiento racional:
 
-- Committing to slots of storage contracts to earn a fee.
-- Providing proofs of storage for their committed slots to avoid collateral slashing penalties.
-- Releasing the data to anyone who requests it.
-- Committing to failed slots of storage contracts to maintain the integrity of the data
+- Comprometerse con espacios de contratos de almacenamiento para ganar una tarifa.
+- Proporcionar pruebas de almacenamiento para sus espacios comprometidos para evitar las penalizaciones por reducción del colateral.
+- Liberar los datos a cualquiera que los solicite.
+- Comprometerse con espacios fallidos de contratos de almacenamiento para mantener la integridad de los datos
 
-They may also exhibit the following adversarial behavior, whether for profit driven, malicious, or censorship motivations:
+También pueden exhibir el siguiente comportamiento desfavorable, ya sea por motivaciones impulsadas por las ganancias, maliciosas o de censura:
 
-- Reserving a contract slot but never filling it (attempt to prevent contract from starting)
-- Ceasing to provide proofs mid the lifespan of a contract
-- Producing proofs, but not making data available for other nodes to retrieve
+- Reservar un espacio de contrato, pero nunca llenarlo (intento de evitar que el contrato comience)
+- Dejar de proporcionar pruebas a mitad de la vida útil de un contrato
+- Producir pruebas, pero no hacer que los datos estén disponibles para que otros nodos los recuperen
 
-### Validators
+### Validadores
 
-Validators have the following rational behavior:
+Los validadores tienen el siguiente comportamiento racional:
 
-- Marking a proof as missing to earn a fee
-- Tracking the history of missed proofs of a **SP**
-- Triggering the Slot Recovery Mechanism when an **SP** reaches the maximum allowed number of missed proofs
+- Marcar una prueba como perdida para ganar una tarifa
+- Rastrear el historial de pruebas perdidas de un **SP**
+- Activar el Mecanismo de Recuperación de Espacios cuando un **SP** alcanza el número máximo permitido de pruebas perdidas
 
-They may also exhibit the following adversarial behavior, whether for profit driven, malicious, or censorship motivations:
+También pueden exhibir el siguiente comportamiento desfavorable, ya sea por motivaciones impulsadas por las ganancias, maliciosas o de censura:
 
-- Colluding with SPs to ignore missed proofs
-- Observing a missed proof but do not post it onchain
+- Conspirar con los SP para ignorar las pruebas perdidas
+- Observar una prueba perdida, pero no publicarla en la cadena
 
-## Incentive Mechanisms
+## Mecanismos de Incentivos
 
-The following mechanisms help incentivize the expected behavior of each role and mitigate the detrimental ones.
+Los siguientes mecanismos ayudan a incentivar el comportamiento esperado de cada rol y a mitigar los desfavorables.
 
-### Clients Provide Full Payment Upfront
+### Los Clientes Proporcionan el Pago Completo por Adelantado
 
-Clients must deposit the full amount in *CDX (Testnet token)* that covers the entirety of the storage contract duration upfront. This indicates their pledge to pay a certain amount for the storage contract, though the contract only begins when and if all data slots are filled by Storage Providers.
+Los clientes deben depositar el monto total en *CDX (Token Testnet)* que cubra la totalidad de la duración del contrato de almacenamiento por adelantado. Esto indica su compromiso de pagar una cierta cantidad por el contrato de almacenamiento, aunque el contrato solo comienza cuando y si todos los espacios de datos son llenados por los Proveedores de Almacenamiento.
 
-### Delayed Payment to Storage Providers
+### Pago Retrasado a los Proveedores de Almacenamiento
 
-Storage Providers only receive payment related to the provision of services at the end of the contract duration.
+Los proveedores de almacenamiento solo reciben el pago relacionado con la prestación de servicios al final de la duración del contrato.
 
-### Collateral Requirement
+### Requisito de Colateral
 
-In order to fill a data slot, Storage Providers first stake and commit the required collateral in the form of the *CDX  (Testnet token)* for that slot which is then subject to slashing if they do not post a proof to confirm the slot.
+Para llenar un espacio de datos, los Proveedores de Almacenamiento primero deben apostar y comprometer el colateral requerido en forma de *CDX (Token Testnet)* para ese espacio, que luego está sujeto a reducción si no publican una prueba para confirmar el espacio.
 
-Validators also need to post collateral to participate in the validation service.
+Los validadores también necesitan publicar colateral para participar en el servicio de validación.
 
-### Proof of Storage
+### Prueba de Almacenamiento
 
-Contracts only start when all data slots are filled. Slots are only considered filled after a Storage Provider has posted collateral and the associated proof for its slot.
+Los contratos solo comienzan cuando todos los espacios de datos están llenos. Los espacios solo se consideran llenos después de que un Proveedor de Almacenamiento haya publicado el colateral y la prueba asociada para su espacio.
 
-Once the contract begins, Storage Providers regularly provide proof of storage.
+Una vez que comienza el contrato, los Proveedores de Almacenamiento proporcionan regularmente una prueba de almacenamiento.
 
-### **Slashing for Missed Proofs of Storage**
+### **Reducción por Pruebas de Almacenamiento Perdidas**
 
-At any point during the duration of the storage contract, the storage provider is slashed if it fails to provide a certain number of proof of storage in a row. Should the SP resume providing proof of storage, it needs to top up the slashed collateral. The penalty is a fixed percentage of the total collateral.
+En cualquier momento durante la duración del contrato de almacenamiento, el proveedor de almacenamiento se reduce si no proporciona un cierto número de pruebas de almacenamiento seguidas. Si el SP reanuda la provisión de pruebas de almacenamiento, debe reponer el colateral reducido. La penalización es un porcentaje fijo del colateral total.
 
-### Slot Recovery Mechanism
+### Mecanismo de Recuperación de Espacios
 
-If a Storage Provider does not submit the required storage proofs when required, after a number of slashings their entire collateral will be seized. A portion of the confiscated collateral is used as an incentive for the new Storage Provider who recovers and starts serving the abandoned slot. The remainder of the confiscated collateral in *CDX (Testnet token)* is burned.
+Si un Proveedor de Almacenamiento no envía las pruebas de almacenamiento requeridas cuando se requiere, después de una serie de reducciones, todo su colateral será incautado. Una parte del colateral confiscado se utiliza como incentivo para el nuevo Proveedor de Almacenamiento que recupera y comienza a servir el espacio abandonado. El resto del colateral confiscado en *CDX (Token Testnet)* se quema.
 
-### Slashing Defaulted Contract
+### Reducción del Contrato Incumplido
 
-If, at any point during the duration of the storage contract, the number of data slots currently abandoned (and not yet recovered) reaches or surpasses the maximum allowable lost slots (meaning the data becomes irretrievable), then the entire storage contract is deemed to be *failed*.
+Si, en cualquier momento durante la duración del contrato de almacenamiento, el número de espacios de datos actualmente abandonados (y aún no recuperados) alcanza o supera el número máximo permitido de espacios perdidos (lo que significa que los datos se vuelven irrecuperables), entonces todo el contrato de almacenamiento se considera *fallido*.
 
-At this stage, collaterals of all Storage Providers serving data slots in the contract are entirely slashed.
+En esta etapa, los colaterales de todos los Proveedores de Almacenamiento que sirven espacios de datos en el contrato se reducen por completo.
 
-### Client Reimbursement
+### Reembolso al Cliente
 
-If at any point during the contract, sufficient slots are abandoned such that the data is not fully recoverable, Clients receive back any leftover from their original payment.
+Si en cualquier momento durante el contrato, se abandonan suficientes espacios de tal manera que los datos no sean completamente recuperables, los Clientes reciben de vuelta cualquier sobrante de su pago original.
 
-## Token Lifecycle
+## Ciclo de Vida del Token
 
-### Burning
+### Quema
 
-*CDX (Testnet token)* tokens are burned in these instances:
+Los tokens *CDX (Token Testnet)* se queman en estos casos:
 
-- When a storage deal contract fails to initiate, a small portion of the Client's payment for the storage deal is burned. This serves primarily as a mechanism to deter spam and ensure that deal requests are submitted at market-appropriate prices for storage.
-- When a storage deal contract successfully initiates, the protocol applies a fee for facilitating the transaction.
-- Whenever a Storage Provider misses a certain number of storage proofs, a portion of the collateral is slashed and burned.
-- Once the slot recovery mechanism resolves, the remaining of the abandoning Storage Provider’s collateral is burned.
+- Cuando no se inicia un contrato de acuerdo de almacenamiento, se quema una pequeña parte del pago del Cliente por el acuerdo de almacenamiento. Esto sirve principalmente como un mecanismo para disuadir el spam y garantizar que las solicitudes de acuerdo se envíen a precios apropiados para el mercado del almacenamiento.
+- Cuando un contrato de acuerdo de almacenamiento se inicia con éxito, el protocolo aplica una tarifa por facilitar la transacción.
+- Siempre que un Proveedor de Almacenamiento pierde una cierta cantidad de pruebas de almacenamiento, se reduce y se quema una parte del colateral.
+- Una vez que se resuelve el mecanismo de recuperación de espacios, se quema el resto del colateral del Proveedor de Almacenamiento que abandona.
+
