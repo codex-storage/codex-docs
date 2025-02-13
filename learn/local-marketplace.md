@@ -1,56 +1,53 @@
 ---
 outline: [2, 3]
 ---
-# Running a Local Codex Network with Marketplace Support
+# Ejecutando una Red Codex Local con Soporte de Marketplace
 
-This tutorial will teach you how to run a small Codex network with the
-_storage marketplace_ enabled; i.e., the functionality in Codex which
-allows participants to offer and buy storage in a market, ensuring that
-storage providers honor their part of the deal by means of cryptographic proofs.
+Este tutorial te enseñará cómo ejecutar una pequeña red Codex con el
+_storage marketplace_ habilitado; es decir, la funcionalidad en Codex que
+permite a los participantes ofrecer y comprar almacenamiento en un mercado, asegurando que
+los proveedores de almacenamiento cumplan con su parte del acuerdo mediante pruebas criptográficas.
 
-In this tutorial, you will:
+En este tutorial, aprenderás a:
 
-1. [Set Up a Geth PoA network](#_1-set-up-a-geth-poa-network);
-2. [Set up The Marketplace](#_2-set-up-the-marketplace);
-3. [Run Codex](#_3-run-codex);
-4. [Buy and Sell Storage in the Marketplace](#_4-buy-and-sell-storage-on-the-marketplace).
+1. [En este tutorial, aprenderás a:](#_1-set-up-a-geth-poa-network);
+2. [Configurar El Marketplace](#_2-set-up-the-marketplace);
+3. [Ejecutar Codex](#_3-run-codex);
+4. [Comprar y Vender Almacenamiento en el Marketplace](#_4-buy-and-sell-storage-on-the-marketplace).
 
-## Prerequisites
+## Prerrequisitos
 
-To complete this tutorial, you will need:
+Para completar este tutorial, necesitarás:
 
-* the [geth](https://github.com/ethereum/go-ethereum) Ethereum client;
-  You need version `1.13.x` of geth as newer versions no longer support
-  Proof of Authority (PoA). This tutorial was tested using geth version `1.13.15`.
-* a Codex binary, which [you can compile from source](https://github.com/codex-storage/nim-codex?tab=readme-ov-file#build-and-run).
+* el cliente Ethereum [geth](https://github.com/ethereum/go-ethereum);
+  Necesitas la versión `1.13.x` de geth ya que las versiones más nuevas ya no son compatibles con la Prueba de Autoridad (PoA). Este tutorial se probó utilizando la versión `1.13.15` de geth.
+* un binario Codex, que, [puedes compilar desde el código fuente](https://github.com/codex-storage/nim-codex?tab=readme-ov-file#build-and-run).
 
-We will also be using [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))
-syntax throughout. If you use a different shell, you may need to adapt
-things to your platform.
+También estaremos usando la sintaxis de [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))
+en todo el documento. Si utilizas una shell diferente, es posible que debas adaptar
+algunas cosas a tu plataforma.
 
-To get started, create a new folder where we will keep the tutorial-related
-files so that we can keep them separate from the codex repository.
-We assume the name of the folder to be `marketplace-tutorial`.
+Para comenzar, crea una nueva carpeta donde guardaremos los archivos relacionados con el tutorial
+para que podamos mantenerlos separados del repositorio Codex.
+Asumimos que el nombre de la carpeta es `marketplace-tutorial`.
 
-## 1. Set Up a Geth PoA Network
+## 1. Configurar una Red Geth PoA
 
-For this tutorial, we will use a simple
-[Proof-of-Authority](https://github.com/ethereum/EIPs/issues/225) network
-with geth. The first step is creating a _signer account_: an account which
-will be used by geth to sign the blocks in the network.
-Any block signed by a signer is accepted as valid.
+Para este tutorial, utilizaremos una simple red
+[Prueba de Autoridad](https://github.com/ethereum/EIPs/issues/225) con geth. El primer paso es crear una cuenta de firmante: una cuenta que
+será utilizada por geth para firmar los bloques en la red.
+Cualquier bloque firmado por un firmante se acepta como válido.
+### 1.1. Crear una Cuenta de Firmante
 
-### 1.1. Create a Signer Account
-
-To create a signer account, from the `marketplace-tutorial` directory run:
+Para crear una cuenta de firmante, desde el directorio `marketplace-tutorial` ejecuta:
 
 ```bash
 geth account new --datadir geth-data
 ```
 
-The account generator will ask you to input a password, which you can
-leave blank. It will then print some information,
-including the account's public address:
+El generador de cuentas te pedirá que ingreses una contraseña, que puedes
+dejar en blanco. Luego imprimirá cierta información,
+incluida la dirección pública de la cuenta:
 
 ```bash
 INFO [09-29|16:49:24.244] Maximum peer count                       ETH=50 total=50
@@ -69,37 +66,37 @@ Path of the secret key file: geth-data/keystore/UTC--2024-09-29T14-49-31.6552720
 - You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
 ```
 
-In this example, the public address of the signer account is
+En este ejemplo, la dirección pública de la cuenta de firmante es
 `0x33A904Ad57D0E2CB8ffe347D3C0E83C2e875E7dB`.
-Yours will print a different address. Save it for later usage.
+Tu consola imprimirá una dirección diferente. Guárdala para usarla más adelante.
 
-Next set an environment variable for later usage:
+A continuación, configura una variable de entorno para usarla más adelante:
 
 ```bash
 export GETH_SIGNER_ADDR="0x0000000000000000000000000000000000000000"
 echo ${GETH_SIGNER_ADDR} > geth_signer_address.txt
 ```
 
-> Here make sure you replace `0x0000000000000000000000000000000000000000`
-> with your public address of the signer account
-> (`0x33A904Ad57D0E2CB8ffe347D3C0E83C2e875E7dB` in our example).
+> Aquí, asegúrate de reemplazar `0x0000000000000000000000000000000000000000`
+> con tu dirección pública de la cuenta de firmante
+> (`0x33A904Ad57D0E2CB8ffe347D3C0E83C2e875E7dB` en nuestro ejemplo).
 
-### 1.2. Configure The Network and Create the Genesis Block
+### 1.2. Configurar la Red y Crear el Bloque Génesis
 
-The next step is telling geth what kind of network you want to run.
-We will be running a [pre-merge](https://ethereum.org/en/roadmap/merge/)
-network with Proof-of-Authority consensus.
-To get that working, create a `network.json` file.
+El siguiente paso es decirle a geth qué tipo de red quieres ejecutar.
+Estaremos ejecutando una red [pre-merge](https://ethereum.org/en/roadmap/merge/)
+con consenso de Prueba de Autoridad.
+Para que eso funcione, crea un archivo  `network.json` .
 
-If you set the `GETH_SIGNER_ADDR` variable above you can run the following
-command to create the `network.json` file:
+Si configuraste la variable `GETH_SIGNER_ADDR` anteriormente, puedes ejecutar el siguiente
+comando para crear el archivo `network.json` .
 
 ```bash
 echo  "{\"config\": { \"chainId\": 12345, \"homesteadBlock\": 0, \"eip150Block\": 0, \"eip155Block\": 0, \"eip158Block\": 0, \"byzantiumBlock\": 0, \"constantinopleBlock\": 0, \"petersburgBlock\": 0, \"istanbulBlock\": 0, \"berlinBlock\": 0, \"londonBlock\": 0, \"arrowGlacierBlock\": 0, \"grayGlacierBlock\": 0, \"clique\": { \"period\": 1, \"epoch\": 30000 } }, \"difficulty\": \"1\", \"gasLimit\": \"8000000\", \"extradata\": \"0x0000000000000000000000000000000000000000000000000000000000000000${GETH_SIGNER_ADDR:2}0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\", \"alloc\": { \"${GETH_SIGNER_ADDR}\": { \"balance\": \"10000000000000000000000\"}}}" > network.json
 ```
 
-You can also manually create the file remembering update it with your
-signer public address:
+También puedes crear el archivo manualmente recordando actualizarlo con tu
+dirección pública de firmante:
 
 ```json
 {
@@ -133,49 +130,48 @@ signer public address:
 }
 ```
 
-Note that the signer account address is embedded in two different places:
-* inside of the `"extradata"` string, surrounded by zeroes and stripped of
-  its `0x` prefix;
-* as an entry key in the `alloc` session.
-  Make sure to replace that ID with the account ID that you wrote down in
-  [Step 1.1](#_1-1-create-a-signer-account).
+Ten en cuenta que la dirección de la cuenta de firmante está incrustada en dos lugares diferentes:
+* dentro de la cadena `"extradata"` , rodeada de ceros y sin su prefijo `0x` ;
+* como una clave de entrada en la sesión `alloc` .
+  Asegúrate de reemplazar esa ID con la ID de cuenta que anotaste en
+  [Paso 1.1](#_1-1-create-a-signer-account).
 
-Once `network.json` is created, you can initialize the network with:
+Una vez que se crea `network.json` , puedes inicializar la red con:
 
 ```bash
 geth init --datadir geth-data network.json
 ```
 
-The output of the above command you may include some warnings, like:
+El resultado del comando anterior puede incluir algunas advertencias, como:
 
 ```bash
 WARN [08-21|14:48:12.305] Unknown config environment variable      envvar=GETH_SIGNER_ADDR
 ```
 
-or even errors when running the command for the first time:
+o incluso errores al ejecutar el comando por primera vez:
 
 ```bash
 ERROR[08-21|14:48:12.399] Head block is not reachable
 ```
 
-The important part is that at the end you should see something similar to:
+Lo importante es que al final debes ver algo similar a:
 
 ```bash
 INFO [08-21|14:48:12.639] Successfully wrote genesis state         database=lightchaindata hash=768bf1..42d06a
 ```
 
-### 1.3. Start your PoA Node
+### 1.3. Iniciar tu Nodo PoA
 
-We are now ready to start our $1$-node, private blockchain.
-To launch the signer node, open a separate terminal in the same working
-directory and make sure you have the `GETH_SIGNER_ADDR` set.
-For convenience use the `geth_signer_address.txt`:
+Ahora estamos listos para iniciar nuestra blockchain privada de $1$ nodo.
+Para lanzar el nodo firmante, abre una terminal separada en el mismo directorio de trabajo
+y asegúrate de tener `GETH_SIGNER_ADDR` configurado.
+Para mayor comodidad, utiliza el  `geth_signer_address.txt`:
 
 ```bash
 export GETH_SIGNER_ADDR=$(cat geth_signer_address.txt)
 ```
 
-Having the `GETH_SIGNER_ADDR` variable set, run:
+Teniendo la variable `GETH_SIGNER_ADDR` configurada, ejecuta:
 
 ```bash
 geth\
@@ -190,14 +186,14 @@ geth\
   --allow-insecure-unlock
 ```
 
-Note that, once again, the signer account created in
-[Step 1.1](#_1-1-create-a-signer-account) appears both in
-`--unlock` and `--allow-insecure-unlock`.
+Ten en cuenta que, una vez más, la cuenta de firmante creada en
+[Paso 1.1](#_1-1-create-a-signer-account) aparece tanto en
+`--unlock` como en `--allow-insecure-unlock`.
 
-Geth will prompt you to insert the account's password as it starts up.
-Once you do that, it should be able to start up and begin "mining" blocks.
+Geth te pedirá que insertes la contraseña de la cuenta a medida que se inicia.
+Una vez que lo hagas, debería poder iniciarse y comenzar a "minar" bloques.
 
-Also here, you may encounter errors like:
+También aquí, puedes encontrar errores como:
 
 ```bash
 ERROR[08-21|15:00:27.625] Bootstrap node filtered by netrestrict   id=c845e51a5e470e44 ip=18.138.108.67
@@ -206,41 +202,40 @@ ERROR[08-21|15:00:27.625] Bootstrap node filtered by netrestrict   id=ef2d7ab886
 ERROR[08-21|15:00:27.625] Bootstrap node filtered by netrestrict   id=6b36f791352f15eb ip=157.90.35.166
 ```
 
-You can safely ignore them.
+Puedes ignorarlos con seguridad.
 
-If the command above fails with:
+Si el comando anterior falla con:
 
 ```bash
 Fatal: Failed to register the Ethereum service: only PoS networks are supported, please transition old ones with Geth v1.13.x
 ```
 
-make sure, you are running the correct Geth version
-(see Section [Prerequisites](#prerequisites))
+asegúrate de estar ejecutando la versión correcta de Geth
+(consulta la Secció [Prerrequisitos](#prerequisites))
 
-## 2. Set Up The Marketplace
+## 2. Configurar El Marketplace
 
-You will need to open new terminal for this section and geth needs to be
-running already. Setting up the Codex marketplace entails:
+Necesitarás abrir una nueva terminal para esta sección y geth debe estar
+ejecutándose ya. La configuración del marketplace de Codex implica:
 
-1. Deploying the Codex Marketplace contracts to our private blockchain
-2. Setup Ethereum accounts we will use to buy and sell storage in
-   the Codex marketplace
-3. Provisioning those accounts with the required token balances
-
-### 2.1. Deploy the Codex Marketplace Contracts
-
-Make sure you leave the `marketplace-tutorial` directory, and clone
-the `codex-storage/nim-codex.git`:
+1. Implementar los Contratos del Marketplace de Codex en nuestra blockchain privada
+2. Configurar cuentas de Ethereum que utilizaremos para comprar y vender almacenamiento en el marketplace de Codex
+3. Aprovisionar esas cuentas con los saldos de tokens requeridos
+   
+2.1. Implementar los Contratos del Marketplace de Codex
+Asegúrate de salir del directorio `marketplace-tutorial` y clonar
+el `codex-storage/nim-codex.git`:
 
 ```bash
 git clone https://github.com/codex-storage/nim-codex.git
 ```
 
-> If you just want to clone the repo to run the tutorial, you can
-> skip the history and just download the head of the master branch by using
+> Si solo quieres clonar el repositorio para ejecutar el tutorial, puedes
+omitir el historial y simplemente descargar el head de la rama principal utilizando
+el
 > `--depth 1` option: `git clone --depth 1 https://github.com/codex-storage/nim-codex.git`
 
-Thus, our directory structure for the purpose of this tutorial looks like this:
+Por lo tanto, nuestra estructura de directorios para el propósito de este tutorial se ve así:
 
 ```bash
 |
@@ -248,49 +243,49 @@ Thus, our directory structure for the purpose of this tutorial looks like this:
 └-- marketplace-tutorial
 ```
 
-> You could clone the `codex-storage/nim-codex.git` to some other location.
-> Just to keeps things nicely separated it is best to make sure that
-> `nim-codex` is not under `marketplace-tutorial` directory.
+> Podrías clonar el `codex-storage/nim-codex.git`  a alguna otra ubicación.
+> olo para mantener las cosas bien separadas, lo mejor es asegurarse de que
+> `nim-codex` o esté bajo el directorio `marketplace-tutorial` .
 
-Now, from the `nim-codex` folder run:
+Ahora, desde la carpeta `nim-codex` ejecuta:
 
 ```bash
 make update && make
 ```
 
-> This may take a moment as it will also build the `nim` compiler. Be patient.
+> Esto puede tomar un momento ya que también construirá el compilador `nim` Ten paciencia.
 
-Now, in order to start a local Ethereum network run:
+Ahora, para iniciar una red Ethereum local ejecuta:
 
 ```bash
 cd vendor/codex-contracts-eth
 npm install
 ```
 
-> While writing the document we used `node` version `v20.17.0` and
-> `npm` version `10.8.2`.
+> Mientras escribíamos el documento, utilizamos la version `v20.17.0` de `node` y
+> la version `10.8.2` de `npm` .
 
-Before continuing you now must **wait until $256$ blocks are mined**
-**in your PoAnetwork**, or deploy will fail. This should take about
-$4$ minutes and $30$ seconds. You can check which block height you are
-currently at by running the following command
-**from the `marketplace-tutorial` folder**:
+Antes de continuar, ahora debes **esperar hasta que se minen $256$ bloques**
+**en tu red PoA**, o la implementación fallará. Esto debería tomar alrededor de
+$4$ minutos y $30$ segundos. Puedes verificar en qué altura de bloque te encuentras
+actualmente ejecutando el siguiente comando
+**desde la carpeta `marketplace-tutorial` **:
 
 ```bash
 geth attach --exec web3.eth.blockNumber ./geth-data/geth.ipc
 ```
 
-once that gets past $256$, you are ready to go.
+una vez que pase de $256$, estarás listo para continuar.
 
-To deploy contracts, from the `codex-contracts-eth` directory run:
+Para implementar contratos, desde el directorio `codex-contracts-eth` ejecuta:
 
 ```bash
 export DISTTEST_NETWORK_URL=http://localhost:8545
 npx hardhat --network codexdisttestnetwork deploy
 ```
 
-If the command completes successfully, you will see the output similar
-to this one:
+Si el comando se completa correctamente, verás un resultado similar
+a este:
 
 ```bash
 Deployed Marketplace with Groth16 Verifier at:
@@ -300,139 +295,134 @@ Deployed Marketplace with Groth16 Verifier at:
 
 You are now ready to prepare the accounts.
 
-### 2.2. Generate the Required Accounts
+### 2.2. Generar las Cuentas Requeridas
 
-We will run $2$ Codex nodes: a **storage provider**, which will sell storage
-on the network, and a **client**, which will buy and use such storage;
-we therefore need two valid Ethereum accounts. We could create random
-accounts by using one of the many  tools available to that end but, since
-this is a tutorial running on a local private network, we will simply
-provide you with two pre-made accounts along with their private keys,
-which you can copy and paste instead:
+Ejecutaremos $2$ nodos Codex: un **proveedor de almacenamiento**,que venderá almacenamiento
+en la red, y un  **cliente**, que comprará y usará dicho almacenamiento;
+por lo tanto, necesitamos dos cuentas de Ethereum válidas. Podríamos crear cuentas aleatorias
+utilizando una de las muchas herramientas disponibles para tal fin pero, dado que
+este es un tutorial que se ejecuta en una red privada local, simplemente
+te proporcionaremos dos cuentas pre-hechas junto con sus claves privadas,
+que puedes copiar y pegar en su lugar:
 
-First make sure you're back in the `marketplace-tutorial` folder and
-not the `codex-contracts-eth` subfolder. Then set these variables:
+Primero, asegúrate de estar de vuelta en la carpeta `marketplace-tutorial` folder y
+no en la subcarpeta `codex-contracts-eth` . Luego, configura estas variables:
 
-**Storage:**
+**Almacenamiento:**
 ```bash
 export ETH_STORAGE_ADDR=0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37
 export ETH_STORAGE_PK=0x06c7ac11d4ee1d0ccb53811b71802fa92d40a5a174afad9f2cb44f93498322c3
 echo $ETH_STORAGE_PK > storage.pkey && chmod 0600 storage.pkey
 ```
 
-**Client:**
+**Cliente:**
 ```bash
 export ETH_CLIENT_ADDR=0x9F0C62Fe60b22301751d6cDe1175526b9280b965
 export ETH_CLIENT_PK=0x5538ec03c956cb9d0bee02a25b600b0225f1347da4071d0fd70c521fdc63c2fc
 echo $ETH_CLIENT_PK > client.pkey && chmod 0600 client.pkey
 ```
 
-### 2.3. Provision Accounts with Tokens
+### 2.3. Aprovisionar Cuentas con Tokens
 
-We now need to transfer some ETH to each of the accounts, as well as provide
-them with some Codex tokens for the storage node to use as collateral and
-for the client node to buy actual storage.
+Ahora necesitamos transferir algo de ETH a cada una de las cuentas, así como proporcionarles
+algunos tokens Codex para que el nodo de almacenamiento los use como colateral y
+para que el nodo cliente compre almacenamiento real.
 
-Although the process is not particularly complicated, I suggest you use
-[the script we prepared](https://github.com/gmega/local-codex-bare/blob/main/scripts/mint-tokens.js)
-for that. This script, essentially:
+Aunque el proceso no es particularmente complicado, te sugiero que uses
+[el script que preparamos](https://github.com/gmega/local-codex-bare/blob/main/scripts/mint-tokens.js)
+para eso. Este script, esencialmente:
 
-1. reads the Marketplace contract address and its ABI from the deployment data;
-2. transfers $1$ ETH from the signer account to a target account if the target
-   account has no ETH balance;
-3. mints $n$ Codex tokens and adds it into the target account's balance.
+1. Lee la dirección del contrato del Marketplace y su ABI de los datos de implementación;
+2. Transfiere $1$ ETH de la cuenta del firmante a una cuenta de destino si la cuenta de destino no tiene saldo de ETH;
+3. Acuña $n$ tokens Codex y los agrega al saldo de la cuenta de destino.
 
-To use the script, just download it into a local file named `mint-tokens.js`,
-for instance using `curl` (make sure you are in
-the `marketplace-tutorial` directory):
+Para usar el script, simplemente descárgalo en un archivo local llamado `mint-tokens.js`,
+por ejemplo, usando `curl` (asegúrate de estar en
+el directorio `marketplace-tutorial` ):
 
 ```bash
-# download script
+# descargar script
 curl https://raw.githubusercontent.com/gmega/codex-local-bare/main/scripts/mint-tokens.js -o mint-tokens.js
 ```
 
-Then run:
+Luego ejecuta:
 
 ```bash
-# set the contract file location (we assume you are in the marketplace-tutorial directory)
+# establecer la ubicación del archivo de contrato (asumimos que estás en el directorio marketplace-tutorial)
 export CONTRACT_DEPLOY_FULL="../nim-codex/vendor/codex-contracts-eth/deployments/codexdisttestnetwork"
 export GETH_SIGNER_ADDR=$(cat geth_signer_address.txt)
-# Installs Web3-js
+# Instala Web3-js
 npm install web3
-# Provides tokens to the storage account.
+# Proporciona tokens a la cuenta de almacenamiento.
 node ./mint-tokens.js $CONTRACT_DEPLOY_FULL/TestToken.json $GETH_SIGNER_ADDR 0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37 10000000000
-# Provides tokens to the client account.
+# Proporciona tokens a la cuenta del cliente.
 node ./mint-tokens.js $CONTRACT_DEPLOY_FULL/TestToken.json $GETH_SIGNER_ADDR 0x9F0C62Fe60b22301751d6cDe1175526b9280b965 10000000000
 ```
 
-If you get a message like 
+Si te sale un mensaje como
 
 ```bash
 Usage: mint-tokens.js <token-hardhat-deploy-json> <signer-account> <receiver-account> <token-ammount>
 ```
 
-then you need to ensure you provided all the required arguments.
-In particular you need to ensure that the `GETH_SIGNER_ADDR` env variable
-holds the signer address (we used
-`export GETH_SIGNER_ADDR=$(cat geth_signer_address.txt)` above to
-make sure it is set).
+entonces necesitas asegurarte que proveiste todos los argumentos requeridos.
+En particular necesitas asegurar, que la variable de entorno `GETH_SIGNER_ADDR` contenga la dirección del firmante (usamos
+`export GETH_SIGNER_ADDR=$(cat geth_signer_address.txt)`  arriba, para
+asegurar que este establecida)
 
-## 3. Run Codex
+## 3. Ejecutar Codex
 
-With accounts and geth in place, we can now start the Codex nodes.
+Con las cuentas y geth configurados, ahora podemos iniciar los nodos Codex.
 
-### 3.1. Storage Node
+### 3.1.Storage Node
 
-The storage node will be the one storing data and submitting the proofs of
-storage to the chain. To do that, it needs access to:
+El nodo de almacenamiento será el que almacene los datos y envíe las pruebas de
+almacenamiento a la cadena. Para hacer eso necesita access a:
 
-1. the address of the Marketplace contract that has been deployed to
-   the local geth node in [Step 2.1](#_2-1-deploy-the-codex-marketplace-contracts);
-2. the sample ceremony files which are shipped in the Codex contracts repo
+1. La dirección de contrata del Marketplace que fue "deployed" a el nodo geth local en [Paso 2.1](#_2-1-deploy-the-codex-marketplace-contracts);
+2. A los "sample ceremony files" los cuales estan dentro de Codex contracts repo
   (`nim-codex/vendor/codex-contracts-eth`).
 
-**Address of the Marketplace Contract.** The contract address can be found
-inside of the file `nim-codex/vendor/codex-contracts-eth/deployments/codexdisttestnetwork/Marketplace.json`.
-We captured that location above in `CONTRACT_DEPLOY_FULL` variable, thus, from
-the `marketplace-tutorial` folder just run:
+**Dirección del Contrato Marketplace.** La dirección del contracto se puede encontrar
+dentro el archivo `nim-codex/vendor/codex-contracts-eth/deployments/codexdisttestnetwork/Marketplace.json`.
+Capturamos esta ubicación en la variable  `CONTRACT_DEPLOY_FULL` arriba, por lo tanto, desde la carpeta `marketplace-tutorial` ejecuta:
 
 ```bash
 grep '"address":' ${CONTRACT_DEPLOY_FULL}/Marketplace.json
 ```
 
-which should print something like:
+esto imprimirá algo como:
 ```bash
 "address": "0xCf0df6C52B02201F78E8490B6D6fFf5A82fC7BCd",
 ```
 
-> This address should match the address we got earlier when deploying
-> the Marketplace contract above.
+> Esta dirección debería de coincidir con la que obtuvimos antes cuando "deployeamos"
+> el contracto Marketplace arriba.
 
-Then run the following with the correct market place address:
+Después ejecuta lo siguiente con la dirección correcta del mercado:
 ```bash
 export MARKETPLACE_ADDRESS="0x0000000000000000000000000000000000000000"
 echo ${MARKETPLACE_ADDRESS} > marketplace_address.txt
 ```
 
-where you replace `0x0000000000000000000000000000000000000000` with
-the Marketplace contract above in
-[Step 2.1](#_2-1-deploy-the-codex-marketplace-contracts).
+donde reemplazariamos `0x0000000000000000000000000000000000000000` con
+el contrato Marketplace de arriba en
+[Paso 2.1](#_2-1-deploy-the-codex-marketplace-contracts).
 
-**Prover ceremony files.** The ceremony files are under the
+**Archivos de ceremonia del "prover".** The "ceremony files" están bajo el
+subdirectorio
 `nim-codex/vendor/codex-contracts-eth/verifier/networks/codexdisttestnetwork`
-subdirectory. There are three of them: `proof_main.r1cs`, `proof_main.zkey`,
-and `prooof_main.wasm`. We will need all of them to start the Codex storage node.
+ Son tres:  `proof_main.r1cs`, `proof_main.zkey`,
+y `prooof_main.wasm`. Los necesitaremos todos para iniciar el nodo de almacenamiento Codex.
 
-**Starting the storage node.** Let:
+**Iniciando el nodo de almacenamiento.** Sea:
 
-* `PROVER_ASSETS` contain the directory where the prover ceremony files are
-  located. **This must be an absolute path**;
-* `CODEX_BINARY` contain the location of your Codex binary;
-* `MARKETPLACE_ADDRESS` contain the address of the Marketplace contract
-  (we have already set it above).
+* `PROVER_ASSETS` conteniendo la dirección donde los archivos de ceremonia del "prover" están ubicados. **Esta debe de ser una ruta absoluta**;
+* `CODEX_BINARY` conteniendo la ubicación de tu binario Codex;
+* `MARKETPLACE_ADDRESS` conteniendo la dirección de el contrato Marketplace (ya hemos configurado esto arriba).
 
-Set these paths into environment variables (make sure you are in
-the `marketplace-tutorial` directory):
+Configura estas rutas en variables de entorno (asegúrate que esta en
+el directorio `marketplace-tutorial` ):
 
 ```bash
 export CONTRACT_DEPLOY_FULL=$(realpath "../nim-codex/vendor/codex-contracts-eth/deployments/codexdisttestnetwork")
@@ -440,10 +430,10 @@ export PROVER_ASSETS=$(realpath "../nim-codex/vendor/codex-contracts-eth/verifie
 export CODEX_BINARY=$(realpath "../nim-codex/build/codex")
 export MARKETPLACE_ADDRESS=$(cat marketplace_address.txt)
 ```
-> you may notice, that we have already set the `CONTRACT_DEPLOY_FULL` variable
-> above. Here, we make sure it is an absolute path.
+> puedes notar, que ya establecimos la variable `CONTRACT_DEPLOY_FULL` variable
+> arriba. Ahora, nos aseguramos que es una dirección absoluta
 
-To launch the storage node, run:
+Para lanzar el nodo de almacenamiento , ejecuta :
 
 ```bash
 ${CODEX_BINARY}\
@@ -463,35 +453,34 @@ ${CODEX_BINARY}\
   --circom-zkey=${PROVER_ASSETS}/proof_main.zkey
 ```
 
-**Starting the client node.**
+**Iniciando el nodo cliente.**
 
-The client node is started similarly except that:
+El nodo client se inicializa similar, excepto que:
 
-* we need to pass the SPR of the storage node so it can form a network with it;
-* since it does not run any proofs, it does not require any ceremony files.
-
-We get the Signed Peer Record (SPR) of the storage node so we can bootstrap
-the client node with it. To get the SPR, issue the following call:
+necesitamos pasar la SPR del nodo de almacenamiento, par que pueda formar uan red con el;
+desde que no ejecuta ningún "proofs", no requiere archivos de "ceremonia".
+Obtenemos el  "Signed Peer Record (SPR)" del nodo de almacenamiento, para poder "bootstrap"
+el nodo cliente con el.  Para obtener la SPR, ejecuta la llamada siguiente:
 
 ```bash
 curl -H 'Accept: text/plain' 'http://localhost:8000/api/codex/v1/spr' --write-out '\n'
 ```
 
-You should get the SPR back starting with `spr:`.
+Deberías recibir el SPR de vuelta, empezando con `spr:`.
 
-Before you proceed, open new terminal, and enter `marketplace-tutorial` directory.
+Antes de proceder, abre una nueva terminal, y entra en en directorio `marketplace-tutorial` .
 
-Next set these paths into environment variables:
+Lo siguiente es establecer estas rutas en variables de entorno:
 
 ```bash
-# set the SPR for the storage node
+# establece el SPR para el nodo de almacenamiento
 export STORAGE_NODE_SPR=$(curl -H 'Accept: text/plain' 'http://localhost:8000/api/codex/v1/spr')
-# basic vars
+# variables basicas
 export CONTRACT_DEPLOY_FULL=$(realpath "../nim-codex/vendor/codex-contracts-eth/deployments/codexdisttestnetwork")
 export CODEX_BINARY=$(realpath "../nim-codex/build/codex")
 export MARKETPLACE_ADDRESS=$(cat marketplace_address.txt)
 ```
-and then run:
+y después ejecuta:
 
 ```bash
 ${CODEX_BINARY}\
@@ -506,18 +495,18 @@ ${CODEX_BINARY}\
   --marketplace-address=${MARKETPLACE_ADDRESS}
 ```
 
-## 4. Buy and Sell Storage on the Marketplace
+## 4. Comprar y Vender Almacenamiento en el Marketplace
 
-Any storage negotiation has two sides: a buyer and a seller.
-Therefore, before we can actually request storage, we must first offer
-some of it for sale.
+Cualquier negociación de almacenamiento tiene dos lados:: un comprador y un vendedor.
+Por lo tanto, antes de que podamos realmente solicitar almacenamiento, primero debemos ofrecer
+algo de el a la venta.
 
-### 4.1 Sell Storage
+### 4.1 Vender Almacenamiento
 
-The following request will cause the storage node to put out $50\text{MB}$
-of storage for sale for $1$ hour, at a price of $1$ Codex token
-per slot per second, while expressing that it's willing to take at most
-a $1000$ Codex token penalty for not fulfilling its part of the contract.[^1]
+LA siguiente solicitud hara, que el nodo de almacenamiento ponga a la venta  $50\text{MB}$
+de almacenamiento por  $1$ hora , a un precio de $1$ token Codex
+por "slot" por segundo, al tiempo que expresa que está dispuesto a asumir como máximo
+una penalización de  $1000$ tokens Codex, por no cumplir con su parte del contrato.[^1]
 
 ```bash
 curl 'http://localhost:8000/api/codex/v1/sales/availability' \
@@ -530,53 +519,53 @@ curl 'http://localhost:8000/api/codex/v1/sales/availability' \
 }'
 ```
 
-This should return a JSON response containing an `id` (e.g. `"id": "0xb55b3bc7aac2563d5bf08ce8a177a38b5a40254bfa7ee8f9c52debbb176d44b0"`)
-which identifies this storage offer.
+Esto debería devolver una respuesta  JSON conteniendo un `id` (p.ej. `"id": "0xb55b3bc7aac2563d5bf08ce8a177a38b5a40254bfa7ee8f9c52debbb176d44b0"`)
+que identifica la oferta de almacenamiento.
 
-> To make JSON responses more readable, you can try
-> [jq](https://jqlang.github.io/jq/) JSON formatting utility
-> by just adding `| jq` after the command.
-> On macOS you can install with `brew install jq`.
+> Para que las respuestas JSON sean más legibles, puedes intentar
+> [jq](https://jqlang.github.io/jq/) la utilidad de formato JSON,
+> simplemente agregando `| jq` después del comando.
+> En macOS puedes instalarlo con `brew install jq`.
 
-To check the current storage offers for this node, you can issue:
+Para revisar las ofertas de almacenamiento actuales para ste nodo, puedes ejecutar:
 
 ```bash
 curl 'http://localhost:8000/api/codex/v1/sales/availability'
 ```
 
-or with `jq`:
+o con `jq`:
 
 ```bash
 curl 'http://localhost:8000/api/codex/v1/sales/availability' | jq
 ```
 
-This should print a list of offers, with the one you just created figuring
-among them (for our tutorial, there will be only one offer returned
-at this time).
+Esto debería de imprimir una lista de ofertas, con la que acabas de crear figurando
+entre ellas (para nuestro tutorial, solo se devolverá una oferta
+en este momento).
 
-### 4.2. Buy Storage
+### 4.2. Comprar Almacenamiento
 
-Before we can buy storage, we must have some actual data to request
-storage for. Start by uploading a small file to your client node.
-On Linux (or macOS) you could, for instance, use `dd` to generate a $1M$ file:
+Antes de que podamos comprar almacenamiento, necesitamos mas data para solicitar
+almacenamiento.  Empieza subiendo un archivo pequeño a tu nodo cliente.
+En Linux (o macOS) podrías, por ejemplo, usar `dd` para generar un archivo $1M$:
 
 ```bash
 dd if=/dev/urandom of=./data.bin bs=1M count=1
 ```
 
-Assuming your file is named `data.bin`, you can upload it with:
+Asumiendo que tu archivo se llama `data.bin`, puedes subirlo con:
 
 ```bash
 curl --request POST http://localhost:8001/api/codex/v1/data --header 'Content-Type: application/octet-stream' --write-out '\n' -T ./data.bin
 ```
 
-Once the upload completes, you should see a _Content Identifier_,
-or _CID_ (e.g. `zDvZRwzm2mK7tvDzKScRLapqGdgNTLyyEBvx1TQY37J2CdWdS6Sj`)
-for the uploaded file printed to the terminal.
-Use that CID in the purchase request:
+Una vez que se complete la carga, deberías ver un _Content Identifier_,
+o _CID_ (p.ej. `zDvZRwzm2mK7tvDzKScRLapqGdgNTLyyEBvx1TQY37J2CdWdS6Sj`)
+para el archivo cargado impreso en la terminal.
+Usa ese CID en la solicitud de compra:
 
 ```bash
-# make sure to replace the CID before with the CID you got in the previous step
+# asegúrate de reemplazar el  CID anterior con el CID que obtuviste en el paso anterior
 export CID=zDvZRwzm2mK7tvDzKScRLapqGdgNTLyyEBvx1TQY37J2CdWdS6Sj
 ```
 
@@ -595,39 +584,36 @@ curl "http://localhost:8001/api/codex/v1/storage/request/${CID}" \
   --write-out '\n'
 ```
 
-The parameters under `--data` say that:
+Los parámetros en `--data` dicen:
 
-1. we want to purchase storage for our file for $5$ minutes (`"duration": "600"`);
-2. we are willing to pay up to $1$ token per slot per second (`"reward": "1"`)
-3. our file will be split into three pieces (`"nodes": 3`). 
-   Because we set `"tolerance": 1` we only need two (`nodes - tolerance`)
-   pieces to rebuild the file; i.e., we can tolerate that at most one node
-   stops storing our data; either due to failure or other reasons;
-4. we demand `1000` tokens in collateral from storage providers for each piece.
-   Since there are $3$ such pieces, there will be `3000` in total collateral
-   committed by the storage provider(s) once our request is started.
-5. finally, the `expiry` puts a time limit for filling all the slots by
-   the storage provider(s). If slot are not filled by the `expire` interval,
-   the request will timeout and fail. 
+1. queremos comprar almacenamiento para nuestro archivo durante $5$ minutos (`"duration": "600"`);
+2. estamos dispuestos pagar a hasta $1$ token por slot por segundo (`"reward": "1"`)
+3. nuestro archivo se dividirá en tres pedazos (`"nodes": 3`). 
+   Porque establecimos `"tolerance": 1` solo necesitamos dos (`nodes - tolerance`)
+   pedazos para reconstruir el archivo; i.e., podemos tolerar que a lo mucho 1 nodo deje de almacenar nuestros datos; ya sea debido a falla u otras razones;
+4. exigimos `1000` tokens en garantía de los proveedores de almacensmiento por slot. Desde que hay $3$ slots de estos, habrá `3000` en garantía total
+   comprometido por los proveedores de almacenamiento una vez que se inicie nuestra solicitud.
+5. finalmente, el `expiry` pone un límite de tiempo para llenar todos los "slots" por los proveedores de almacenamiento. Si los slots no se llenan antes del intervalo `expire` interval,
+la solicitud expirará, y fallara.
 
-### 4.3. Track your Storage Requests
+### 4.3. Rastrear Tus Solicitudes de Almacenamiento
 
-POSTing a storage request will make it available in the storage market,
-and a storage node will eventually pick it up.
+"POSTeando" una solicitud de almacenamiento la pondrá a disposicion en el mercado de almacenamiento,
+y un nodo de almacenamiento eventualmente la recogerá.
 
-You can poll the status of your request by means of:
+Puedes mandar a llamar el estado de tu solicitud por medios de::
 ```bash
 export STORAGE_PURCHASE_ID="1d0ec5261e3364f8b9d1cf70324d70af21a9b5dccba380b24eb68b4762249185"
 curl "http://localhost:8001/api/codex/v1/storage/purchases/${STORAGE_PURCHASE_ID}"
 ```
 
-For instance:
+Por ejemplo:
 
 ```bash
 > curl 'http://localhost:8001/api/codex/v1/storage/purchases/6c698cd0ad71c41982f83097d6fa75beb582924e08a658357a1cd4d7a2a6766d'
 ```
 
-This returns a result like:
+Esto devuelve un resultado como:
 
 ```json
 {
@@ -655,15 +641,15 @@ This returns a result like:
 }
 ```
 
-Shows that a request has been submitted but has not yet been filled.
-Your request will be successful once `"state"` shows `"started"`.
-Anything other than that means the request has not been completely
-processed yet, and an `"error"` state other than `null` means it failed.
+Muestra que a una solicitud se le ha dado  "submitted" pero aun no ha sido completada.
+Tu solicitud tendrá éxito una vez que `"state"` muestre `"started"`.
+Cualquier otra cosa fuera de eso significa que una solicitud no ha sido completamente
+procesada aun, y un estado `"error"` a parte de `null` significa que ha fallado.
 
-Well, it was quite a journey, wasn't it? You can congratulate yourself for
-successfully finishing the codex marketplace tutorial!
+Bueno, este ha sido un camino largo verdad?  Puedes felicitarte a ti mismo por
+haber terminado exitosamenet el tutorial de Codex marketplace !
 
-[^1]: Codex files get partitioned into pieces called "slots" and distributed
-to various storage providers. The collateral refers to one such slot,
-and will be slowly eaten away as the storage provider fails to deliver
-timely proofs, but the actual logic is [more involved than that](https://github.com/codex-storage/codex-contracts-eth/blob/6c9f797f408608958714024b9055fcc330e3842f/contracts/Marketplace.sol#L209).
+[^1]: Los archivos Codex se han dividido en pedazos llamados "slots" y distribuidos
+a varios proveedores de almacenamiento. "The colateral  refiers to one such slot"
+y lo consumiran lentamente a medida que el proveedor de almacenamiento falle en el
+entrega oportuna de "proofs" , pero la lógica actual es [más compleja que eso](https://github.com/codex-storage/codex-contracts-eth/blob/6c9f797f408608958714024b9055fcc330e3842f/contracts/Marketplace.sol#L209).
