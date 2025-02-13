@@ -1,28 +1,27 @@
-# Codex Two-Client Test
+# Prueba de Dos Clientes Codex
 
-The two-client test is a manual test you can perform to check your setup and familiarize yourself with the Codex API. These steps will guide you through running and connecting two nodes, in order to upload a file to one and then download that file from the other. This test also includes running a local blockchain node in order to have the Marketplace functionality available. However, running a local blockchain node is not strictly necessary, and you can skip steps marked as optional if you choose not start a local blockchain node.
+La prueba de dos clientes es una prueba manual que puede realizar para verificar su configuración y familiarizarse con la API de Codex. Estos pasos le guiarán a través de la ejecución y conexión de dos nodos, con el fin de cargar un archivo a uno y luego descargarlo desde el otro. Esta prueba también incluye la ejecución de un nodo blockchain local para tener disponible la funcionalidad del Marketplace. Sin embargo, la ejecución de un nodo blockchain local no es estrictamente necesaria, y puede omitir los pasos marcados como opcionales si decide no iniciar un nodo blockchain local.
 
-## Prerequisite
+## Requisitos Previos
 
-Make sure you have [built the client](/learn/build) or obtained [compiled binary](/learn/quick-start#get-codex-binary).
+Asegúrese de haber [ compilado el cliente](/learn/build) o haber obtenido el [ binario compilado](/learn/quick-start#get-codex-binary).
 
 ## Steps
 
-### 0. Setup blockchain node (optional)
+### 0. Configuración del nodo blockchain (opcional)
 
-You need to have installed NodeJS and npm in order to spinup a local blockchain node.
+Necesita tener instalado NodeJS y npm para poder levantar un nodo blockchain local.
 
-Go to directory `vendor/codex-contracts-eth` and run these two commands:
+Diríjase al directorio `vendor/codex-contracts-eth`  y ejecute estos dos comandos:
 ```
 npm ci
 npm start
 ```
 
-This will launch a local Ganache blockchain.
+Esto iniciará una blockchain Ganache local.
 
-### 1. Launch Node #1
-
-Open a terminal and run:
+### 1. Inicio del Nodo #1
+Abra una terminal y ejecute:
 - Mac/Linux:
   ```shell
    codex \
@@ -40,35 +39,35 @@ Open a terminal and run:
     --listen-addrs="/ip4/127.0.0.1/tcp/8070"
   ```
 
-Optionally, if you want to use the Marketplace blockchain functionality, you need to also include these flags: `--persistence --eth-account=<account>`, where `account` can be one following:
+Opcionalmente, si desea utilizar la funcionalidad de Marketplace blockchain, también debe incluir las siguientes flags: `--persistence --eth-account=<account>`, donde `account` puede ser una de las siguientes:
 
   - `0x70997970C51812dc3A010C7d01b50e0d17dc79C8`
   - `0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC`
   - `0x90F79bf6EB2c4f870365E785982E1f101E93b906`
   - `0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65`
 
-**For each node use a different account!**
+**¡Para cada nodo use una cuenta diferente!**
 
-| Argument       | Description                                                           |
+| Argumento      | Descripción                                                       |
 |----------------|-----------------------------------------------------------------------|
-| `data-dir`     | We specify a relative path where the node will store its data.        |
-| `listen-addrs` | Multiaddress where the node will accept connections from other nodes. |
-| `api-port`     | Port on localhost where the node will expose its API.                 |
-| `disc-port`    | Port the node will use for its discovery service.                     |
-| `persistence`  | Enables Marketplace functionality. Requires a blockchain connection.  |
-| `eth-account`  | Defines which blockchain account the node should use.                 |
+| `data-dir`     | Especifica la ruta relativa donde el nodo almacenará sus datos.        |
+| `listen-addrs` | Multiaddress donde el nodo aceptará conexiones de otros nodos. |
+| `api-port`     | Puerto en localhost donde el nodo expondrá su API.                |
+| `disc-port`    | Puerto que el nodo utilizará para su servicio de descubrimiento.                     |
+| `persistence`  | Habilita la funcionalidad de Marketplace. Requiere una conexión a la blockchain.  |
+| `eth-account`  | Define qué cuenta de blockchain debe usar el nodo. Esta cuenta debe tener fondos (ETH) para pagar las transacciones.                 |
 
-Codex uses sane defaults for most of its arguments. Here we specify some explicitly for the purpose of this walk-through.
+Codex utiliza valores predeterminados sensatos para la mayoría de sus argumentos. Aquí especificamos algunos explícitamente para el propósito de esta guía.
 
-### 2. Sign of life
+### 2. Señal de vida
 
-Run the command :
+Ejecute el comando :
 
 ```bash
 curl -X GET http://127.0.0.1:8080/api/codex/v1/debug/info
 ```
 
-This GET request will return the node's debug information. The response will be in JSON and should look like:
+Esta solicitud GET devolverá la información de depuración del nodo. La respuesta estará en formato JSON y debería verse así:
 
 ```json
 {
@@ -98,23 +97,23 @@ This GET request will return the node's debug information. The response will be 
 }
 ```
 
-| Field               | Description                                                                              |
+| Campo            | Descripción                                                                           |
 | ------------------- | ---------------------------------------------------------------------------------------- |
-| `id`                | Id of the node. Also referred to as 'peerId'.                                            |
-| `addrs`             | Multiaddresses currently open to accept connections from other nodes.                    |
-| `repo`              | Path of this node's data folder.                                                         |
-| `spr`               | Signed Peer Record, encoded information about this node and its location in the network. |
-| `announceAddresses` | Multiaddresses used for annoucning this node                                             |
-| `table`             | Table of nodes present in the node's DHT                                                 |
-| `codex`             | Codex version information                                                                |
+| `id`                | ID del nodo. También conocido como 'peerId'.                                        |
+| `addrs`             | Multiaddresses actualmente abiertos para aceptar conexiones de otros nodos.                   |
+| `repo`              | Ruta de la carpeta de datos de este nodo.                                                         |
+| `spr`               | Signed Peer Record, información codificada sobre este nodo y su ubicación en la red. Este registro está firmado criptográficamente. |
+| `announceAddresses` | Multiaddresses utilizados para anunciar este nodo.                                             |
+| `table`             | Tabla de nodos presentes en la DHT del nodo.                                                 |
+| `codex`             | Información sobre la versión de Codex.                                                                |
 
-### 3. Launch Node #2
+### 3. Inicio del Nodo #2
 
-We will need the signed peer record (SPR) from the first node that you got in the previous step.
+Necesitaremos el Signed Peer Record (SPR) del primer nodo que obtuvo en el paso anterior.
 
-Replace `<SPR HERE>` in the following command with the SPR returned from the previous command, note that it should include the `spr:` at the beginning.
+Reemplace `<SPR HERE>` en el siguiente comando con el SPR devuelto por el comando anterior, tenga en cuenta que debe incluir el `spr:` al principio.
 
-Open a new terminal and run:
+Abra una nueva terminal y ejecute:
 - Mac/Linux:
   ```shell
   codex \
@@ -134,7 +133,7 @@ Open a new terminal and run:
     --bootstrap-node=<SPR HERE>
   ```
 
-Alternatively on Mac, Linux, or MSYS2 and a recent Codex binary you can run it in one command like:
+Alternativamente en Mac, Linux, o MSYS2 y un binario Codex reciente se puede ejecutar en un solo comando como:
 
 ```shell
 codex \
@@ -145,15 +144,15 @@ codex \
   --bootstrap-node=$(curl -H "Accept: text/plain" http://127.0.0.1:8080/api/codex/v1/spr)
 ```
 
-Notice we're using a new data-dir, and we've increased each port number by one. This is needed so that the new node won't try to open ports already in use by the first node.
+Observe que estamos utilizando un nuevo data-dir, y hemos incrementado cada número de puerto en uno. Esto es necesario para que el nuevo nodo no intente abrir puertos ya en uso por el primer nodo.
 
-We're now also including the `bootstrap-node` argument. This allows us to link the new node to another one, bootstrapping our own little peer-to-peer network. SPR strings always start with `spr:`.
+Ahora también estamos incluyendo el argumento `bootstrap-node` Esto nos permite enlazar el nuevo nodo a otro, iniciando nuestra propia pequeña red peer-to-peer (P2P). Las cadenas SPR siempre comienzan con `spr:`.
 
-### 4. Connect The Two
+### 4. Conectando los Dos Nodos
 
-Normally the two nodes will automatically connect. If they do not automatically connect or you want to manually connect nodes you can use the peerId to connect nodes.
+Normalmente, los dos nodos se conectarán automáticamente.  Si no se conectan automáticamente o desea conectar los nodos manualmente, puede utilizar el peerId para conectar los nodos.
 
-You can get the first node's peer id by running the following command and finding the `"peerId"` in the results:
+Puede obtener el peer id del primer nodo ejecutando el siguiente comando y encontrando el  `"peerId"`  en los resultados:
 
 ```shell
 curl -X GET \
@@ -161,27 +160,27 @@ curl -X GET \
   http://127.0.0.1:8081/api/codex/v1/peerid
 ```
 
-Next replace `<PEER ID HERE>` in the following command with the peerId returned from the previous command:
+A continuación, reemplace `<PEER ID HERE>` en el siguiente comando con el peerId devuelto por el comando anterior:
 
 ```shell
 curl -X GET \
   http://127.0.0.1:8080/api/codex/v1/connect/<PEER ID HERE>?addrs=/ip4/127.0.0.1/tcp/8071
 ```
 
-Alternatively on Mac, Linux, or MSYS2 and a recent Codex binary you can run it in one command like:
+Alternativamente en Mac, Linux, o MSYS2 y un binario Codex reciente se puede ejecutar en un solo comando como:
 
 ```shell
 curl -X GET \
   http://127.0.0.1:8080/api/codex/v1/connect/$(curl -X GET -H "Accept: text/plain" http://127.0.0.1:8081/api/codex/v1/peerid)\?addrs=/ip4/127.0.0.1/tcp/8071
 ```
 
-Notice that we are sending the "`peerId`" and the multiaddress of node 2 to the `/connect` endpoint of node 1. This provides node 1 all the information it needs to communicate with node 2. The response to this request should be `Successfully connected to peer`.
+Observe que estamos enviando el "`peerId`" y la multiaddress del nodo 2 al endpoint `/connect` del nodo 1.  Esto proporciona al nodo 1 toda la información que necesita para comunicarse con el nodo 2. La respuesta a esta solicitud debería ser `Successfully connected to peer`.
 
-### 5. Upload The File
+### 5. Subir un Archivo
 
-We're now ready to upload a file to the network. In this example we'll use node 1 for uploading and node 2 for downloading. But the reverse also works.
+Ahora estamos listos para subir un archivo a la red. En este ejemplo, utilizaremos el nodo 1 para la carga y el nodo 2 para la descarga. Pero también funciona al revés.
 
-Next replace `<FILE PATH>` with the path to the file you want to upload in the following command:
+A continuación, reemplace `<FILE PATH>` con la ruta al archivo que desea cargar en el siguiente comando:
 
 ```shell
 curl -X POST \
@@ -190,14 +189,14 @@ curl -X POST \
   -H "Expect: 100-continue" \
   -T "<FILE PATH>"
 ```
-> [!TIP]
-> If curl is reluctant to show you the response, add `-o <FILENAME>` to write the result to a file.
+> [¡CONSEJO!]
+> Si curl se resiste a mostrarle la respuesta, agregue  `-o <FILENAME>` para escribir el resultado en un archivo.
 
-Depending on the file size this may take a moment. Codex is processing the file by cutting it into blocks and generating erasure-recovery data. When the process is finished, the request will return the content-identifier (CID) of the uploaded file. It should look something like `zdj7WVxH8HHHenKtid8Vkgv5Z5eSUbCxxr8xguTUBMCBD8F2S`.
+Dependiendo del tamaño del archivo, esto puede tomar un momento. Codex está procesando el archivo dividiéndolo en bloques y generando datos de recuperación de borrado. Cuando el proceso finalice, la solicitud devolverá el Content Identifier (CID) del archivo cargado. Debería verse algo como  `zdj7WVxH8HHHenKtid8Vkgv5Z5eSUbCxxr8xguTUBMCBD8F2S`.
 
-### 6. Download The File
+### 6. Descarga del Archivo
 
-Replace `<CID>` with the identifier returned in the previous step. Replace `<OUTPUT FILE>` with the filename where you want to store the downloaded file:
+Reemplace `<CID>` con el identificador devuelto en el paso anterior. Reemplace  `<OUTPUT FILE>` con el nombre del archivo donde desea almacenar el archivo descargado:
 
 ```bash
 curl -X GET \
@@ -205,16 +204,16 @@ curl -X GET \
   -o <OUTPUT FILE>
 ```
 
-Notice we are connecting to the second node in order to download the file. The CID we provide contains the information needed to locate the file within the network.
+Observe que nos estamos conectando al segundo nodo para descargar el archivo. El CID que proporcionamos contiene la información necesaria para localizar el archivo dentro de la red.
 
-### 7. Verify The Results
+### 7. Verificar los Resultados
 
-If your file is downloaded and identical to the file you uploaded, then this manual test has passed. Rejoice! If on the other hand that didn't happen or you were unable to complete any of these steps, please leave us a message detailing your troubles.
+Si su archivo se descarga y es idéntico al archivo que cargó, entonces esta prueba manual ha pasado. ¡Regocíjese! Si, por otro lado, eso no sucedió o no pudo completar ninguno de estos pasos, déjenos un mensaje detallando sus problemas.
 
-## Notes
+## Notas
 
-When using the Ganache blockchain, there are some deviations from the expected behavior, mainly linked to how blocks are mined, which affects certain functionalities in the Sales module.
-Therefore, if you are manually testing processes such as payout collection after a request is finished or proof submissions, you need to mine some blocks manually for it to work correctly. You can do this by using the following curl command:
+Cuando se utiliza la blockchain Ganache, existen algunas desviaciones del comportamiento esperado, principalmente vinculadas a la forma en que se minan los bloques, lo que afecta a ciertas funcionalidades del módulo de Ventas.
+Por lo tanto, si está probando manualmente procesos como el cobro de pagos después de que se completa una solicitud o el envío de pruebas, debe minar algunos bloques manualmente para que funcione correctamente. Puede hacerlo utilizando el siguiente comando curl:
 
 ```shell
 curl -X POST \
