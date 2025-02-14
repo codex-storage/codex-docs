@@ -1,37 +1,37 @@
-# What is Codex?
+# ¿Qué es Codex?
 
-Codex is a decentralised data storage protocol. Its primary features are strong censorship resistance and durability guarantees. It has a reference implementation by the same name, written in nim. It serves as the storage layer of the [Logos](https://logos.co/) tech stack. Alongside the trustless agreement layer, [Nomos](http://nomos.tech), and the communications layer, [Waku](http://waku.org), it is one of the Logos Collective's foundational projects.
-
-<br/>
-
-### Motive
-
-The remote storage landscape is dominated by an increasingly small number of internet powerhouses—Google, Microsoft, Amazon, etc. While these services score highly in terms of user experience and convenience, centralised cloud data storage suffers from the following drawbacks:
-
-- Censorship
-
-- Lack of data ownership
-
-- Breaches and outages
-
-- High cost
-
-Centralised cloud storage providers have an established history of censoring data and, as de facto owners of said data, have the power to do so according to their own standards. Furthermore, centralised platforms have fallen victim to major data breaches and service outages on numerous occasions.
-
-Such incidents have created a gap in the market for a decentralised, censorship-resistant alternative. Existing peer-to-peer storage and file-sharing networks address some of these issues—such as robustness in the face of network disruptions, and desirable resistance to censorship. Yet without adequate incentives and strong data durability guarantees, they make for unsuitable foundations upon which to build truly unstoppable applications.
-
-Existing decentralised storage solutions purport to improve upon early P2P file-sharing platforms like eDonkey and Gnutella. However, the market still lacks a decentralised storage solution that is efficient in terms of storage and bandwidth usage, while offering performance and durability guarantees comparable to incumbents. 
+Codex es un protocolo descentralizado de almacenamiento de datos. Sus principales características son una fuerte resistencia a la censura y garantías de durabilidad. Tiene una implementación de referencia con el mismo nombre, escrita en nim. Sirve como la capa de almacenamiento de la pila tecnológica de [Logos](https://logos.co/). Junto con la capa de acuerdo sin confianza, [Nomos](http://nomos.tech), y la capa de comunicaciones, [Waku](http://waku.org), es uno de los proyectos fundacionales del Colectivo Logos.
 
 <br/>
 
-### Decentralising data storage
+### Motivo
 
-Codex began in 2021 to address a need for a durable, decentralised storage layer for the web3 tech stack.
+El panorama del almacenamiento remoto está dominado por un número cada vez menor de potencias de Internet: Google, Microsoft, Amazon, etc. Si bien estos servicios obtienen una alta puntuación en términos de experiencia de usuario y conveniencia, el almacenamiento de datos en la nube centralizado sufre de los siguientes inconvenientes:
 
-The name "Codex" refers to an ancient form of book—an allusion to the data storage engine's extremely robust—99.99%—durability guarantees.
+- Censura
 
-Codex was announced as a core Logos Collective protocol in June 2023.
+- Falta de propiedad de los datos
+
+- Brechas e interrupciones
+
+- Alto costo
+
+Los proveedores de almacenamiento en la nube centralizados tienen una historia establecida de censura de datos y, como propietarios de facto de dichos datos, tienen el poder de hacerlo de acuerdo con sus propios estándares. Además, las plataformas centralizadas han sido víctimas de importantes violaciones de datos e interrupciones del servicio en numerosas ocasiones.
+
+Tales incidentes han creado una brecha en el mercado para una alternativa descentralizada y resistente a la censura. Las redes peer-to-peer de almacenamiento e intercambio de archivos existentes abordan algunos de estos problemas, como la robustez frente a las interrupciones de la red y la resistencia deseable a la censura. Sin embargo, sin incentivos adecuados y fuertes garantías de durabilidad de los datos, resultan ser bases inadecuadas sobre las cuales construir aplicaciones verdaderamente imparables.
+
+Las soluciones de almacenamiento descentralizadas existentes pretenden mejorar las primeras plataformas de intercambio de archivos P2P como eDonkey y Gnutella. Sin embargo, el mercado aún carece de una solución de almacenamiento descentralizada que sea eficiente en términos de almacenamiento y uso del ancho de banda, al tiempo que ofrece un rendimiento y garantías de durabilidad comparables a los titulares.
+
+<br/>
+
+### Descentralizando el almacenamiento de datos
+
+Codex comenzó en 2021 para abordar la necesidad de una capa de almacenamiento duradera y descentralizada para la pila de tecnología web3.
+
+El nombre "Codex" se refiere a una forma antigua de libro: una alusión a las garantías de durabilidad extremadamente robustas (99,99%) del motor de almacenamiento de datos.
+
+Codex fue anunciado como un protocolo central del Colectivo Logos en junio de 2023.
 
 ### Testnet
 
-Codex is currently in the testnet phase. The client implementation is free and open software. If you're interested, we encourage you to try Codex, connect to the testnet and experiment with its features. [Get started here](./quick-start.md)
+Codex se encuentra actualmente en la fase de testnet. La implementación del cliente es software libre y de código abierto. Si está interesado, le animamos a que pruebe Codex, se conecte a la testnet y experimente con sus características. [Empiece aquí](./quick-start.md)
