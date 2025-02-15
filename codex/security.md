@@ -1,7 +1,7 @@
-# Security
+# Seguridad
 
-We take security seriously at Codex and across the <a href="https://free.technology/" target="_blank">Institute of Free Technology</a> and its affiliates.
+En Codex, y en todo e <a href="https://free.technology/" target="_blank">Instituto de Tecnología Libre</a> y sus afiliados, nos tomamos la seguridad muy en serio.
 
-Please report any security incidents via <a href="mailto:security@free.technology">security@free.technology</a>.
+Por favor, informe de cualquier incidente de seguridad a través de <a href="mailto:security@free.technology">security@free.technology</a>.
 
-Please report any discovered vulnerabilities in our bounty programme at <a href="https://hackenproof.com/ift" target="_blank">HackenProof</a> to help ensure our protocols and software remain secure.
+Por favor, informe de cualquier vulnerabilidad descubierta en nuestro programa de recompensas en <a href="https://hackenproof.com/ift" target="_blank">HackenProof</a> para ayudar a garantizar que nuestros protocolos y software permanezcan seguros.
