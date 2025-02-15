@@ -1,5 +1,5 @@
-# Disclaimer
+# Descargo de responsabilidad
 
-The code and instructions provided within this repository and related repositories are provided “as-is”, without warranty of any kind, express or implied, including but not limited to the safety or correctness, or performance of the code or instructions provided. We make no assurance that the code will work as intended, and users may experience delays, failures, errors, omissions or loss of transmitted information whilst using or running Codex.
+El código y las instrucciones proporcionadas dentro de este repositorio y repositorios relacionados se proporcionan "tal cual", sin garantía de ningún tipo, expresa o implícita, incluyendo, entre otras, la seguridad o corrección, o el rendimiento del código o las instrucciones proporcionadas. No aseguramos que el código funcionará como se pretende, y los usuarios pueden experimentar retrasos, fallos, errores, omisiones o pérdida de información transmitida al usar o ejecutar Codex.
 
-Running Codex is done at your own risk. As such, we are not responsible nor liable for any damage that may occur to your hardware, software, data, or network, or for any loss, claim, damage of whatever nature, or other liability arising from or in connection with the use of the provided code and instructions.
+La ejecución de Codex se realiza bajo su propio riesgo. Como tal, no somos responsables de ningún daño que pueda ocurrir a su hardware, software, datos o red, ni de ninguna pérdida, reclamación, daño de cualquier naturaleza u otra responsabilidad que surja de o en conexión con el uso del código e instrucciones proporcionados.

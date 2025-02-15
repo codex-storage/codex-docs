@@ -1,198 +1,198 @@
 <center>
     
-**Abstract** 
+**Resumen** 
 </center>
   
 <div style="display: flex; justify-content: center; align-items: center;">
 <div style="text-align: justify; width: 80%">
-The internet is becoming more and more centralized. As companies and individuals increasingly rely on centralized cloud providers for storage, critical concerns on privacy, censorship, and user control, as well as on the concentration of economic power in the hands of few entities become more pronounced. 
+Internet se está volviendo cada vez más centralizado. A medida que las empresas y los individuos dependen cada vez más de los proveedores de nube centralizados para el almacenamiento, las preocupaciones críticas sobre la privacidad, la censura y el control del usuario, así como sobre la concentración del poder económico en manos de unas pocas entidades, se vuelven más pronunciadas.
 
-While there have been several attempts at providing alternatives, modern decentralized storage networks (DSNs) often fall short on basic aspects like having strong durability guarantees, being efficient to operate, or providing scalable proofs of storage. This in turn leads to solutions that are either: _i)_ not useful, as they can lose data; _ii)_ not friendly to decentralization, as they require specialized or expensive hardware, or; _iii)_ economically unfeasible, as they burden providers with too many costs beyond those of the storage hardware itself.
+Si bien ha habido varios intentos de proporcionar alternativas, las redes de almacenamiento descentralizadas (DSN) modernas a menudo no cumplen con aspectos básicos, como tener sólidas garantías de durabilidad, ser eficientes para operar o proporcionar pruebas escalables de almacenamiento. Esto, a su vez, conduce a soluciones que son: i) no útiles, ya que pueden perder datos; ii) no amigables con la descentralización, ya que requieren hardware especializado o costoso; o iii) económicamente inviables, ya que sobrecargan a los proveedores con demasiados costos más allá de los del hardware de almacenamiento en sí.
 
-In this paper, we introduce Codex, a novel Erasure Coded Decentralized Storage Network that attempts to tackle those issues. Codex leverages erasure coding as part of both redundancy and storage proofs, coupling it with zero-knowledge proofs and lazy repair to achieve tunable durability guarantees while being modest on hardware and energy requirements. Central to Codex is the concept of the Decentralized Durability Engine (DDE), a framework we formalize to systematically address data redundancy, remote auditing, repair, incentives, and data dispersal in decentralized storage systems.
+En este artículo, presentamos Codex, una novedosa Red de Almacenamiento Descentralizada con Codificación de Borrado que intenta abordar esos problemas. Codex aprovecha la codificación de borrado como parte tanto de la redundancia como de las pruebas de almacenamiento, combinándola con pruebas de conocimiento cero y reparación diferida para lograr garantías de durabilidad ajustables, al tiempo que es modesta en cuanto a los requisitos de hardware y energía. Un concepto central de Codex es el Motor de Durabilidad Descentralizado (DDE), un marco que formalizamos para abordar sistemáticamente la redundancia de datos, la auditoría remota, la reparación, los incentivos y la dispersión de datos en los sistemas de almacenamiento descentralizados.
 
-We describe the architecture and mechanisms of Codex, including its marketplace and proof systems, and provide a preliminary reliability analysis using a Continuous Time Markov-Chain (CTMC) model to evaluate durability guarantees. Codex represents a step toward creating a decentralized, resilient, and economically viable storage layer critical for the broader decentralized ecosystem.
+Describimos la arquitectura y los mecanismos de Codex, incluido su mercado y sus sistemas de prueba, y proporcionamos un análisis preliminar de la confiabilidad utilizando un modelo de Cadena de Markov de Tiempo Continuo (CTMC) para evaluar las garantías de durabilidad. Codex representa un paso hacia la creación de una capa de almacenamiento descentralizada, resiliente y económicamente viable que es fundamental para el ecosistema descentralizado más amplio.
 </div>
 </div>
 
-## 1. Introduction 
-Data production has been growing at an astounding pace, with significant implications. Data is a critical asset for businesses, driving decision-making, strategic planning, and innovation. Individuals increasingly intertwine their physical lives with the digital world, meticulously documenting every aspect of their lives, taking pictures and videos, sharing their views and perspectives on current events, using digital means for communication and artistic expression, etc. Digital personas have become as important as their physical counterparts, and this tendency is only increasing.
+## 1. Introducción
+La producción de datos ha estado creciendo a un ritmo asombroso, con importantes implicaciones. Los datos son un activo crítico para las empresas, impulsando la toma de decisiones, la planificación estratégica y la innovación. Los individuos entrelazan cada vez más sus vidas físicas con el mundo digital, documentando meticulosamente cada aspecto de sus vidas, tomando fotos y videos, compartiendo sus puntos de vista y perspectivas sobre los acontecimientos actuales, utilizando medios digitales para la comunicación y la expresión artística, etc. Las identidades digitales se han vuelto tan importantes como sus contrapartes físicas, y esta tendencia solo está aumentando.
 
-Yet, the current trend towards centralization on the web has led to a situation where users have little to no control over their personal data and how it is used. Large corporations collect, analyze, and monetize user data, often without consent or transparency. This lack of privacy leaves individuals vulnerable to targeted advertising, profiling, surveillance, and potential misuse of their personal information.
+Sin embargo, la tendencia actual hacia la centralización en la web ha llevado a una situación en la que los usuarios tienen poco o ningún control sobre sus datos personales y cómo se utilizan. Las grandes corporaciones recopilan, analizan y monetizan los datos de los usuarios, a menudo sin consentimiento ni transparencia. Esta falta de privacidad deja a las personas vulnerables a la publicidad dirigida, la creación de perfiles, la vigilancia y el posible uso indebido de su información personal.
 
-Moreover, the concentration of data and power in the hands of a few centralized entities creates a significant risk of censorship: platforms can unilaterally decide to remove, modify, or suppress content that they deem undesirable, effectively limiting users’ freedom of expression and access to information. This power imbalance undermines the open and democratic nature of the internet, creating echo chambers and curtailing the free flow of ideas.
+Además, la concentración de datos y poder en manos de unas pocas entidades centralizadas crea un riesgo significativo de censura: las plataformas pueden decidir unilateralmente eliminar, modificar o suprimir contenido que consideren indeseable, limitando efectivamente la libertad de expresión y el acceso a la información de los usuarios. Este desequilibrio de poder socava la naturaleza abierta y democrática de Internet, creando cámaras de eco y restringiendo el libre flujo de ideas.
 
-Another undesirable aspect of centralization is economical: as bigtech dominance in this space evolves to an oligopoly, all revenues flow into the hands of a selected few, while the barrier to entry becomes higher and higher.
+Otro aspecto indeseable de la centralización es económico: a medida que el dominio de las grandes empresas tecnológicas en este espacio evoluciona hacia un oligopolio, todos los ingresos fluyen hacia las manos de unos pocos seleccionados, mientras que la barrera de entrada se vuelve cada vez más alta..
 
-To address these issues, there is a growing need for decentralized technologies. Decentralized technologies enable users to: _i)_ own and control their data by providing secure and transparent mechanisms for data storage and sharing, and _ii)_ participate in the storage economy as providers, allowing individuals and organizations to take their share of revenues. Users can choose to selectively share their data with trusted parties, retain the ability to revoke access when necessary, and monetize their data and their hardware if they so desire. This paradigm shift towards user-centric  data and infrastructure ownership has the potential to create a more equitable and transparent digital ecosystem.
+Para abordar estos problemas, existe una necesidad creciente de tecnologías descentralizadas. Las tecnologías descentralizadas permiten a los usuarios: i) poseer y controlar sus datos al proporcionar mecanismos seguros y transparentes para el almacenamiento y el intercambio de datos, y ii) participar en la economía del almacenamiento como proveedores, permitiendo a los individuos y organizaciones tomar su parte de los ingresos. Los usuarios pueden optar por compartir selectivamente sus datos con terceros de confianza, conservar la capacidad de revocar el acceso cuando sea necesario y monetizar sus datos y su hardware si así lo desean. Este cambio de paradigma hacia la propiedad de datos e infraestructura centrada en el usuario tiene el potencial de crear un ecosistema digital más equitativo y transparente.
 
-Despite their potential benefits, however, the lack of efficient and reliable decentralized storage leaves a key gap that needs to be addressed before any notion of a decentralized technology stack can be seriously contemplated.
+A pesar de sus beneficios potenciales, sin embargo, la falta de almacenamiento descentralizado eficiente y confiable deja una brecha clave que debe abordarse antes de que se pueda contemplar seriamente cualquier noción de una pila de tecnología descentralizada.
 
-In response to these challenges, we introduce Codex: a novel Erasure Coded Decentralized Storage Network which relies on erasure coding for redundancy and efficient proofs of storage. This method provides unparalleled reliability and allows for the storage of large datasets, larger than any single node in the network, in a durable and secure fashion. Our compact and efficient proofs of storage can detect and prevent catastrophic data loss with great accuracy, while incurring relatively modest hardware and electricity requirements -- two preconditions for achieving true decentralization. In addition, we introduce and formalize in this paper the notion of durability in decentralized storage networks through a new concept we call the _Decentralized Durability Engine_ (DDE).
+En respuesta a estos desafíos, presentamos Codex: una novedosa Red de Almacenamiento Descentralizada con Codificación de Borrado que se basa en la codificación de borrado para la redundancia y las pruebas eficientes de almacenamiento. Este método proporciona una confiabilidad sin igual y permite el almacenamiento de grandes conjuntos de datos, más grandes que cualquier nodo individual en la red, de una manera duradera y segura. Nuestras pruebas de almacenamiento compactas y eficientes pueden detectar y prevenir la pérdida catastrófica de datos con gran precisión, al tiempo que incurren en requisitos de hardware y electricidad relativamente modestos – dos condiciones previas para lograr una verdadera descentralización. Además, introducimos y formalizamos en este artículo la noción de durabilidad en las redes de almacenamiento descentralizadas a través de un nuevo concepto que llamamos el Motor de Durabilidad Descentralizado (DDE).
 
-The remainder of this paper is organized as follows. First, we discuss the context on which Codex is built (Sec. 2) by expanding on the issues of centralized cloud storage, and providing background on previous takes at decentralized alternatives -- namely, p2p networks, blockchains, and DSNs. Then, we  introduce the conceptual framework that underpins Codex in Sec. 3 -- the Decentralized Durability Engine (DDE) -- followed by a more detailed descriptions of the mechanisms behind Codex and how it materializes as a DDE in Sec. 4. Sec. 5 then presents a preliminary reliability analysis, which places Codex's storage parameters alongside more formal durability guarantees. Finally, Sec. 6 provides conclusions and ongoing work.
+El resto de este artículo está organizado de la siguiente manera. Primero, discutimos el contexto en el que se construye Codex (Sec. 2) mediante la ampliación de los problemas de almacenamiento en la nube centralizado, y proporcionando información básica sobre los enfoques previos a las alternativas descentralizadas - en concreto, las redes p2p, blockchains, y DSNs. Luego, introducimos el marco conceptual que sustenta Codex en la Sec. 3 - el Motor de Durabilidad Descentralizado (DDE) - seguido de una descripción más detallada de los mecanismos detrás de Codex y cómo se materializa como un DDE en la Sec. 4. Sec. 5, a continuación, presenta un análisis de fiabilidad preliminar, que sitúa los parámetros de almacenamiento de Codex junto con mayores garantías de durabilidad formales. Finalmente, la Sec. 6 proporciona las conclusiones y el trabajo en curso.
 
-## 2. Background and Context
+## 2. Antecedentes y Contexto
 
-Codex aims at being a useful and decentralized alternative to centralized storage. In this section, we discuss the context in which this needs arises, as well as why past and current approaches to building and reasoning about decentralized storage were incomplete. This will set the stage for our introduction of the Decentralized Durability Engine -- our approach to reasoning about decentralized storage -- in Sec. 3.
+Codex pretende ser una alternativa útil y descentralizada para el almacenamiento centralizado. En esta sección, se analiza el contexto en el que surge esta necesidad, así como por qué los enfoques anteriores y actuales para la construcción y el razonamiento sobre el almacenamiento descentralizado resultaron incompletos. Esto sentará las bases para nuestra introducción del Motor de Durabilidad Descentralizado - nuestro enfoque para el razonamiento sobre el almacenamiento descentralizado - en la Sec. 3.
 
-### 2.1. Centralized Cloud Storage
-Over the past two decades, centralized cloud storage has become the _de facto_ approach for storage services on the internet for both individuals and companies alike. Indeed, recent research places the percentage of businesses that rely on at least one cloud provider at $94\%$[^zippia_cloud_report], while most modern smartphones will backup their contents to a cloud storage provider by default.
+### 2.1. Almacenamiento en la Nube Centralizado
+Durante las últimas dos décadas, el almacenamiento en la nube centralizado se ha convertido en el enfoque de facto para los servicios de almacenamiento en Internet, tanto para particulares como para empresas. De hecho, una investigación reciente sitúa el porcentaje de empresas que dependen de al menos un proveedor de servicios en la nube en el $94%$ [^zippia_cloud_report], mientras que la mayoría de los smartphones modernos realizan copias de seguridad de sus contenidos en un proveedor de almacenamiento en la nube de forma predeterminada.
 
-The appeal is clear: scalable, easy-to-use elastic storage and networking coupled with a flexible pay-as-you-go model and a strong focus on durability[^s3_reinvent_19]  translating to dependable infrastructure that is available immediately and at the exact scale required.
+El atractivo es claro: escalable, fácil de utilizar el almacenamiento elástico y la conexión en red junto con un modelo flexible de pago por uso y un fuerte enfoque en la durabilidad [^s3_reinvent_19] que se traduce en una infraestructura fiable que está disponible de inmediato y en la escala exacta requerida.
 
-Centralization, however, carries a long list of downsides, most of them due to having a single actor in control of the whole system. This effectively puts users at the mercy of the controlling actor's commercial interests, which may and often will not coincide with the user's interests on how their data gets used, as well as their ability to stay afloat in the face of natural, political, or economical adversity. Government intervention and censorship are also important sources of concern[^liu_19]. Larger organizations are acutely aware of these risks, with $98\%$ of cloud user businesses adopting multi-cloud environments to mitigate them[^multicloud].
+La centralización, sin embargo, conlleva una larga lista de inconvenientes, la mayoría de ellos debidos a tener un único actor en el control de todo el sistema. Esto coloca efectivamente a los usuarios a merced de los intereses comerciales del actor controlador, que puede que no coincidan con los intereses del usuario respecto a la forma en que se utilizan sus datos, así como su capacidad para permanecer a flote frente a la adversidad natural, política o económica. La intervención del gobierno y la censura son también importantes fuentes de preocupación [^liu_19]. Las organizaciones más grandes son muy conscientes de estos riesgos, con un $98%$ de los usuarios empresariales de la nube que adoptan entornos multi-nube para mitigarlos [^multicloud].
 
-The final downside is economical: since very few companies can currently provide such services at the scale and quality required, the billions in customer spending gets funneled into the pockets of a handful of individuals. Oligopolies such as these can  derail into an uncompetitive market which finds its equilibrium at a price point which is not necessarily in the best interest of end-users[^feng_14].
+El último inconveniente es económico: ya que muy pocas empresas pueden proveer actualmente estos servicios a la escala y la calidad necesarias, los miles de millones de gasto de los clientes se canalizan a los bolsillos de un puñado de individuos. Oligopolios como estos pueden descarrilar a un mercado no competitivo que encuentra su equilibrio en un punto de precio que no está necesariamente en el mejor interés de los usuarios finales [^feng_14].
 
-### 2.2. Decentralized Alternatives: Past and Present
+### 2.2. Alternativas Descentralizadas: Pasado y Presente
 
-Given the downsides of centralized cloud storage, it is natural to wonder if there could be alternatives, and indeed those have been extensively researched since the early 2000's. We will not attempt to cover that entire space here, and will instead focus on what we consider to be the three main technological breakthroughs that happened in decentralized systems over these past two decades, and why they have failed to make meaningful inroads thus far: P2P networks, blockchains, and Data Storage Networks (DSNs).
+Teniendo en cuenta los inconvenientes del almacenamiento centralizado en la nube, es natural preguntarse si podría haber alternativas; y, de hecho, estos han sido investigados ampliamente desde principios de la década de 2000. No vamos a intentar cubrir todo ese espacio aquí, y en su lugar nos centraremos en lo que consideramos que son los tres principales avances tecnológicos que se produjeron en los sistemas descentralizados en estas últimas dos décadas, y por qué no han logrado avances significativos hasta el momento: Redes P2P, blockchains, y Redes de Almacenamiento de Datos (DSNs).
 
-**P2P Networks.** P2P networks have been around for over two decades. Their premise is that users can run client software on their own machines and form a self-organizing network that enables sharing of resources like bandwidth, compute, and storage to provide higher-level services like search or decentralized file sharing without the need for a centralized controlling actor.
+**Redes P2P.** Las redes P2P han existido durante más de dos décadas. Su premisa es que los usuarios pueden ejecutar software cliente en sus propias máquinas y formar una red autoorganizada que permite compartir recursos como ancho de banda, computación y almacenamiento para proporcionar servicios de nivel superior como búsqueda o intercambio de archivos descentralizado sin la necesidad de un actor controlador centralizado.
 
-Early networks like BitTorrent[^cohen_01], however, only had rudimentary incentives based on a form of barter economy in which nodes providing blocks to other nodes would be rewarded with access to more blocks. This provides some basic incentives for nodes to exchange the data they hold, but whether or not a node decides to hold a given piece of data is contingent on whether or not the node operator was interested in that data to begin with; i.e., a node will likely not download a movie if they are not interested in watching it. 
+Las primeras redes como BitTorrent[^cohen_01], sin embargo, solo tenían incentivos rudimentarios basados en una forma de economía de trueque en la que los nodos que proporcionaban bloques a otros nodos serían recompensados con acceso a más bloques. Esto proporciona algunos incentivos básicos para que los nodos intercambien los datos que poseen, pero si un nodo decide o no mantener una determinada pieza de datos depende de si el operador del nodo estaba interesado en esos datos para empezar; es decir, un nodo probablemente no descargará una película si no está interesado en verla. 
 
-Files which are not popular, therefore, tend to disappear from the network as no one is interested in them, and there is no way to incentivize nodes to do otherwise. This lack of even basic durability guarantees means BitTorrent and, in fact, most of the early p2p file-sharing networks, are suitable as distribution networks at best, but not as storage networks as data can, and probably will, be eventually lost. Even more recent attempts at decentralized file sharing like IPFS[^ipfs_website] suffer from similar shortcomings: by default, IPFS offers no durability guarantees, i.e., there is no way to punish a pinning service if it fails to keep data around.
+Por lo tanto, los archivos que no son populares tienden a desaparecer de la red, ya que nadie está interesado en ellos, y no hay forma de incentivar a los nodos para que hagan lo contrario. Esta falta de incluso garantías básicas de durabilidad significa que BitTorrent y, de hecho, la mayoría de las primeras redes de intercambio de archivos P2P, son adecuadas como redes de distribución en el mejor de los casos, pero no como redes de almacenamiento, ya que los datos pueden, y probablemente lo harán, perderse eventualmente. Incluso los intentos más recientes de intercambio de archivos descentralizado como IPFS[^ipfs_website] sufren de deficiencias similares: por defecto, IPFS no ofrece garantías de durabilidad, es decir, no hay forma de castigar a un servicio de pinning si no mantiene los datos disponibles.
 
-**Blockchains.** Blockchains have been introduced as part of Bitcoin in 2008[^nakamoto_08], with the next major player Ethereum[^buterin_13] going live in 2013. A blockchain consists of a series of blocks, each containing a list of transactions. These blocks are linked together in chronological order through cryptographic hashes. Each block contains a hash of the previous block, which secures the chain against tampering. This structure ensures that once a block is added to the blockchain, the information it contains cannot be altered without redoing all subsequent blocks, making it secure against fraud and revisions. For all practical purposes, once a block gets added, it can no longer be removed.
+**Blockchains.** Las blockchains se introdujeron como parte de Bitcoin en 2008[^nakamoto_08], y el siguiente actor principal, Ethereum[^buterin_13], entró en funcionamiento en 2013. Una blockchain consta de una serie de bloques, cada uno de los cuales contiene una lista de transacciones. Estos bloques están vinculados entre sí en orden cronológico a través de hashes criptográficos. Cada bloque contiene un hash del bloque anterior, lo que asegura la cadena contra la manipulación. Esta estructura asegura que una vez que se agrega un bloque a la blockchain, la información que contiene no se puede alterar sin rehacer todos los bloques subsiguientes, lo que la hace segura contra el fraude y las revisiones. Para todos los propósitos prácticos, una vez que se agrega un bloque, ya no se puede eliminar.
 
-This permanence allied to the fully replicated nature of blockchain means they provide very strong durability and availability guarantees, and this has been recognized since very early on. The full-replication model of blockchains, however, also turns out to be what makes them impractical for data storage: at the date of this writing, storing as little as a gigabyte of data on a chain like Ethereum remains prohibitively expensive[^kostamis_24].
+Esta permanencia aliada a la naturaleza totalmente replicada de la blockchain significa que proporciona garantías de durabilidad y disponibilidad muy sólidas, y esto se ha reconocido desde muy temprano. El modelo de replicación completa de las blockchains, sin embargo, también resulta ser lo que las hace poco prácticas para el almacenamiento de datos: en la fecha de esta redacción, almacenar tan solo un gigabyte de datos en una cadena como Ethereum sigue siendo prohibitivamente caro[^kostamis_24].
 
-Blockchains represent nevertheless a game-changing addition to decentralized systems in that they allow system designers to build much stronger and complex incentive mechanisms based on monetary economies, and to implement key mechanisms like cryptoeconomic security[^chaudhry_24] through slashing, which were simply not possible before.
+Las blockchains representan, sin embargo, una adición revolucionaria a los sistemas descentralizados, ya que permiten a los diseñadores de sistemas construir mecanismos de incentivos mucho más sólidos y complejos basados en economías monetarias, e implementar mecanismos clave como la seguridad criptoeconómica[^chaudhry_24] a través del slashing, que simplemente no eran posibles antes.
 
-**Decentralized Storage Networks (DSNs).** Decentralized Storage Networks (DSNs) represent a natural stepping stone in decentralized storage: by combining traditional P2P technology with the strong incentive mechanisms afforded by modern blockchains and new cryptographic primitives, they provide a much more credible take on decentralized storage. 
+**Redes de Almacenamiento Descentralizadas (DSNs).** Las Redes de Almacenamiento Descentralizadas (DSNs) representan un paso natural en el almacenamiento descentralizado: al combinar la tecnología P2P tradicional con los sólidos mecanismos de incentivos que ofrecen las blockchains modernas y las nuevas primitivas criptográficas, proporcionan una visión mucho más creíble del almacenamiento descentralizado.
 
-Like early P2P networks, DSNs consolidate storage capacities from various independent providers and orchestrate data storage and retrieval services for clients. Unlike early P2P networks, however, DSNs employ the much stronger mechanisms afforded by blockchains to incentivize correct operation. They typically employ remote auditing techniques like Zero-Knowledge proofs to hold participants accountable, coupled with staking/slashing mechanisms which inflict monetary losses on bad participants as they are caught.
+Al igual que las primeras redes P2P, las DSN consolidan las capacidades de almacenamiento de varios proveedores independientes y orquestan los servicios de almacenamiento y recuperación de datos para los clientes. A diferencia de las primeras redes P2P, sin embargo, las DSN emplean los mecanismos mucho más sólidos que ofrecen las blockchains para incentivar el funcionamiento correcto. Normalmente emplean técnicas de auditoría remota como pruebas de conocimiento cero para responsabilizar a los participantes, junto con mecanismos de staking/slashing que infligen pérdidas monetarias a los participantes malos cuando son atrapados.
 
-In their seminal paper[^protocol_17], the Filecoin team characterizes a DSN as a tuple $\Pi = \left(\text{Put}, \text{Get}, \text{Manage}\right)$, where:
+En su artículo seminal[^protocol_17], el equipo de Filecoin caracteriza una DSN como una tupla $\Pi = \left(\text{Put}, \text{Get}, \text{Manage}\right)$, donde:
 
-* $\text{Put(data)} \rightarrow \text{key}$: Clients execute the Put protocol to store data under a unique identifier key.
-* $\text{Get(key)} \rightarrow \text{data}$: Clients execute the Get protocol to retrieve data that is currently stored using key.
-* $\text{Manage()}$: The network of participants coordinates via the Manage protocol to: control the available storage, audit the service offered by providers and repair possible faults. The Manage protocol is run by storage providers often in conjunction with clients or a network of auditors.
+* $\text{Put(data)} \rightarrow \text{key}$: Los clientes ejecutan el protocolo Put para almacenar datos bajo una clave identificadora única.
+* $\text{Get(key)} \rightarrow \text{data}$: Los clientes ejecutan el protocolo Get para recuperar los datos que están almacenados actualmente utilizando la clave.
+* $\text{Manage()}$: La red de participantes se coordina a través del protocolo Manage para: controlar el almacenamiento disponible, auditar el servicio ofrecido por los proveedores y reparar posibles fallas. El protocolo Manage es ejecutado por los proveedores de almacenamiento, a menudo en conjunto con los clientes o una red de auditores.
 
-While useful, we argue this definition is incomplete as it pushes a number of key elements onto an unspecified black box protocol/primitive named $\text{Manage}()$. These include:
+Si bien es útil, argumentamos que esta definición es incompleta, ya que traslada una serie de elementos clave a un protocolo/primitiva de caja negra no especificada llamada $\text{Manage}()$. Estos incluyen:
 
 
-* incentive and slashing mechanisms;
-* remote auditing and repair protocols;
-* strategies for data redundancy and dispersal.
+* mecanismos de incentivos y slashing;
+* protocolos de auditoría remota y reparación;
+* estrategias para la redundancia y dispersión de datos.
 
-Such elements are of particular importance as one attempts to reason about what would be required to construct a DSN that provides actual utility. As we set out to design Codex and asked ourselves that question, we found that the key to useful DSNs is in _durability_; i.e., a storage system is only useful if it can provide durability guarantees that can be reasoned about. 
+Tales elementos son de particular importancia cuando uno intenta razonar sobre lo que se requeriría para construir una DSN que proporcione utilidad real. Al comenzar a diseñar Codex y hacernos esa pregunta, descubrimos que la clave para las DSN útiles está en la durabilidad; es decir, un sistema de almacenamiento sólo es útil si puede proporcionar garantías de durabilidad que se puedan razonar.
 
-In the next section, we explore a construct we name Decentralized Durability Engines which, we argue, lead to a more principled approach to designing storage systems that provide utility.
+En la siguiente sección, exploramos una construcción que llamamos Decentralized Durability Engines (Motores de Durabilidad Descentralizados), que, argumentamos, conducen a un enfoque más fundamentado para diseñar sistemas de almacenamiento que proporcionen utilidad.
     
-## 3. Decentralized Durability Engines (DDE)
+## 3. Motores de Durabilidad Descentralizados (DDE)
     
-A Decentralized Durability Engine is a tuple $\Gamma = \text{(R, A, P, I, D)}$ where:
+Un Motor de Durabilidad Descentralizado es una tupla $\Gamma = \text{(R, A, P, I, D)}$ donde:
 
-* $R$ is a set of redundancy mechanisms, such as erasure coding and replication, that ensure data availability and fault tolerance.
-* $A$ is a set of remote auditing protocols that verify the integrity and availability of stored data.
-* $P$ is a set of repair mechanisms that maintain the desired level of redundancy and data integrity by detecting and correcting data corruption and loss.
-* $I$ is a set of incentive mechanisms that encourage nodes to behave honestly and reliably by rewarding good behavior and penalizing malicious or negligent actions.
-* $D$ is a set of data dispersal algorithms that strategically distribute data fragments across multiple nodes to minimize the risk of data loss due to localized failures and to improve data availability and accessibility.
+* $R$ es un conjunto de mecanismos de redundancia, como la codificación de borrado y la replicación, que garantizan la disponibilidad de los datos y la tolerancia a fallos.
+* $A$ es un conjunto de protocolos de auditoría remota que verifican la integridad y la disponibilidad de los datos almacenados.
+* $P$ es un conjunto de mecanismos de reparación que mantienen el nivel deseado de redundancia y la integridad de los datos mediante la detección y corrección de la corrupción y la pérdida de datos.
+* $I$ es un conjunto de mecanismos de incentivos que alientan a los nodos a comportarse de manera honesta y fiable, recompensando el buen comportamiento y penalizando las acciones maliciosas o negligentes.
+* $D$ es un conjunto de algoritmos de dispersión de datos que distribuyen estratégicamente los fragmentos de datos en múltiples nodos para minimizar el riesgo de pérdida de datos debido a fallos localizados y para mejorar la disponibilidad y la accesibilidad de los datos.
 
-We argue that when designing a storage system that can keep data around, none of these elements are optional. Data needs to be redundant ($R$), there needs to be a way to detect failures and misbehavior ($A$), we must be able to repair data so it is not lost to accumulated failures $(P)$, misbehaving nodes must be penalized ($I$), and data must be placed so as fault correlation is understood ($D$).
-    
-This is a somewhat informal treatment for now, but the actual parameters that would be input into any reliability analysis of a storage system would be contingent on those choices. In a future publication, we will explore how durability is affected by the choice of each of these elements in a formal framework.
+Argumentamos que, al diseñar un sistema de almacenamiento que pueda conservar los datos, ninguno de estos elementos es opcional. Los datos deben ser redundantes ($R$), debe haber una manera de detectar fallos y comportamientos indebidos ($A$), debemos ser capaces de reparar los datos para que no se pierdan debido a la acumulación de fallos ($P$), los nodos que se comportan mal deben ser penalizados ($I$) y los datos deben colocarse de manera que se comprenda la correlación de fallos ($D$).
 
-## 4. Codex: A Decentralized Durability Engine
+Este es un tratamiento un tanto informal por ahora, pero los parámetros reales que se ingresarían en cualquier análisis de fiabilidad de un sistema de almacenamiento dependerían de esas elecciones. En una publicación futura, exploraremos cómo la elección de cada uno de estos elementos afecta la durabilidad en un marco formal.
 
-This section describes how Codex actually works. The primary motivation behind Codex is to provide a scalable and robust decentralized storage solution which addresses the limitations of existing DSNs. This includes: i) enhanced durability guarantees that can be reasoned about, ii) scalability and performance and iii) decentralization and censorship resistance.
+## 4. Codex: Un Motor de Durabilidad Descentralizado
 
-We start this section by laying out key concepts required to understand how Codex works (Sec. 4.1). We then discuss the redundancy ($R$), remote auditing ($A$), and repair mechanisms ($P$) of Codex and how they combine erasure codes and zero-knowledge proofs into a system that is lightweight, efficient, and amenable to decentralization. Sec. 4.4 takes a detour onto the networking layer and provides an overview of our scalable data transfer protocols. Finally, incentives ($I$) and dispersal $(D)$ are discussed in Sec. 4.5 as part of the Codex marketplace.
+Esta sección describe cómo funciona realmente Codex. La motivación principal detrás de Codex es proporcionar una solución de almacenamiento descentralizada escalable y robusta que aborde las limitaciones de las DSN existentes. Esto incluye: i) garantías de durabilidad mejoradas que se pueden razonar, ii) escalabilidad y rendimiento y iii) descentralización y resistencia a la censura.
 
-### 4.1. Concepts
+Comenzamos esta sección exponiendo los conceptos clave necesarios para comprender cómo funciona Codex (Sec. 4.1). Luego, analizamos la redundancia ($R$), la auditoría remota ($A$) y los mecanismos de reparación ($P$) de Codex y cómo combinan los códigos de borrado y las pruebas de conocimiento cero en un sistema que es ligero, eficiente y susceptible a la descentralización. La Sec. 4.4 se desvía hacia la capa de red y proporciona una visión general de nuestros protocolos escalables de transferencia de datos. Finalmente, los incentivos ($I$) y la dispersión ($D$) se discuten en la Sec. 4.5 como parte del mercado de Codex.
 
-In the context of Codex (and of storage systems in general), two properties appear as fundamental:
+### 4.1. Conceptos
 
-**Availability.** A system is said to be _available_ when it is able to provide its intended service, and _unavailable_ otherwise. The availability of a system over any given interval of time is given by [^tanembaum]:
+En el contexto de Codex (y de los sistemas de almacenamiento en general), dos propiedades aparecen como fundamentales:
+
+Disponibilidad. Se dice que un sistema está disponible cuando es capaz de proporcionar el servicio previsto, y no disponible en caso contrario. La disponibilidad de un sistema durante un intervalo de tiempo dado viene dada por [^tanembaum]:
 
 $$
 p_\text{avail} =\frac{t_a}{t_a + t_u}
 $$
 
-where $t_a$ and $t_u$ are the total times in which the system remained available and unavailable, respectively. To maintain high availability, a storage system needs to be _fault tolerant_; i.e., it should be able to correctly service storage and retrieval requests in the presence of hardware faults and malicious participants.
+donde $t_a$ y $t_u$ son los tiempos totales en los que el sistema permaneció disponible y no disponible, respectivamente. Para mantener una alta disponibilidad, un sistema de almacenamiento necesita ser tolerante a fallos; es decir, debería ser capaz de atender correctamente las solicitudes de almacenamiento y recuperación en presencia de fallos de hardware y participantes maliciosos.
 
-**Durability.** Quantified as a probability $p_\text{dur} = 1 - p_\text{loss}$ that a given unit of data _will not_ be lost over a given period of time; e.g. the probability that some file is not lost  within a $1$-year period. This probability is sometimes expressed as a percentage (e.g. in S3).
+**Durabilidad.** Cuantificada como una probabilidad $p_\text{dur} = 1 - p_\text{loss}$ de que una unidad de datos dada no se pierda durante un período de tiempo dado; por ejemplo, la probabilidad de que algún archivo no se pierda en un período de 1 año. Esta probabilidad a veces se expresa como un porcentaje (por ejemplo, en S3).
 
-If this number is very close to one, e.g. $p_\text{loss} \leq 10^{-6}$, then the system is said to be _highly durable_. Systems that are not highly durable are those that can lose data with higher or unbounded probability, or that do not quantify their loss probabilities at all.
+Si este número es muy cercano a uno, por ejemplo, $p_\text{loss} \leq 10^{-6}$, entonces se dice que el sistema es altamente duradero. Los sistemas que no son altamente duraderos son aquellos que pueden perder datos con una probabilidad mayor o ilimitada, o que no cuantifican en absoluto sus probabilidades de pérdida.
 
-Ideally, we would like storage systems to be highly available and highly durable. Since achieving _provable availability_ is in general not possible[^bassam_18], Codex focuses on stronger guarantees for durability and on incentivizing availability instead.
+Idealmente, nos gustaría que los sistemas de almacenamiento fueran altamente disponibles y altamente duraderos. Dado que lograr la disponibilidad demostrable no es posible en general[^bassam_18], Codex se centra en garantías más sólidas para la durabilidad y en incentivar la disponibilidad en su lugar.
 
-**Dataset.** A _dataset_ $D = \{c_1, \cdots c_b\}$ is defined in Codex as an ordered set of $b \in \mathbb{N}$ fixed-sized blocks. Blocks are typically small, on the order of $64\text{kB}$. For all intents and purposes, one can think of a dataset as being a regular file.
+**Conjunto de datos.** Un conjunto de datos $D = {c_1, \cdots c_b}$ se define en Codex como un conjunto ordenado de $b \in \mathbb{N}$ bloques de tamaño fijo. Los bloques suelen ser pequeños, del orden de $64\text{kB}$. A todos los efectos, se puede pensar en un conjunto de datos como un archivo normal.
 
-**Storage Client (SC).** A Storage Client is a node that participates in the Codex network to buy storage. These may be individuals seeking to backup the contents of their hard drives, or organizations seeking to store business data.
+**Cliente de almacenamiento (SC).**  Un cliente de almacenamiento es un nodo que participa en la red Codex para comprar almacenamiento. Estos pueden ser individuos que buscan hacer una copia de seguridad del contenido de sus discos duros, u organizaciones que buscan almacenar datos comerciales.
 
-**Storage Provider (SP).** A Storage Provider is a node that participates in Codex by selling disk space to other nodes.
+**Proveedor de almacenamiento (SP).** Un proveedor de almacenamiento es un nodo que participa en Codex vendiendo espacio en disco a otros nodos.
 
-### 4.2. Overview
+### 4.2. Visión general
 
-At a high level, storing data in Codex works as follows. Whenever a SC wishes to store a dataset $D$ into Codex, it:
+A un alto nivel, el almacenamiento de datos en Codex funciona de la siguiente manera. Siempre que un SC desea almacenar un conjunto de datos $D$ en Codex, este:
 
-1. splits $D$ into $k$ disjoint $\{S_1, \cdots, S_k\}$ partitions named **slots**, where each slot contains $s = \left\lceil \frac{b}{k} \right\rceil$ blocks;
-1. erasure-codes $D$ with a Reed-Solomon Code[^reed_60] by extending it into a new dataset $D_e$ which adds an extra $m \times s$ parity blocks to $D$ (Sec. 4.3). This effectively adds $m$ new slots to the dataset. Since we use a systematic code, $D$ remains a prefix of $D_e$;
-1. computes two different Merkle tree roots: one used for inclusion proofs during data exchange, based on SHA256, and another one for storage proofs, based on Poseidon2 (Sec 4.3);
-1. generates a content-addressable manifest for $D_e$ and advertises it into the Codex DHT (Sec. 4.4);
-1. posts a **storage request** containing a set of parameters in the Codex marketplace (on-chain), which includes things like how much the SC is willing to pay for storage, as well as expectations that may impact the profitability of candidate SPs and the durability guarantees for $D_e$, for each slot (Sec. 4.5).
+1. divide $D$ en $k$ particiones disjuntas ${S_1, \cdots, S_k}$ denominadas slots, donde cada slot contiene $s = \left\lceil \frac{b}{k} \right\rceil$ bloques;
+2. codifica con borrado $D$ con un código Reed-Solomon[^reed_60] extendiéndolo a un nuevo conjunto de datos $D_e$ que añade un extra de $m \times s$ bloques de paridad a $D$ (Sec. 4.3). Esto añade efectivamente $m$ nuevos slots al conjunto de datos. Como utilizamos un código sistemático, $D$ sigue siendo un prefijo de $D_e$;
+3. calcula dos raíces de árbol Merkle diferentes: una utilizada para las pruebas de inclusión durante el intercambio de datos, basada en SHA256, y otra para las pruebas de almacenamiento, basada en Poseidon2 (Sec 4.3);
+4. genera un manifiesto direccionable por contenido para $D_e$ y lo anuncia en el Codex DHT (Sec. 4.4);
+5. publica una solicitud de almacenamiento que contiene un conjunto de parámetros en el mercado de Codex (en la cadena), que incluye cosas como cuánto está dispuesto a pagar el SC por el almacenamiento, así como las expectativas que pueden afectar la rentabilidad de los SP candidatos y las garantías de durabilidad para $D_e$, para cada slot (Sec. 4.5).
 
-The Codex marketplace (Sec. 4.5) then ensures that SPs willing to store data for a given storage request are provided a fair opportunity to do so. Eventually, for each slot $S_i \in D_e$, _some_ SP will:
+El mercado de Codex (Sec. 4.5) luego asegura que los SP dispuestos a almacenar datos para una solicitud de almacenamiento determinada tengan una oportunidad justa de hacerlo. Eventualmente, para cada slot $S_i \in D_e$, algún SP:
 
-1. declare its interest in it by filing a **slot reservation**;
-1. download the data for the slot from the SC;
-1. provide an initial proof of storage and some staking collateral for it.
+1. declara su interés en él presentando una reserva de slot;
+2. descarga los datos para el slot desde el SC;
+3. proporciona una prueba inicial de almacenamiento y alguna garantía de staking para ello.
 
-Once this process completes, we say that slot $S_i$ has been **filled**. Once all slots in $D_e$ have been filled, we say that $D_e$ has been **fulfilled**. For the remainder of this section, we will dive into the architecture and mechanisms of Codex by explaining in more detail each aspect of the storage flow.
+Una vez que este proceso se completa, decimos que el slot $S_i$ ha sido completado. Una vez que todos los slots en $D_e$ han sido completados, decimos que $D_e$ ha sido cumplido. Para el resto de esta sección, profundizaremos en la arquitectura y los mecanismos de Codex explicando con más detalle cada aspecto del flujo de almacenamiento.
 
-### 4.3. Erasure Coding, Repair, and Storage Proofs
+### 4.3. Codificación de Borrado, Reparación y Pruebas de Almacenamiento
 
-Erasure coding plays two main roles in Codex: _i)_ allowing data to be recovered following loss of one or more SPs and the slots that they hold (redundancy) and _ii)_ enabling cost-effective proofs of storage. We will go through each of these aspects separately.
+a codificación de borrado desempeña dos funciones principales en Codex: i) permitir que los datos se recuperen tras la pérdida de uno o más SP y los slots que poseen (redundancia) y ii) permitir pruebas de almacenamiento rentables. Revisaremos cada uno de estos aspectos por separado.
     
-**Erasure Coding for Redundancy.** As described before, a dataset $D$ is initially split into $k$ slots of size $s = \left\lceil \frac{b}{k} \right\rceil$ (Figure 1). Since $b$ may not actually be divisible by $k$, Codex will add _padding blocks_ as required so that the number of blocks in $D$ is $b_p = s \times k$.
+**Codificación de Borrado para la Redundancia.**  Como se describió antes, un conjunto de datos $D$ se divide inicialmente en $k$ slots de tamaño $s = \left\lceil \frac{b}{k} \right\rceil$ (Figura 1). Dado que $b$ puede no ser realmente divisible por $k$, Codex añadirá bloques de relleno según sea necesario para que el número de bloques en $D$ sea $b_p = s \times k$.
 
 <center>
     <img src="/learn/whitepaper/dataset-and-blocks.png" width=80%/>
 </center>
 
-**Figure 1.** A padded dataset $D$ split into $k$ slots.
+**Figura 1.** Un conjunto de datos rellenado $D$ dividido en $k$ slots.
     
-Codex then erasure-codes $D$ by _interleaving_ blocks taken from each slot (Figure 2), one at a time. The procedure runs $s$ interleaving steps, where $s$ is the number of blocks in a slot.
+odex luego codifica con borrado $D$ entrelazando bloques tomados de cada slot (Figura 2), uno a la vez. El procedimiento ejecuta $s$ pasos de entrelazado, donde $s$ es el número de bloques en un slot. 
 
 <center>
     <img src="/learn/whitepaper/ec-dataset-and-blocks.png" width=80%/>
 </center>
 
-**Figure 2.** Erasure-coded dataset $D_e$ with $k + m$ slots and interleaving process.
+**Figura 2.** Conjunto de datos codificado con borrado $D_e$ con $k + m$ slots y proceso de entrelazado.
     
-At each _interleaving step_, we collect $k$ blocks by selecting the $i^{th}$ block within each of the $k$ slots ($1 \leq i \leq s$), and feed those through the Reed-Solomon encoder. The encoder then outputs $m$ parity blocks, which get added as the $i^{th}$ block of $m$ new distinct _parity slots_. Since slots have $s$ blocks each we are left, at the end of this process, with $m$ parity slots of $s$ blocks each, or $m \times s$ new parity blocks.
+En cada paso de entrelazado, recogemos $k$ bloques seleccionando el bloque $i^{th}$ dentro de cada uno de los $k$ slots ($1 \leq i \leq s$), y los alimentamos a través del codificador Reed-Solomon. El codificador luego genera $m$ bloques de paridad, que se añaden como el bloque $i^{th}$ de $m$ nuevos slots de paridad distintos. Dado que los slots tienen $s$ bloques cada uno, al final de este proceso, nos quedan $m$ slots de paridad de $s$ bloques cada uno, o $m \times s$ nuevos bloques de paridad.
     
-The Codex marketplace (Sec. 4.5) then employs mechanisms to ensure that each one of these slots are assigned to a different node so that failure probabilities for each slot are decorrelated. This is important as, bridging back to durability guarantees, assuming that we could know the probability $p_{\text{loss}}$ with which a given SP could fail over a one year period, this would bound the probability of data loss at $p_{\text{loss}} \leq \binom{k + m}{k} p_{\text{loss}}^k(1 - p_{\text{loss}})^{m}$. We say this is a bound because in practice repair would kick in earlier, so the probability of loss is actually a lot smaller than this. We will carry a more detailed analysis taking those aspects into account in Sec. 5.
+l mercado de Codex (Sec. 4.5) luego emplea mecanismos para asegurar que cada uno de estos slots se asignen a un nodo diferente para que las probabilidades de fallo para cada slot estén descorrelacionadas. Esto es importante ya que, volviendo a las garantías de durabilidad, asumiendo que pudiéramos conocer la probabilidad $p_{\text{loss}}$ con la que un SP dado podría fallar durante un período de un año, esto limitaría la probabilidad de pérdida de datos en $p_{\text{loss}} \leq \binom{k + m}{k} p_{\text{loss}}^k(1 - p_{\text{loss}})^{m}$. Decimos que esto es un límite porque en la práctica la reparación se activaría antes, por lo que la probabilidad de pérdida es en realidad mucho menor que esta. Llevaremos a cabo un análisis más detallado teniendo en cuenta esos aspectos en la Sec. 5.
      
-**Erasure Coding for Storage Proofs.** The other, less obvious way in which Codex employs erasure coding is _locally_ at each SP when generating storage proofs. This allows Codex to be expedient in detecting both unintentional and malicious data loss with a high level of accuracy.
-    
-To understand how this works, imagine we had an SP that has promised to store some slot $S_i \in D_e$ until a certain time instant $t_b$. How do we ensure that the SP is indeed holding its promise? One way to approach this would be by having a verifier download the whole slot $S_i$ from the SP at random instants in time. This would ensure the data is still there, but would be costly.
+**Codificación de Borrado para Pruebas de Almacenamiento.** La otra forma, menos obvia, en la que Codex emplea la codificación de borrado es localmente en cada SP al generar pruebas de almacenamiento. Esto permite a Codex ser expeditivo en la detección de la pérdida de datos, tanto no intencional como maliciosa, con un alto nivel de precisión.
 
-A smarter approach would be by _sampling_: instead of downloading the entire file, the verifier can ask for a random subset of the blocks in the file and their Merkle inclusion proofs. While this also works, the problem here is that the probability of detecting lost blocks is directly impacted by what fraction of blocks $l_i$ have been lost: if we ask the SP for $j$ samples, then the probability that we catch a missing block is $p_{\text{detect}} = 1 - (1 - l_i)^j$. 
-    
-Although the decay is always geometric, the impact of having a loss fraction that is low (e.g. less than $1\%$) can be significant: as depicted in Figure 3, for $l_i = 0.01$ we  get a $p_{\text{detect}}$ that is smaller than $0.5$ even after drawing $50$ samples. If that does not sound too bad, consider an adversarial setting in which an SP purposefully drops a very small fraction of a large file, perhaps one single block out of a million. For fractions that small ($10^{-6}$), one would require hundreds of thousands of samples to get reasonable detection probabilities, e.g. $p_{\text{detect}} > 0.99$.
+Para entender cómo funciona esto, imagine que tenemos un SP que ha prometido almacenar algún slot $S_i \in D_e$ hasta un cierto instante de tiempo $t_b$. ¿Cómo nos aseguramos de que el SP está realmente cumpliendo su promesa? Una forma de abordar esto sería que un verificador descargue el slot completo $S_i$ desde el SP en instantes aleatorios en el tiempo. Esto aseguraría que los datos todavía están allí, pero sería costoso.
+
+Un enfoque más inteligente sería mediante muestreo: en lugar de descargar el archivo completo, el verificador puede pedir un subconjunto aleatorio de los bloques en el archivo y sus pruebas de inclusión Merkle. Si bien esto también funciona, el problema aquí es que la probabilidad de detectar bloques perdidos se ve directamente afectada por qué fracción de bloques $l_i$ se han perdido: si pedimos al SP $j$ muestras, entonces la probabilidad de que detectemos un bloque faltante es $p_{\text{detect}} = 1 - (1 - l_i)^j$.
+
+Aunque la decadencia es siempre geométrica, el impacto de tener una fracción de pérdida que es baja (por ejemplo, menos del $1%$) puede ser significativo: como se representa en la Figura 3, para $l_i = 0.01$ obtenemos un $p_{\text{detect}}$ que es menor que $0.5$ incluso después de extraer $50$ muestras. Si eso no suena tan mal, considere un entorno adversarial en el que un SP deliberadamente descarta una fracción muy pequeña de un archivo grande, quizás un solo bloque de un millón. Para fracciones tan pequeñas ($10^{-6}$), se requerirían cientos de miles de muestras para obtener probabilidades de detección razonables, por ejemplo, $p_{\text{detect}} > 0.99$.
     
 <center>
     <img src="/learn/whitepaper/p-detect-plot.png"/>
 </center>
     
-**Figure 3.** Number of samples $j$ required by a verifier to assert data loss ($p_{\text{detect}}$) for various loss fractions ($l_i$).
+**Figura 3.** Número de muestras $j$ requeridas por un verificador para afirmar la pérdida de datos ($p_{\text{detect}}$) para varias fracciones de pérdida ($l_i$).
+
+La razón por la que es difícil detectar la pérdida es porque estamos intentando encontrar el quizás único bloque que falta de $b$ bloques mediante muestreo aleatorio. La codificación de borrado cambia completamente esa dinámica en el sentido de que cualquier $k$ de $b$ bloques es suficiente para recuperar los datos, de modo que sólo importan las fracciones de pérdida que son mayores que $k/b$, ya que cualquier fracción menor puede ser compensada por el código de borrado.
     
-The reason it is hard to detect loss is because we are attempting to find the perhaps single block that is missing out of $b$ blocks by random sampling. Erasure coding completely changes that dynamic in that _any_ $k$ out of $b$ blocks is enough to recover the data, so that only loss fractions that are larger than $k/b$ matter as any smaller fraction can be compensated by the erasure code. 
+Si requerimos que los SP codifiquen localmente los slots con una tasa de código [^wikipedia_code_rate] que sea superior a 0.5, de modo que un conjunto de datos con $b$ bloques se expanda a $2b$ y cualquier $b$ bloques de esos sean suficientes para recuperar los datos, esto significa que los datos sólo se perderán si se descarta más de la mitad de los bloques, es decir, cuando $l_i \geq 0.5$. De la Figura 3, podemos ver que en este caso nos acercamos a $p_{\text{detect}} = 1$ con un número muy pequeño de muestras: de hecho, con sólo mirar 10 muestras, ya obtenemos $p_{\text{detect}} > 0.99$. La implementación real en Codex toma prestado mucho de estas ideas, aunque requiere que los SP utilicen una estructura de codificación bidimensional algo más intrincada por otras razones técnicas[^spanbroek_23].
     
-If we require SPs to _locally encode_ slots with a code rate [^wikipedia_code_rate] that is higher than $0.5$ so that a dataset with $b$ blocks expands to $2b$ and any $b$ blocks out of those are enough to recover the data, this means that data will only be lost if _more than half of the blocks_ are dropped, i.e., when $l_i \geq 0.5$. From Figure 3, we can see that in this case we approach $p_{\text{detect}} = 1$ with a very small number of samples: indeed, by looking at only $10$ samples, we already get $p_{\text{detect}} > 0.99$. The actual implementation in Codex borrows heavily from these ideas, though it requires SPs to use a somewhat more intrincate two-dimensional encoding structure for other technical reasons[^spanbroek_23].
+El paso final para las pruebas de Codex es que necesitan ser verificables públicamente. El mecanismo de prueba real en Codex construye una prueba Groth16[^groth_16] para que pueda ser verificada on-chain; es decir, los verificadores son los propios nodos de la blockchain pública. Por tanto, la implementación tiene tanto un componente on-chain, que contiene la lógica para determinar cuándo se requieren las pruebas y cuándo están vencidas, como un componente off-chain, que se ejecuta periódicamente para activar aquellas en los instantes correctos.
+
+El Algoritmo 1 muestra, en pseudocódigo de Python, el bucle de prueba que los SP deben ejecutar para cada slot $S_i$ que completen. Comienza esperando un límite de período (línea 7), que es un segmento de tiempo fijo que es mayor que el tiempo promedio entre bloques consecutivos en la blockchain de destino; es decir, el bucle en las líneas 6 -- 15 se ejecuta como máximo una vez por bloque.
     
-The final step for Codex proofs is that they need to be _publicly verifiable_. The actual proving mechanism in Codex constructs a Groth16[^groth_16] proof so that it can be verified on-chain; i.e., the verifiers are the public blockchain nodes themselves. The implementation has therefore both an on-chain component, which contains the logic to determine when proofs are required and when they are overdue, and an off-chain component, which runs periodically to trigger those at the right instants.
+A continuación, pregunta al contrato on-chain si se requiere una prueba para este período (línea 8). El contrato ejecutará entonces el Algoritmo 2 (on-chain), que comprueba si el blockhash actual módulo un parámetro `frequency` (líneas 3) es igual a cero. Dado que los valores hash son aproximadamente aleatorios, esa condición resultará ser verdadera, en promedio, en cada `frequency` bloques.
     
-Algorithm 1 depicts, in Python-pseudocode, the _proving loop_ that SPs must run for every slot $S_i$ that they fill. It starts by waiting for a period boundary (line $7$), which is a fixed time slice that is larger than the average time between consecutive blocks in the target blockchain; i.e., the loop in lines $6$ -- $15$ runs _at most once_ per block. 
-    
-It then asks the on-chain contract if a proof is required for this period (line $8$). The contract will then execute Algorithm 2 (on-chain), which checks if the current blockhash modulo a `frequency` parameter (lines $3$) amounts to zero. Since hash values are approximately random, that condition will turn out to be true, on average, at every `frequency` blocks. 
-    
-Going back to Algorithm 1, if a proof turns out to be required for the current period, the SP will then retrieve a random value from the contract (line $9$), which is also derived from the current blockhash. 
+Volviendo al Algoritmo 1, si resulta que se requiere una prueba para el período actual, el SP recuperará entonces un valor aleatorio del contrato (línea 9), que también se deriva del blockhash actual.
     
 
 ```python=
@@ -212,51 +212,51 @@ async def proving_loop(
           private = [slot_root, merkle_proofs]
         ))
 ```
-**Algorithm 1.** Codex's proving loop (ran on SPs, off-chain).
+**Algoritmo 1.**  Bucle de prueba de Codex (ejecutado en SPs, off-chain).
 
-It then uses this randomness to determine the indices of the blocks within the locally erasure-coded slot that it needs to provide proofs for, and computes Merkle inclusion proofs for each (line $10$). The zero-knowledge proof is then constructed by running a verification of those inclusion proofs against the dataset root in a zk-SNARK, in which the randomness, the dataset (Merkle) root, and the slot index are taken as public inputs, and the inclusion proofs and the slot (Merkle) root are private instead (lines $12$ - $15$). Once the proof is calculated, it is posted on-chain (line $11$), where it is verified.
+Luego, utiliza esta aleatoriedad para determinar los índices de los bloques dentro del slot codificado con borrado localmente para los que necesita proporcionar pruebas, y calcula las pruebas de inclusión Merkle para cada uno (línea $10$). La prueba de conocimiento cero se construye entonces ejecutando una verificación de esas pruebas de inclusión contra la raíz del conjunto de datos en un zk-SNARK, en el que la aleatoriedad, la raíz (Merkle) del conjunto de datos y el índice del slot se toman como entradas públicas, y las pruebas de inclusión y la raíz (Merkle) del slot son privadas en su lugar (líneas $12$ - $15$). Una vez que se calcula la prueba, se publica on-chain (línea $11$), donde se verifica.
 
 ```python=
 def is_proof_required()
   randomness = block.blockhash()
   return randomness % frequency == 0:
 ```
-**Algorithm 2.** Checking if a proof is required (ran on smart contract, on-chain).
+**Algoritmo 2.** Comprobación de si se requiere una prueba (ejecutado en el contrato inteligente, on-chain).
     
-Merkle trees for proof verification are built using $\text{Poseidon2}$ hashes[^grassi_23] as those are more efficient to compute inside arithmetic circuits than, say, SHA256, though this may change as we evolve the proving system.
+Los árboles Merkle para la verificación de pruebas se construyen utilizando hashes $\text{Poseidon2}$[^grassi_23], ya que son más eficientes de calcular dentro de circuitos aritméticos que, por ejemplo, SHA256, aunque esto puede cambiar a medida que evolucionemos el sistema de pruebas.
 
-**Repair.** The redundancy and proof mechanisms outlined so far allow Codex to _repair_ data in a relatively simple fashion: missing proofs signal lost slots, and are used as failure detectors. Whenever a threshold amount of slots are lost, a lazy repair process is triggered in which the lost slots are put back on sale. Providers are then allowed to fill such slots again but, instead of downloading the slot itself, they download enough blocks from other nodes so they can reconstruct the missing slot, say, $S_i$. They then proceed as before and submit a proof for $S_i$, causing that slot to be filled again.
+**Reparación.** Los mecanismos de redundancia y prueba descritos hasta ahora permiten a Codex reparar los datos de una manera relativamente sencilla: las pruebas faltantes señalan los slots perdidos y se utilizan como detectores de fallos. Siempre que se pierde una cantidad umbral de slots, se activa un proceso de reparación perezoso en el que los slots perdidos se ponen a la venta de nuevo. Entonces se permite a los proveedores completar esos slots de nuevo, pero, en lugar de descargar el slot en sí, descargan suficientes bloques de otros nodos para poder reconstruir el slot faltante, digamos, $S_i$. A continuación, proceden como antes y envían una prueba para $S_i$, haciendo que ese slot se complete de nuevo.
 
-The way Codex organizes its data as partitioned and erasure coded slots is largely inspired by HAIL[^bowers_09]. The use of local erasure coding and compact proofs is instead inspired by earlier work on PoRs[^juels_07] and PDPs[^ateniese_07], as well as compact PoRs[^schacham_08].
+La forma en que Codex organiza sus datos como slots particionados y codificados con borrado está en gran medida inspirada en HAIL[^bowers_09]. El uso de la codificación de borrado local y las pruebas compactas está en cambio inspirado en trabajos anteriores sobre PoRs[^juels_07] y PDPs[^ateniese_07], así como en PoRs compactos[^schacham_08].
 
-A key aspect of the Codex proving system is that it attempts to be as lightweight as possible. The final goal is to be able to run it on simple computers equipped with inexpensive CPUs and modest amounts of RAM. Current requirements for home SPs are well around what a NUC or consumer laptop can provide, but those should drop even further as we optimize it. This is key as an efficient proving system means that:
+Un aspecto clave del sistema de pruebas de Codex es que intenta ser lo más ligero posible. El objetivo final es poder ejecutarlo en ordenadores sencillos equipados con CPUs económicas y cantidades modestas de RAM. Los requisitos actuales para los SP domésticos están muy por debajo de lo que puede proporcionar un NUC o un portátil de consumo, pero deberían disminuir aún más a medida que lo optimicemos. Esto es clave, ya que un sistema de pruebas eficiente significa que:
+
+1. tanto el hardware que no es de almacenamiento, por ejemplo, las CPUs y la RAM, como los costes generales de electricidad para las pruebas deberían ser bajos. Esto conduce a mejores márgenes para los SP;
+2. los requisitos mínimos son modestos, lo que favorece la descentralización.
     
-1. both non-storage hardware; e.g. CPUs and RAM, and electricity overhead costs for proofs should be small. This leads to better margins for SPs;
-2. minimal requirements are modest, which favours decentralization.
-    
-### 4.4. Publishing and Retrieving Data
+### 4.4. Publicación y Recuperación de Datos
 
-Datasets stored in Codex need to be advertised over a Distributed Hash Table (DHT), which is a flavour of the Kademlia DHT[^maymounkov_02], so they can be located and retrieved by other peers. At a basic level, the Codex DHT maps _Content IDentifiers_ (CIDs)[^cid_spec], which identify data, onto _provider lists_, which identify peers holding that data. 
-    
-A CID unequivocally identifies a piece of data by encoding a flavour of a hash of its content together with the type of hashing method used to compute it. In the case of a Codex dataset $D_e$ (Figure 4), this hash is taken to be the root of the SHA256 Merkle tree constructed over its blocks $\{b_1, \cdots, b_{s \times (k + m)}\}$.
+Los conjuntos de datos almacenados en Codex deben anunciarse a través de una Tabla Hash Distribuida (DHT), que es una variante de la DHT Kademlia[^maymounkov_02], para que puedan ser localizados y recuperados por otros pares. A un nivel básico, la DHT de Codex asigna los Identificadores de Contenido (CIDs)[^cid_spec], que identifican los datos, a las listas de proveedores, que identifican a los pares que tienen esos datos.
+
+Un CID identifica inequívocamente una pieza de datos codificando una variante de un hash de su contenido junto con el tipo de método de hashing utilizado para calcularlo. En el caso de un conjunto de datos Codex $D_e$ (Figura 4), este hash se toma como la raíz del árbol Merkle SHA256 construido sobre sus bloques ${b_1, \cdots, b_{s \times (k + m)}}$.
 
 <div style="display: flex; justify-content: center; padding: 0 0 15px 0">
     <img src="/learn/whitepaper/cid.png" width="60%" />
 </div>
 
-**Figure 4.** CIDs for Codex datasets.
+**Figure 4.** CIDs para conjuntos de datos Codex.
     
-Nodes that hold either part or the entirety of $D_e$ will periodically advertise a _Signed Peer Record_ (SPR) under $D_e$'s CID in the DHT to inform other peers that they are available to provide blocks for $D_e$. An SPR is a signed record[^signed_envelope_spec] which contains the peer's ID, its public key, and its supported network addresses as a list of multiaddresses[^multiaddress_spec].
-    
-This structure affords a great deal of flexibility in how peers choose to communicate and encode datasets, and is key in creating a p2p network which can support multiple concurrent p2p client versions and can therefore be upgraded seamlessly.
-    
-**Metadata.** Codex stores dataset metadata in descriptors called **manifests**. Those are currently kept separate from the dataset itself, in a manner similar to BitTorrent's _torrent files_. They contain metadata on a number of attributes required to describe and properly process the dataset, such as the Merkle roots for both the content (SHA256) and proof ($\text{Poseidon2}$) trees, the number of blocks contained in the dataset, the block size, erasure coding parameters, and the datasets' MIME-type. Although the CID of a dataset is largely independent of its manifest, a dataset can neither be decoded nor properly verified without it.
-    
-Manifests are currently stored as content-addressable blocks in Codex and treated similarly to datasets: nodes holding the manifest of a given dataset will advertise its CID onto the DHT, which is computed by taking a SHA256 hash of the manifest's contents. Since manifests are  stored separate from the dataset, however, they can also be exchanged out-of-band, like torrent files can.
+Los nodos que tienen parte o la totalidad de $D_e$ anunciarán periódicamente un Registro de Par Firmado (SPR) bajo el CID de $D_e$ en la DHT para informar a otros pares de que están disponibles para proporcionar bloques para $D_e$. Un SPR es un registro firmado[^signed_envelope_spec] que contiene el ID del par, su clave pública y sus direcciones de red admitidas como una lista de multiaddresses[^multiaddress_spec].
 
-Other systems choose tighter coupling between the metadata and the dataset. IPFS and Swarm use cryptographic structures such as Merkle DAG and a Merkle Tree, where intermediate nodes are placed on the network and queried iteratively to retrieve the respective vertexes and leaves. Such design decisions have their own tradeoffs and advantages, for example an advantage of storing the metadata in a single addressable unit is that it eliminates intermediary network round trips, as opposed to a distributed cryptographic structure such as a tree or a DAG.
+Esta estructura ofrece una gran flexibilidad en la forma en que los pares eligen comunicarse y codificar los conjuntos de datos, y es clave para crear una red p2p que pueda admitir múltiples versiones concurrentes de clientes p2p y, por lo tanto, pueda actualizarse sin problemas.
+    
+**Metadata.** Codex almacena los metadatos del conjunto de datos en descriptores llamados manifiestos. Actualmente, estos se mantienen separados del conjunto de datos en sí, de forma similar a los archivos torrent de BitTorrent. Contienen metadatos sobre varios atributos necesarios para describir y procesar correctamente el conjunto de datos, como las raíces Merkle tanto para los árboles de contenido (SHA256) como de prueba ($\text{Poseidon2}$), el número de bloques contenidos en el conjunto de datos, el tamaño del bloque, los parámetros de codificación de borrado y el tipo MIME de los conjuntos de datos. Aunque el CID de un conjunto de datos es en gran medida independiente de su manifiesto, un conjunto de datos no puede decodificarse ni verificarse correctamente sin él.
 
-**Retrieving data.** Data retrieval in Codex follows a process similar to BitTorrent: a peer wishing to download a dataset $D_e$ must first acquire its manifest, either through Codex itself by looking up the manifest's CID on the DHT and downloading it from peers providing it, or out-of-band. Once in posession of the manifest, the peer can learn the dataset's CID (constructed from its SHA256 Merkle root) and look that up over the DHT. This is depicted Figure 5a **(1)**. 
+Los manifiestos se almacenan actualmente como bloques direccionables por contenido en Codex y se tratan de forma similar a los conjuntos de datos: los nodos que tienen el manifiesto de un conjunto de datos determinado anunciarán su CID en la DHT, que se calcula tomando un hash SHA256 del contenido del manifiesto. Sin embargo, dado que los manifiestos se almacenan separados del conjunto de datos, también se pueden intercambiar fuera de banda, como se pueden hacer con los archivos torrent.
+
+Otros sistemas eligen un acoplamiento más estrecho entre los metadatos y el conjunto de datos. IPFS y Swarm utilizan estructuras criptográficas como Merkle DAG y un árbol Merkle, donde los nodos intermedios se colocan en la red y se consultan iterativamente para recuperar los vértices y las hojas respectivos. Tales decisiones de diseño tienen sus propios compromisos y ventajas, por ejemplo, una ventaja de almacenar los metadatos en una única unidad direccionable es que elimina los viajes de ida y vuelta de la red intermediaria, a diferencia de una estructura criptográfica distribuida como un árbol o un DAG.
+
+**Recuperación de datos.** La recuperación de datos en Codex sigue un proceso similar a BitTorrent: un par que desee descargar un conjunto de datos $D_e$ primero debe adquirir su manifiesto, ya sea a través de Codex buscando el CID del manifiesto en la DHT y descargándolo de los pares que lo proporcionan, o fuera de banda. Una vez en posesión del manifiesto, el par puede aprender el CID del conjunto de datos (construido a partir de su raíz Merkle SHA256) y buscarlo en la DHT. Esto se representa en la Figura 5a (1).
 
 <div style="display: flex; justify-content: center;">
     <div style="text-align: center;">
@@ -269,55 +269,55 @@ Other systems choose tighter coupling between the metadata and the dataset. IPFS
     </div>
 </div>
 
-**Figure 5.** (a) DHT lookup and (b) download swarm.
+**Figura 5.** (a) Búsqueda en la DHT y (b) enjambre de descarga.
 
-The nodes responsible for that CID will reply with a (randomized) subset of the providers for that CID (Figure 5a **(2)**). The peer can then contact these nodes to bootstrap itself into a download swarm (Figure 5b). Once part of the swarm, the peer will engage in an exchange protocol similar to BitSwap[^bitswap_spec] by advertising the blocks it wishes to download to neighbors, and receiving requests from neighbors in return. Dropped peers are replaced by querying the DHT again. Note that SPs always participate in the swarms for the datasets they host, acting as seeders. Since the mechanism is so similar to BitTorrent, we expect Codex to scale at least as well.
-    
-Codex right now relies on simple incentive mechanisms to ensure that peers share blocks. There is current ongoing work on _bandwidth incentives_ and, in future versions, peers will be able to purchase block transfers from each other.
-    
-### 4.5. Codex Marketplace
+Los nodos responsables de ese CID responderán con un subconjunto (aleatorizado) de los proveedores para ese CID (Figura 5a (2)). El par puede entonces contactar con estos nodos para integrarse en un enjambre de descarga (Figura 5b). Una vez que forma parte del enjambre, el par participará en un protocolo de intercambio similar a BitSwap[^bitswap_spec] anunciando los bloques que desea descargar a los vecinos, y recibiendo peticiones de los vecinos a cambio. Los pares que se desconectan se sustituyen volviendo a consultar la DHT. Tenga en cuenta que los SP siempre participan en los enjambres para los conjuntos de datos que alojan, actuando como seeders. Dado que el mecanismo es tan similar a BitTorrent, esperamos que Codex escale al menos igual de bien.
 
-The Codex marketplace is the set of components that run both on-chain, as smart contracts, and off-chain, as part of both SCs and SPs. Its main goal is to define and enforce the set of rules which together enable: _i)_ orderly selling and purchasing of storage; _ii)_ verification of storage proofs; _iii)_ rules for penalizing faulty actors (slashing) and compensating SP repairs and SC data loss; and _iv)_ various other aspects of the system's economics, which  will be discussed as part of an upcoming Codex tokenomics litepaper. 
-
-Codex implements an ask/bid market in which SCs post **storage requests** on chain, and SPs can then act on those if they turn out to be profitable. This means that the request side; i.e., how much an SC is willing to pay, is always visible, whereas the bid side; i.e., at what price an SP is willing to sell, is not.
+Codex ahora mismo se basa en mecanismos de incentivos sencillos para garantizar que los pares compartan bloques. Actualmente se está trabajando en incentivos de ancho de banda y, en futuras versiones, los pares podrán comprar transferencias de bloques entre sí.
     
-An SC that wishes Codex to store a dataset $D_e$ needs to provide $5$ main parameters. Those are:
-    
-1. **Size in bytes.** Specifies how many storage bytes the SC wishes to purchase.
-2. **Duration.** Specifies for how long the SC wishes to purchase the storage bytes in (1); e.g. one year.
-3. **Number of slots.** Contains the number of slots in $D_e$. This is derived from the erasure coding parameters $k$ and $m$ discussed in Sec. 4.3.
-4. **Price.** The price this SC is willing to pay for storage, expressed as a fractional amount of Codex tokens per byte, per second. For instance, if this is set to $1$ and the SC wants to buy $1\text{MB}$ of storage for $10$ seconds, then this means the SC is willing to disburse $10$ million Codex tokens for this request.
-5. **Collateral per slot.** Dictates the amount of Codex tokens that the SP is expected to put as collateral if they decide to fulfill a slot in this request (staking). Failure to provide timely proofs may result in loss of this collateral (slashing).
+### 4.5. Mercado de Codex
 
-As discussed in Sec. 5, these parameters may impact durability guarantees directly, and the system offers complete flexibility so that applications can tailor spending and parameters to specific needs. Applications built on Codex will need to provide guidance to their users so they can pick the correct parameters for their needs, not unlike Ethereum wallets help users determine gas fees.
+El mercado de Codex es el conjunto de componentes que se ejecutan tanto on-chain, como contratos inteligentes, como off-chain, como parte de ambos SCs y SPs. Su principal objetivo es definir y hacer cumplir el conjunto de reglas que, juntas, permiten: i) la venta y compra ordenada de almacenamiento; ii) la verificación de las pruebas de almacenamiento; iii) las reglas para penalizar a los actores defectuosos (slashing) y compensar las reparaciones de SP y la pérdida de datos de SC; y iv) varios otros aspectos de la economía del sistema, que se discutirán como parte de un próximo litepaper de tokenomics de Codex.
+
+Codex implementa un mercado de ask/bid en el que los SCs publican solicitudes de almacenamiento en la cadena, y los SPs pueden entonces actuar sobre ellas si resultan ser rentables. Esto significa que el lado de la solicitud; es decir, cuánto está dispuesto a pagar un SC, es siempre visible, mientras que el lado de la oferta; es decir, a qué precio está dispuesto a vender un SP, no lo es. 
+
+Un SC que desea que Codex almacene un conjunto de datos $D_e$ necesita proporcionar 5 parámetros principales. Estos son:
+
+1. Tamaño en bytes. Especifica cuántos bytes de almacenamiento desea comprar el SC.
+2. Duración. Especifica durante cuánto tiempo desea comprar el SC los bytes de almacenamiento en (1); por ejemplo, un año.
+3. Número de slots. Contiene el número de slots en $D_e$. Esto se deriva de los parámetros de codificación de borrado $k$ y $m$ discutidos en la Sec. 4.3.
+4. Precio. El precio que este SC está dispuesto a pagar por el almacenamiento, expresado como una cantidad fraccionaria de tokens Codex por byte, por segundo. Por ejemplo, si esto se establece en $1$ y el SC quiere comprar $1\text{MB}$ de almacenamiento durante $10$ segundos, entonces esto significa que el SC está dispuesto a desembolsar $10$ millones de tokens Codex para esta solicitud.
+5. Colateral por slot. Dicta la cantidad de tokens Codex que se espera que el SP ponga como colateral si deciden cumplir un slot en esta solicitud (staking). El no proporcionar pruebas oportunas puede resultar en la pérdida de este colateral (slashing).
+
+Como se explica en la Sec. 5, estos parámetros pueden afectar directamente a las garantías de durabilidad, y el sistema ofrece una flexibilidad completa para que las aplicaciones puedan adaptar el gasto y los parámetros a necesidades específicas. Las aplicaciones construidas sobre Codex deberán proporcionar orientación a sus usuarios para que puedan elegir los parámetros correctos para sus necesidades, de forma no muy diferente a como las carteras de Ethereum ayudan a los usuarios a determinar las tasas de gas.
 
 <center>
     <img src="/learn/whitepaper/marketplace-overview.png" width=70%/>
 </center>
 
-**Figure 6.** Storage requests and their processing by SPs.
+**Figura 6.** Solicitudes de almacenamiento y su procesamiento por los SPs
     
-As depicted in Figure 6, every storage request posted by an SC gets recorded on-chain, and generates a blockchain event that SPs listen to. Internally, SPs will rank unfilled storage requests by their own criteria, typically profitability, and will attempt to fill the slots for requests that are most interesting to them first. As discussed in Sec. 4.2, filling a slot entails: _i)_ reserving the slot on-chain; _ii)_ downloading the data from the SC; _iii)_ providing an initial storage proof as well as the staking collateral.
+Como se muestra en la Figura 6, cada solicitud de almacenamiento publicada por un SC queda registrada on-chain y genera un evento de blockchain que los SPs escuchan. Internamente, los SPs clasificarán las solicitudes de almacenamiento sin completar según sus propios criterios, normalmente la rentabilidad, e intentarán completar primero los slots para las solicitudes que les resulten más interesantes. Como se explica en la Sec. 4.2, completar un slot implica: i) reservar el slot on-chain; ii) descargar los datos del SC; iii) proporcionar una prueba de almacenamiento inicial, así como la garantía de staking.
     
-**Ensuring diversity.** SPs compete for unfilled slots. If we allowed this competition to happen purely based on latency; i.e., the fastest provider to reserve a slot wins, we could easily end up with a system that is too centralized or, even worse, with multiple slots ending up at a single provider. The latter is particularly serious as failures within a provider may not be decorrelated, and we therefore want to ensure that the distribution of slots amongst providers is as randomized as possible.
+**Garantizar la diversidad.** Los SPs compiten por los slots sin completar. Si permitiéramos que esta competencia se produjera puramente basándose en la latencia; es decir, el proveedor más rápido en reservar un slot gana, podríamos fácilmente terminar con un sistema demasiado centralizado o, incluso peor, con múltiples slots terminando en un solo proveedor. Esto último es particularmente grave, ya que los fallos dentro de un proveedor pueden no estar descorrelacionados y, por lo tanto, queremos asegurar que la distribución de slots entre los proveedores sea lo más aleatoria posible.
 
-To help mitigate these issues, the Codex marketplace implements a time-based, _expanding window_ mechanism to allow SPs to compete for slots. As depicted in Figure 7, each storage request is assigned a random position in a $z$-bit ID space by taking a hashing function $h$ and computing, for slot $S_i$, the value $h(u\,\|\, i)$, where $u$ is a random nonce. This will effectively disperse storage requests for slots approximately uniformly at random over the ID space.
+Para ayudar a mitigar estos problemas, el mercado de Codex implementa un mecanismo de ventana en expansión basado en el tiempo para permitir que los SPs compitan por los slots. Como se muestra en la Figura 7, a cada solicitud de almacenamiento se le asigna una posición aleatoria en un espacio de ID de $z$ bits tomando una función hash $h$ y calculando, para el slot $S_i$, el valor $h(u,|, i)$, donde $u$ es un nonce aleatorio. Esto dispersará efectivamente las solicitudes de almacenamiento para los slots de forma aproximadamente uniforme y aleatoria sobre el espacio de ID.
 
 <div style="padding: 2rem 0 4rem 0">
     <img src="/learn/whitepaper/marketplace-slot-dispersal.png"/>
 </div>
     
-**Figure 7.** Slots placed at random in a $z$-bit space.
+**Figura 7.** Slots colocados aleatoriamente en un espacio de $z$ bits.
     
-We then allow only hosts whose blockchain IDs are within a certain "distance" of a slot to compete in filling it (Figure 8).   
+A continuación, permitimos que sólo los hosts cuyos IDs de blockchain estén dentro de una cierta "distancia" de un slot compitan por completarlo (Figura 8).  
 
 <div style="padding: 2rem 0 4rem 0">
     <img src="/learn/whitepaper/marketplace-expanding-window.png"/>
 </div>
 
-**Figure 8.** SP eligibility as a function of time and its distance to a slot.
+**Figura 8.** Elegibilidad de SP en función del tiempo y su distancia a un slot.
     
-This distance expands over time according to a _dispersal parameter_ $\mu$. Let $d: \{0,1\}^z \times \{0,1\}^z \longrightarrow [0, 2^z)$ be our distance function - we could for instance take the XOR of $a$ and $b$. A host with blockchain ID $b$ will only be allowed to fill a slot at position $a$ at time $t$ if:
+Esta distancia se expande con el tiempo según un parámetro de dispersión $\mu$. Sea $d: {0,1}^z \times {0,1}^z \longrightarrow [0, 2^z)$ nuestra función de distancia - podríamos, por ejemplo, tomar el XOR de $a$ y $b$. A un host con ID de blockchain $b$ sólo se le permitirá completar un slot en la posición $a$ en el tiempo $t$ si:
     
 $$
 \begin{equation}
@@ -325,94 +325,100 @@ $$
 \end{equation}\tag{1}
 $$
 
-where $t = 0$ at the moment in which the storage request for $a$ is published. In the example in Figure 8, host $b$ will be allowed to fill slot $a$ when $t \geq 2$, whereas host $c$ will only be allowed to try once $t \geq 3$. We will not attempt to formally prove this but, under relatively weak assumptions, this guarantees that the assignments of slots to SPs happens approximately uniformly at random.
+donde $t = 0$ en el momento en que se publica la solicitud de almacenamiento para $a$. En el ejemplo de la Figura 8, al host $b$ se le permitirá completar el slot $a$ cuando $t \geq 2$, mientras que al host $c$ sólo se le permitirá intentarlo una vez que $t \geq 3$. No intentaremos probar esto formalmente, pero, bajo supuestos relativamente débiles, esto garantiza que la asignación de slots a los SPs se produzca de forma aproximadamente uniforme y aleatoria.
 
-## 5. Reliability Analysis
+## 5. Análisis de fiabilidad
 
-In this section, we provide an initial analysis of durability for Codex. The main goal is investigating the values for $p_{\text{loss}}$, our probability of losing data over a 1-year period. In particular, we are interested in understanding what sorts of parameters are required for us to obtain very high levels of reliability (e.g. $p_{\text{loss}} = 10^{-9}$, or nine nines of availability).
+En esta sección, proporcionamos un análisis inicial de la durabilidad para Codex. El objetivo principal es investigar los valores para $p_{\text{loss}}$, nuestra probabilidad de perder datos durante un período de 1 año. En particular, estamos interesados en comprender qué tipo de parámetros se requieren para que podamos obtener niveles muy altos de fiabilidad (por ejemplo, $p_{\text{loss}} = 10^{-9}$, o nueve nueves de disponibilidad).
+
+Codex, como sistema, almacena una gran cantidad de conjuntos de datos, cada uno codificado, distribuido, verificado y reparado de acuerdo con los parámetros específicos establecidos en el contrato de almacenamiento respectivo. Dado que los conjuntos de datos se configuran de forma independiente y operan (en su mayoría) de forma independiente, podemos modelar el sistema a nivel del conjunto de datos. Más adelante hablaremos de la correlación entre varios conjuntos de datos almacenados en el sistema.
+
+En nuestro primer modelo, utilizamos un modelo de Cadena de Markov de Tiempo Continuo (CTMC) para describir el estado del conjunto de datos en cualquier instante de tiempo. El modelo considera los siguientes aspectos de Codex:
+
+* codificación de datos;
+* fallos de nodo;
+* el proceso de prueba;
+* reparación de conjuntos de datos.
+
+Antes de discutir el espacio de estados y la matriz de tasas del modelo CTMC, vamos a describir estos aspectos del sistema. 
     
-Codex, as a system, stores a large amount of datasets, each encoded, distributed, verified, and repaired according to the specific parameters set up in the respective storage contract. Since datasets are set up independently and operate (mostly) independently, we can model the system at the level of the dataset. We will later discuss correlation between various datasets stored in the system.
-
-In our first model, we use a Continuous Time Markov-Chain (CTMC) model to describe the state of the dataset at any time instance. The model considers the following aspects of Codex:
-- dataset encoding;
-- node failures;
-- the proving process;
-- dataset repair.
-
-Before discussing the state space and the rate matix of the CTMC model, lets describe these aspects of the system. 
+Como antes, asumimos un conjunto de datos $D$ dividido en $k$ particiones disjuntas, y codificado en un nuevo conjunto de datos $D_e$ con $n=k+m$ slots ${S_1, \cdots, S_k , \cdots, S_{k+m}}$. Esta codificación se caracteriza a menudo por su factor de expansión de código $e = n/k =1+m/k$, que expresa la sobrecarga de almacenamiento debido a la redundancia del código.
     
-As before, we assume a dataset $D$  split into $k$ disjoint partitions, and encoded into a new dataset $D_e$ with $n=k+m$ slots $\{S_1, \cdots, S_k , \cdots, S_{k+m}\}$. This encoding is often characterized by it's code expansion factor $e = n/k =1+m/k$, expressing the storage overhead due to code redundancy.
+### 5.1. Modelo de fallo
+
+Al hablar de fallos, debemos diferenciar entre fallos transitorios y permanentes, así como entre fallos catastróficos de nodos (los datos del slot se pierden por completo) y fallos parciales.
+
+En nuestro primer modelo, nos centramos en fallos permanentes de los nodos. Desde la perspectiva de Codex, se considera que un nodo se ha perdido si no puede proporcionar pruebas. El fallo permanente de un nodo puede deberse a un fallo del disco, a otros fallos de hardware o software que conduzcan a la corrupción de los datos, pero también a riesgos operativos, incluidos los fallos de hardware, los fallos de red o las decisiones operativas.
+
+Los fallos de hardware irreparables se suelen caracterizar con su métrica MTTF (Mean Time To Failure - Tiempo Medio Hasta el Fallo), asumiendo una distribución exponencial del tiempo hasta el fallo. Existen varias estadísticas de MTTF disponibles sobre los fallos de disco[^schroeder_07].
+
+Como primera aproximación, uno podría partir de las cifras de MTTF de disco anteriores, e intentar tener en cuenta otras razones de fallos permanentes de nodos. El MTTF de disco se especifica en el rango de 1e+6 horas, sin embargo, tenemos buenas razones para ser más pesimistas, o al menos errar en el lado más poco fiable, y asumir un MTTF en el rango de 1e+4 horas, es decir, alrededor de un año.
+
+En aras de la modelización, también asumimos fallos i.i.d. (independientes e idénticamente distribuidos) entre el conjunto de nodos que almacenan un determinado conjunto de datos. Este es un modelo optimista en comparación con los casos en los que algunos proveedores de almacenamiento podrían fallar juntos, por ejemplo, por estar en un hardware compartido, en el mismo centro de datos o por estar bajo la misma autoridad administrativa. Modelaremos estos eventos correlacionados en un documento aparte.
+
+También podría haber nodos maliciosos en el conjunto de proveedores de almacenamiento, por ejemplo, reteniendo datos cuando se requiriera la reconstrucción. De nuevo, ampliaremos el modelo para estos en un documento aparte.
+
+### 5.2. de reconstrucción
+
+El siguiente parámetro importante relacionado con el tiempo del modelo es el MTTR (Mean Time To Reconstruct - Tiempo Medio Para Reconstruir). Si bien modelamos los eventos a nivel de un solo conjunto de datos, es importante tener en cuenta aquí que un evento de fallo probablemente involucra discos enteros o nodos enteros con múltiples discos, con muchos conjuntos de datos y una gran cantidad de datos. Por lo tanto, en el caso de la reconstrucción, los procesos estocásticos de conjuntos de datos individuales no son independientes entre sí, lo que lleva a tiempos de reconstrucción más altos e inciertos.
+
+El tiempo real de reparación depende de varios factores:
+
+- tiempo para comenzar a reparar el conjunto de datos,
+- transmisión de datos para fines de decodificación de código de borrado,
+- la propia decodificación EC,
+- asignación de los nuevos nodos para albergar los bloques reparados,
+- distribución de datos reparados a los nodos asignados.
+
+En general, claramente no es fácil obtener una distribución razonable para el tiempo de reparación, ni siquiera el tiempo medio de reparación. Si bien es muy probable que el tiempo de reparación no sea una distribución exponencial, la modelamos como tal en una primera aproximación para permitir la modelización basada en la cadena de Markov.
     
-### 5.1. Failure Model
+### 5.3. Activación de la reconstrucción
 
-When discussing failures, we should differentiate between transient and permanent failures, as well as between catastrophic node failures (the slot data is entirely lost) and partial failures.
+La reconstrucción y la reasignación de slots se pueden activar mediante el estado observado, y nuestro sistema "observa" el estado a través del proceso de prueba. En nuestro modelo, asumimos que los nodos proporcionan pruebas de acuerdo con un proceso aleatorio con una distribución exponencial entre los tiempos de prueba, con una media de MTBF (Mean Time Between Proofs - Tiempo Medio Entre Pruebas), i.i.d. entre nodos. También son posibles otras distribuciones, pero en aras de la modelización, comenzamos con una distribución exponencial, que también es sencilla de implementar en la práctica.
 
-In our first model, we focus on permanent node failures. From the perspective of Codex, a node is considered lost if it cannot provide proofs. Permanent node failure can be due to disk failure, to other hardware or software failures leading to data corruption, but also due to operational risks, including hardware failures, network failures, or operational decisions.
+La reconstrucción se puede activar en función del estado observado de varias maneras:
 
-Unrepairable hardware failures are typically characterized with their **MTTF** (Mean Time To Failure) metric, assuming an exponential distribution of the time to failure. There are various MTTF statistics available about disk failures[^schroeder_07].
+- si a un nodo individual le falta una prueba de slot (o, más generalmente, una serie de pruebas), se puede iniciar la reconstrucción. La ventaja de esta opción es que las consecuencias de fallar una prueba sólo dependen del propio nodo, y no de otros nodos.
+- la reconstrucción también se puede activar mediante el estado del sistema observado, es decir, el número de nodos que han perdido la última prueba (o más en general, algunas de las últimas pruebas). De hecho, gracias a las propiedades de los códigos RS, siempre que se está reparando un slot, todos los datos del slot se regeneran. Como consecuencia, el coste de la reparación es independiente del número de slots que se estén reparando, y al activar la reparación sólo después de que se observan varios slots perdidos (la llamada "reparación perezosa"), podemos reducir drásticamente el coste de la reparación.
 
-As a first approximation, one could start from the above disk MTTF numbers, and try to factor in other reasons of permanent node failures. Disk MTTF is specified in the range of 1e+6 hours, however, we have good reasons to be more pessimistic, or at least err on the more unreliable side, and assume MTTF in the 1e+4 hour range, i.e. around a year.
+En nuestro modelo, asumimos una reconstrucción que utiliza una combinación de los dos activadores anteriores.
 
-For the sake of modeling, we also assume i.i.d. (independent and identically distributed) failures among the set of nodes storing a given dataset. This is an optimistic model compared to cases where some storage providers might fail together e.g. because of being on shared hardware, in the same data center, or being under the same administrative authority. We will model these correlated events in a separate document.
+- La reconstrucción se activa en función del estado del sistema observado, lo que permite una reparación perezosa, activándola cuando $l_0$ de los slots se consideran perdidos.
+- Se considera que un solo slot se ha perdido si le faltó la última $l_1$ pruebas.
 
-There might also be malicious nodes in the set of storage providers, e.g. withholding data when reconstruction would be required. Again, we will extend the model to these in a separate document.
+También son posibles otras estrategias de reconstrucción, como considerar todas las pruebas de todos los slots en una ventana de tiempo, pero las dejamos para un estudio posterior.
 
-### 5.2. Reconstruction Model
+### 5.4. Modelo CTMC
 
-The next important time related parameter of the model is **MTTR** (Mean Time To Reconstruct). While we model events at the level of a single dataset, it is important to note here that a failure event most probably involves entire disks or entire nodes with multiple disks, with many datasets and a large amount of data. Therefore, in the case of reconstruction, the stochastic processes of individual datasets are not independent of each other, leading to higher and uncertain reconstruction times.
+Modelamos el sistema utilizando un CTMC con un espacio de estados multidimensional que representa el estado del slot y el progreso de la prueba. Para mantener la descripción sencilla, introducimos aquí el modelo para el caso de $l_1 = 1$. Una extensión a $l_1 > 1$ es posible aumentando las dimensiones del espacio de estados a $1+l_1$.
 
-The actual repair time depends on a number of factors:
-- time to start repairing the dataset,
-- data transmission for the purposes of Erasure Code decoding,
-- EC decoding itself,
-- allocating the new nodes to hold the repaired blocks,
-- distributing repaired data to the allocated nodes.
+**Espacio de estados.** Modelamos el sistema con un espacio de estados multidimensional $S_{l,f}$ con las siguientes dimensiones:
 
-Overall, it is clearly not easy to come up with a reasonable distribution for the time of repair, not even the mean time of repair. While time to repair is most probably not an exponential distribution, we model it as such in a first approximation to allow Markov Chain based modeling.
+- pérdidas: $l \in [0, \cdots, m+1]$: el número de slots perdidos. Los valores prácticos de $l$ van de $0$ a $m$. En cuanto $l$ alcanza $m+1$, el conjunto de datos puede considerarse perdido.
+observaciones: $f \in [0, \cdots, l]$ es el número de slots con la última prueba fallida, o dicho de otro modo, las - - pérdidas observadas. La reparación se activa cuando $l \ge l_0$. Dado que la reparación reasigna slots a nuevos nodos, podemos asumir que todos los slots reparados están disponibles después del proceso. Por lo tanto, $f \le l$ en todos los estados alcanzables.
+
+**Tasas de transición de estado.** Desde un estado dado $S_{l,f}$ podemos llegar a los siguientes estados:
+
+- pérdida de slot, $S_{l+1,f}$: la pérdida de slot está impulsada por el MTTF, asumiendo pérdidas de slot i.i.d. Obviamente, sólo se pueden perder los slots disponibles, por lo que la probabilidad de transición también depende de $n-l$.
+- pruebas faltantes, $S_{l,f+1}$: sólo nos interesa el evento de observar la pérdida de un slot que no hemos visto antes. Por lo tanto, la probabilidad de transición de estado depende de $f-l$.
+- reparación, $S_{0,0}$: la reparación sólo se activa una vez que el número de pérdidas observadas alcanza el umbral de reparación perezosa $l_0$. En caso de una reparación exitosa, todos los slots se restauran completamente (incluso si el conjunto real de nodos que almacenan los slots está cambiando).
     
-### 5.3. Triggering Reconstruction
-
-Reconstruction and re-allocation of slots can be triggered by the observed state, and our system "observes" state through the proving process. In our model, we assume that nodes are providing proofs according to a random process with an exponential distribution between proving times, with **MTBF** (Mean Time Between Proofs) mean, i.i.d. between nodes. Other distributions are also possible, but for the sake of modelling we start with an exponential distribution, which is also simple to implement in practice.
-
-Reconstruction can be triggered based on the observed state in various ways:
-- if an individual node is missing a slot proof (or more generally, a series of proofs), reconstruction can start. The advantage of this option is that the consequences of failing a proof only depend on the node itself, and not on other nodes.
--  reconstruction can also be triggered by the observed system state, i.e. the number of nodes that have missed the last proof (or more in general some of the last proofs). In fact, thanks to the properties of RS codes, whenever a slot is being repaired, all slot's data are regenerated. As a consequence, the cost of repair is independent of the number of slots being repaired, and by triggering repair only after multiple slots are observed lost (the so called "lazy repair"), we can drastically reduce the cost of repair.
-
-In our model, we assume reconstruction that uses a combination of the above too triggers. 
-- Reconstruction is triggered based on the observed system state, allowing for lazy repair, by triggering it when $l_0$ of the slots is considered lost.
-- A single slot is considered lost if it was missing the last $l_1$ proofs.
-
-Other reconstruction strategies, such as considering all the proofs from all the slots in a time window, are also possible, but we leave these for further study.
-
-### 5.4. CTMC Model
-
-We model the system using a CTMC with a multi-dimensional state space representing slot status and proof progress. To keep the description simple, we introduce the model for the case of $l_1 = 1$ here. An extension to $l_1 > 1$ is possible by increasing the dimensions of the state space to $1+l_1$.
-
-**State space.** We model the system with a multi-dimensional state space $S_{l,f}$ with the following dimensions:
-- losses: $l \in [0, \cdots, m+1]$: the number of lost slots. Practical values of $l$ go from $0$ to $m$. As soon as $l$ reaches $m+1$, the dataset can be considered lost.
-- observations: $f \in [0, \cdots, l]$ is the number of slots with the last test failed, or in other words, observed losses. Repair is triggered when $l \ge l_0$. Since repair reallocates slots to new nodes, we can assume that repaired slots are all available after the process. Hence, $f \le l$ in all reachable states.
-
-**State transition rates.** From a given state $S_{l,f}$ we can get to the following states:
-- slot loss, $S_{l+1,f}$: slot loss is driven by MTTF, assuming i.i.d slot losses. Obviously, only available slots can be lost, so the transition probability also depends on $n-l$.
-- missing proofs, $S_{l,f+1}$: we are only interested in the event of observing the loss of a slot that we haven't seen before. Thus, the state transition probability depends on $f-l$.
-- repair, $S_{0,0}$: repair is only triggered once the number of observed losses reaches the lazy repair threshold $l_0$. In case of a successful repair, all slots are fully restored (even if the actual set of nodes storing the slots are changing).
-    
-States $S_{M+1,f}$ for each $f$ are absorbing states. By calculating the expected time of absorption, we can quantify the reliability of the system.
+Los estados $S_{M+1,f}$ para cada $f$ son estados de absorción. Calculando el tiempo esperado de absorción, podemos cuantificar la fiabilidad del sistema.
     
 <center>
     <img src="/learn/whitepaper/ploss-vs-slots.png"/>
 </center>
 
-**Figure 9.** $p_{\text{loss}}$ (y axis) as a function of $n$ for various values of $l_0$ and expansion factors ($e$).
+**Figura 9.**  $p_{\text{loss}}$ (eje y) en función de $n$ para varios valores de $l_0$ y factores de expansión ($e$).
 
     
-Figure 9 shows dataset reliability ($p_{\text{loss}}$) as a function of $n$, the number of slots, assuming an MTTF of 1 year and an MTTR of 24 hours. We set the repair frequency (MTBR) to 24 hours, and explore various options on the code expansion factor $e$ and the lazy repair threshold $l_0$. Clearly, adding more redundancy (using an RS code with a higher expansion factor) allows us to store a dataset on fewer SPs. As expected lazy repair requires the use of more SPs, but reduces repair cost by delaying repair.
+La Figura 9 muestra la fiabilidad del conjunto de datos ($p_{\text{loss}}$) en función de $n$, el número de slots, asumiendo un MTTF de 1 año y un MTTR de 24 horas. Establecemos la frecuencia de reparación (MTBR) en 24 horas, y exploramos varias opciones en el factor de expansión de código $e$ y el umbral de reparación perezosa $l_0$. Claramente, añadir más redundancia (utilizando un código RS con un factor de expansión más alto) nos permite almacenar un conjunto de datos en menos SPs. Como se esperaba, la reparación perezosa requiere el uso de más SPs, pero reduce el coste de la reparación al retrasarla.
 
-The figure also shows what $k$ and $m$ values are needed to reach a given reliability threshold under different expansion factors and lazy repair thresholds. For example, values for a failure probability in a year of $10^{-9}$, also called "nine nines" reliability, are summarized in Table 1.
+La figura también muestra qué valores de $k$ y $m$ son necesarios para alcanzar un determinado umbral de fiabilidad bajo diferentes factores de expansión y umbrales de reparación perezosa. Por ejemplo, los valores para una probabilidad de fallo en un año de $10^{-9}$, también llamada fiabilidad de "nueve nueves", se resumen en la Tabla 1.
 
 <center>
     
-| Expansion ($e$) | Lazy repair ($l_0$) |Required k + m|
+| Expansión ($e$) | Reparación perezosa ($l_0$) |k + m Requerido|
 |:---------------:|:-------------------:|:------------:|
 |   1.5           |   1                 |   18 +  9    |
 |   2             |   1                 |    7 +  7    |
@@ -423,47 +429,45 @@ The figure also shows what $k$ and $m$ values are needed to reach a given reliab
 
 </center> 
 
-**Table 1.** Expansion, lazy repair, and required values for $k$ and $m$ to achieve $p_{\text{loss}} = 10^{-9}$
+**Table 1.** Expansión, reparación perezosa y valores requeridos para $k$ y $m$ para lograr $p_{\text{loss}} = 10^{-9}$
 
-### 5.5 Proving frequency
+### 5.5 Frecuencia de prueba
 
-An important parameter to asses is the frequency of proofs, expressed in our model as MTBP, since it directly translates into proof generation and proof submission costs. If we could double MTBP, we could halve the associated costs. 
+Un parámetro importante para evaluar es la frecuencia de las pruebas, expresada en nuestro modelo como MTBP, ya que se traduce directamente en costes de generación y envío de pruebas. Si pudiéramos duplicar el MTBP, podríamos reducir a la mitad los costes asociados. 
 
 <center>
     <img src="/learn/whitepaper/ploss-vs-proof-freq.png"/>
 </center>
 
-**Figure 10.** $p_{\text{loss}}$ (y axis) as a function of the proof frequency (MTBP), for various slot counts ($k+m$) and lazy repair thresholds ($l_0$).
+**Figura 10.**  $p_{\text{loss}}$ (eje y) en función de la frecuencia de la prueba (MTBP), para varios recuentos de slots ($k+m$) y umbrales de reparación perezosa ($l_0$).
 
-In Figure 10 we keep MTTF 1 year and MTTR 1 day, like before, and we show $p_{\text{loss}}$ as a function of MTBP (expressed in days for simplicity). Note that the x axis is logarithmic to show better the cost-benefit of changing the proving interval.
+En la Figura 10 mantenemos el MTTF de 1 año y el MTTR de 1 día, como antes, y mostramos $p_{\text{loss}}$ en función del MTBP (expresado en días para mayor simplicidad). Tenga en cuenta que el eje x es logarítmico para mostrar mejor la relación coste-beneficio de cambiar el intervalo de prueba.
 
-As expected, large values of MTBP (infrequent proofs) are not acceptable, the dataset could easily be lost without triggering repair. What the curves also show is that requiring proofs with an MTBF below a day does not make a significant difference. In fact, with several parameter combinations, namely, with higher $n$ values, we can afford to increase MTBF considerably, to several days.
+Como era de esperar, los valores grandes de MTBP (pruebas poco frecuentes) no son aceptables, el conjunto de datos podría perderse fácilmente sin activar la reparación. Lo que también muestran las curvas es que requerir pruebas con un MTBF inferior a un día no supone una diferencia significativa. De hecho, con varias combinaciones de parámetros, en concreto, con valores de $n$ más altos, podemos permitirnos aumentar el MTBF considerablemente, hasta varios días.
 
-Note however that we are still using $l_1=1$ in our model, i.e. a slot is considered lost after a single failed proof. We consider this to be too reactive, since single proofs might be missed due to temporary failures. Without going into much detail, a higher tolerance on missed proofs ($l_1 > 1$) is similar to multiplying MTBF by $l_1$ (although the model becomes more complex, with an $l_1 +1$ dimensional state space).
+Sin embargo, tenga en cuenta que todavía estamos utilizando $l_1=1$ en nuestro modelo, es decir, un slot se considera perdido después de una sola prueba fallida. Consideramos que esto es demasiado reactivo, ya que las pruebas individuales pueden perderse debido a fallos temporales. Sin entrar en muchos detalles, una mayor tolerancia en las pruebas perdidas ($l_1 > 1$) es similar a multiplicar MTBF por $l_1$ (aunque el modelo se vuelve más complejo, con un espacio de estados dimensional de $l_1 +1$).
 
+## 6. Conclusiones y trabajo futuro
 
-## 6. Conclusions and Future Work
+Hemos presentado Codex, un Motor de Durabilidad Descentralizado que emplea la codificación de borrado y pruebas eficientes de almacenamiento para proporcionar garantías de durabilidad ajustables y una compensación favorable en coste y complejidad para los proveedores de almacenamiento. Al tener pruebas ligeras, Codex puede mantener los gastos generales en hardware y electricidad al mínimo. Esto es importante tanto para fomentar la participación, ya que los márgenes de los proveedores de almacenamiento pueden aumentarse a la vez que los precios para los clientes pueden disminuir, y la descentralización, ya que los requisitos modestos son más propensos a fomentar un conjunto más diverso de participantes que van desde proveedores domésticos aficionados a jugadores más grandes.
 
-We have presented Codex, a Decentralized Durability Engine which employs erasure coding and efficient proofs of storage to provide tunable durability guarantees and a favourable tradeoff in cost and complexity for storage providers. By having proofs that are lightweight, Codex can keep the overhead spendings on hardware and electricity to a minimal. This is important both for fostering participation, as storage provider margins can be increased while prices for clients can decrease, and decentralization, as modest requirements are more likely to encourage a more diverse set of participants ranging from hobbyist home providers to larger players.
+A pesar de nuestros ambiciosos objetivos, Codex es un trabajo en curso. Los esfuerzos en curso para mejorarlo incluyen:
 
-Despite our ambitious goals, Codex is a work in progress. Ongoing efforts on improving it include:
+* **Reducción de los costes de prueba.** La verificación de pruebas on-chain es costosa. Para reducir los costes a corto plazo, estamos trabajando en un mecanismo de agregación en el nodo que permita a los proveedores agrupar pruebas en varios slots. En un horizonte temporal ligeramente más largo, también tenemos la intención de construir nuestra propia red de agregación, que en última instancia permitirá a Codex ir on-chain con muy poca frecuencia. Por último, a nivel de pruebas individuales, estamos trabajando en sistemas de prueba más eficientes que deberían reducir aún más los requisitos de hardware.
+* **Incentivos de ancho de banda.** odex está diseñado para proporcionar incentivos sólidos que favorezcan la durabilidad. Si bien incentivar la disponibilidad resulta más difícil, ya que en general no es posible proporcionar pruebas para ella[^bassam_18], todavía podemos proporcionar una forma de incentivo eficaz, aunque más débil, permitiendo a los proveedores vender ancho de banda. Con ese fin, actualmente estamos trabajando en mecanismos para habilitar un mercado de ancho de banda eficiente en Codex que complemente el mercado de almacenamiento.
+* **Privacidad y cifrado.** En el futuro, Codex cifrará los datos de forma predeterminada para que los SP nunca sepan lo que están almacenando. Esto también debería ofrecer a los SCs más privacidad.
+* **Capa P2P.** Actualmente estamos trabajando en la optimización de los protocolos para que escalen y rindan mejor. Esto incluye mejoras en la latencia y el rendimiento de la transferencia de bloques, enjambres más eficientes y mecanismos de descubrimiento de bloques, así como la investigación de protocolos más seguros.
+* **Herramientas y APIs.** Actualmente estamos trabajando en la creación de herramientas de desarrollo (SDKs) y APIs para facilitar el desarrollo de aplicaciones descentralizadas sobre la red Codex.
 
-* **Reduction of proving costs.** Verifying proofs on-chain is expensive. To bring down costs on the short-term, we are working on an in-node aggregation mechanism which allow providers to batch proofs over multiple slots. On a slightly longer time horizon, we also intend to build our own aggregation network, which will ultimately allow Codex to go on-chain very infrequentely. Finally, at the level of individual proofs, we are working on more efficient proof systems which should bring down hardware requirements even more. 
-* **Bandwidth incentives.** Codex is designed to provide strong incentives that favor durability. While incentivizing availability is harder as it is in general not possible to provide proofs for it[^bassam_18] we can still provide an effective, even if weaker, form of incentive by allowing providers to sell bandwidth. To that end, we are currently working on mechanisms to enable an efficient bandwidth market in Codex which should complement the storage market.
-* **Privacy and encryption.** Codex will, in the future, encrypt data by default so that SPs cannot ever know what they are storing. This should also offer SCs more privacy.
-* **P2P layer.** We are currently working on optimizing protocols so they scale and perform better. This includes improvements in block transfer latency and throughput, more efficient swarms and block discovery mechanism, as well as research into more secure protocols.
-* **Tools and APIs.** We are currently working on creating developer tools (SDKs) and APIs to facilitate the development of decentralized applications on top of the Codex network.
+El trabajo dentro de un horizonte temporal más largo incluye:
 
-Work within a longer time horizon include:
+* **Soporte para archivos mutables y de grano fino.** Codex, como muchos otros DSNs, es actualmente adecuado para conjuntos de datos inmutables grandes, y cualquier otro caso de uso requerirá actualmente middleware adicional. Tenemos trabajos en curso sobre la exploración de compromisos polinómicos en lugar de árboles Merkle para las pruebas, lo que debería permitirnos cambiar incrementalmente los conjuntos de datos sin tener que volver a codificarlos por completo. Esto desbloqueará una serie de nuevos casos de uso, y permitirá que Codex se utilice de una forma mucho más natural.
+* **Mejoras en la codificación de borradog.** Existe un gran número de códigos diferentes que ofrecen diferentes compromisos, por ejemplo, códigos no MDS como los turbocódigos y los códigos tornado, que podrían dar como resultado un mejor rendimiento que los códigos Reed-Solomon que empleamos actualmente.
 
-* **Support for fine-grained and mutable files.** Codex, as many other DSNs, is currently suitable for large immutable datasets, and any other use case will currently require additional middleware. We have ongoing work on exploring polynomial commitments as opposed to Merkle trees for proofs, which should allow us to incrementally change datasets without having to completely re-encode them. This will unlock a host of new use cases, and allow Codex to be used in a much more natural fashion.
-* **Improvements to erasure coding.** There is a large number of different codes offering different tradeoffs, e.g. non-MDS codes like turbocodes and tornado codes, which could result in better performance than the Reed-Solomon codes we currently employ.
+Codex tiene el potencial de soportar una amplia gama de casos de uso, desde el almacenamiento de datos personales y el alojamiento web descentralizado hasta la copia de seguridad y el archivo de datos seguros, las identidades descentralizadas y la distribución de contenidos descentralizada.
 
-Codex has the potential to support a wide range of use cases, from personal data storage and decentralized web hosting to secure data backup and archival, decentralized identities, and decentralized content distribution.
-
-Ultimately, the use case for Codex is that of a durable and functional decentralized storage layer, without which no decentralized technology stack can be seriously contemplated. As the decentralized ecosystem continues to evolve, we expect Codex’s DDE-based approach to storage to play a crucial role in enabling new types of applications and services that prioritize user control, privacy, and resilience.
-
-## References
+En última instancia, el caso de uso de Codex es el de una capa de almacenamiento descentralizada duradera y funcional, sin la cual no se puede contemplar seriamente ninguna pila de tecnología descentralizada. A medida que el ecosistema descentralizado continúa evolucionando, esperamos que el enfoque de almacenamiento de Codex basado en DDE desempeñe un papel crucial para permitir nuevos tipos de aplicaciones y servicios que prioricen el control del usuario, la privacidad y la resistencia.
+## Referencias
               
 [^tanembaum]: A. S. Tanenbaum and M. van Steen, Distributed Systems: Principles and Paradigms, 2nd ed. Upper Saddle River, NJ, USA: Pearson Education, 2007.
 

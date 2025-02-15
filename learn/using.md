@@ -1,38 +1,38 @@
 ---
 outline: [2, 3]
 ---
-# Using Codex
+# Usando Codex
 
-We can interact with Codex using [REST API](/developers/api). This document will show you several useful examples.
+Podemos interactuar con Codex usando la [API REST](/developers/api). Este documento le mostrará varios ejemplos útiles.
 
-Also, we can check [Codex App UI](https://app.codex.storage).
+Además, podemos consultar la [UI de la App Codex](https://app.codex.storage).
 
-Command line interpreter on [Linux/macOS](#linux-macos) and [Windows](#windows) works slightly different, so please use steps for your OS.
+El intérprete de línea de comandos en [Linux/macOS](#linux-macos) y [Windows](#windows) funciona de forma ligeramente diferente, así que utilice los pasos para su sistema operativo.
 
 ## Linux/macOS
 
-### Overview
+### Descripción General
 1. [Debug](#debug)
-2. [Upload a file](#upload-a-file)
-3. [Download a file](#download-a-file)
-4. [Local data](#local-data)
-5. [Create storage availability](#create-storage-availability)
-6. [Purchase storage](#purchase-storage)
-7. [View purchase status](#view-purchase-status)
+2. [Subir un archivo](#upload-a-file)
+3. [Descargar un archivo](#download-a-file)
+4. [Datos Locales](#local-data)
+5. [Crear disponibilidad de almacenamiento](#create-storage-availability)
+6. [Comprar almacenamiento](#purchase-storage)
+7. [Ver el estado de la compra](#view-purchase-status)
 
 ### Debug
-An easy way to check that your node is up and running is:
+na forma sencilla de comprobar que su nodo está activo y en funcionamiento e
 
 ```shell
 curl http://localhost:8080/api/codex/v1/debug/info \
   -w '\n'
 ```
 
-This will return a JSON structure with plenty of information about your local node. It contains peer information that may be useful when troubleshooting connection issues.
+Esto devolverá una estructura JSON con mucha información sobre su nodo local. Contiene información de pares que puede ser útil para solucionar problemas de conexión.
 
-### Upload a file
-> [!Warning]
-> Once you upload a file to Codex, other nodes in the network can download it. Please do not upload anything you don't want others to access, or, properly encrypt your data *first*.
+### Subir un archivo
+> [¡ATENCIÓN!]
+> Una vez que sube un archivo a Codex, otros nodos de la red pueden descargarlo. Por favor, no suba nada a lo que no quiera que otros accedan, o, encripte apropiadamente sus datos *primero*.
 
 ```shell
 curl -X POST \
@@ -42,13 +42,13 @@ curl -X POST \
   -T <FILE>
 ```
 
-On successful upload, you'll receive a CID. This can be used to download the file from any node in the network.
+Tras una subida exitosa, recibirá un CID. Esto puede ser utilizado para descargar el archivo desde cualquier nodo en la red.
 
-> [!TIP]
-> Are you on the [Codex Discord server](https://discord.gg/codex-storage)? Post your CID in the [# :wireless: | share-cids](https://discord.com/channels/895609329053474826/1278383098102284369) channel, see if others are able to download it. Codex does not (yet?) provide file metadata, so if you want others to be able to open your file, tell them which extension to give it.
+> [¡CONSEJO!]
+> Está en el [servidor de Discord de Codex](https://discord.gg/codex-storage)? Publique su CID en el canal [# :wireless: | share-cids](https://discord.com/channels/895609329053474826/1278383098102284369) , vea si otros pueden descargarlo. Codex no proporciona (¿todavía?) metadatos de archivos, así que, si quiere que otros puedan abrir su archivo, dígasles qué extensión deben darle.
 
-### Download a file
-When you have a CID of data you want to download, you can use the following commands:
+### Descargar un archivo
+Cuando tenga un CID de datos que quiera descargar, puede usar los siguientes comandos:
 
 ```shell
 # paste your CID from the previous step here between the quotes
@@ -60,21 +60,21 @@ curl "http://localhost:8080/api/codex/v1/data/${CID}/network/stream" \
   -o "${CID}.png"
 ```
 
-Please use the correct extension for the downloaded file, because Codex does not store yet content-type or extension information.
+Utilice la extensión correcta para el archivo descargado, porque Codex aún no almacena información de content-type o extensión.
 
-### Local data
-You can view which datasets are currently being stored by your node:
+### Datos locales
+Puede ver qué conjuntos de datos están siendo almacenados actualmente por su nodo:
 
 ```shell
 curl http://localhost:8080/api/codex/v1/data \
   -w '\n'
 ```
 
-### Create storage availability
-> [!WARNING]
-> This step requires that Codex was started with the [`prover`](/learn/run#codex-storage-node) option.
+### Crear disponibilidad de almacenamiento
+> [¡ATENCIÓN!]
+> Este paso requiere que Codex se haya iniciado con la opción [`prover`](/learn/run#codex-storage-node) .
 
-In order to start selling storage space to the network, you must configure your node with the following command. Once configured, the node will monitor on-chain requests-for-storage and will automatically enter into contracts that meet these specifications. In order to enter and maintain storage contracts, your node is required to submit zero-knowledge storage proofs. The calculation of these proofs will increase the CPU and RAM usage of Codex.
+Para empezar a vender espacio de almacenamiento a la red, debe configurar su nodo con el siguiente comando. Una vez configurado, el nodo supervisará las solicitudes de almacenamiento en cadena y celebrará automáticamente los contratos que cumplan con estas especificaciones. Para celebrar y mantener los contratos de almacenamiento, su nodo debe presentar pruebas de almacenamiento de conocimiento cero. El cálculo de estas pruebas aumentará el uso de CPU y RAM de Codex.
 
 ```shell
 curl -X POST \
@@ -89,12 +89,12 @@ curl -X POST \
   }'
 ```
 
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
+Para obtener descripciones de cada parámetro, consulte la [especificación](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
 
-### Purchase storage
-To purchase storage space from the network, first you must upload your data. Once you have the CID, use the following to create a request-for-storage.
+### Comprar almacenamiento
+Para comprar espacio de almacenamiento de la red, primero debe subir sus datos. Una vez que tenga el CID, utilice lo siguiente para crear una solicitud de almacenamiento.
 
-Set your CID:
+Establezca su CID:
 
 ```shell
 # paste your CID from the previous step here between the quotes
@@ -102,7 +102,7 @@ CID="..."
 echo "CID: ${CID}"
 ```
 
-Next you can run:
+A continuación, puede ejecutar:
 
 ```shell
 curl -X POST \
@@ -119,59 +119,59 @@ curl -X POST \
   }'
 ```
 
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
+Para obtener descripciones de cada parámetro, consulte la [especificación](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
 
-When successful, this request will return a Purchase-ID.
+Si tiene éxito, esta solicitud devolverá un Purchase-ID.
 
-### View purchase status
-Using a Purchase-ID, you can check the status of your request-for-storage contract:
+### Ver el estado de la compra
+Usando un Purchase-ID, puede comprobar el estado de su contrato de solicitud de almacenamiento:
 
 ```shell
-# paste your PURCHASE_ID from the previous step here between the quotes
+# pegue su PURCHASE_ID del paso anterior aquí entre las comillas
 PURCHASE_ID="..."
 ```
 
-Then:
+Entonces:
 
 ```shell
 curl "http://localhost:8080/api/codex/v1/storage/purchases/${PURCHASE_ID}" \
   -w '\n'
 ```
 
-This will display state and error information for your purchase.
-| State     | Description                                                                                                                                                                                            |
+Esto mostrará información de estado y errores para su compra.
+| Estado     | Descripción                                                                                                                                                                                            |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Pending   | Request is waiting for chain confirmation.                                                                                                                                                             |
-| Submitted | Request is on-chain. Hosts may now attempt to download the data.                                                                                                                                       |
-| Started   | Hosts have downloaded the data and provided proof-of-storage.                                                                                                                                          |
-| Failed    | The request was started, but (too many) hosts failed to provide proof-of-storage on time. While the data may still be available in the network, for the purpose of the purchase it is considered lost. |
-| Finished  | The request was started successfully and the duration has elapsed.                                                                                                                                     |
-| Expired   | (Not enough) hosts have submitted proof-of-storage before the request's expiry elapsed.                                                                                                                |
-| Errored   | An unfortunate state of affairs. The 'error' field should tell you more.                                                                                                                               |
+| Pendiente    | La solicitud está esperando la confirmación de la cadena.                                                                                                                                                             |
+| Enviado | La solicitud está en la cadena. Los hosts ahora pueden intentar descargar los datos.                                                                                                                                       |
+| Iniciado   | Los hosts han descargado los datos y han proporcionado prueba de almacenamiento.                                                                                                                                          |
+| Fallido    | La solicitud se inició, pero (demasiados) hosts no proporcionaron la prueba de almacenamiento a tiempo. Aunque los datos pueden seguir estando disponibles en la red, a efectos de la compra se consideran perdidos. |
+| Finalizado  | La solicitud se inició correctamente y la duración ha transcurrido.                                                                                                                                     |
+| Expirado   | (No suficientes) hosts han enviado una prueba de almacenamiento antes de que transcurriera la fecha de caducidad de la solicitud.                                                                                                                |
+| Erróneo   | Un desafortunado estado de cosas. El campo 'error' debería darle más información.                                                                                                                               |
 
 ## Windows
 
-### Overview {#overview-windows}
+### Descripción General {#overview-windows}
 1. [Debug](#debug-windows)
-2. [Upload a file](#upload-a-file-windows)
-3. [Download a file](#download-a-file-windows)
-4. [Local data](#local-data-windows)
-5. [Create storage availability](#create-storage-availability-windows)
-6. [Purchase storage](#purchase-storage-windows)
-7. [View purchase status](#view-purchase-status-windows)
+2. [Subir un archivo](#upload-a-file-windows)
+3. [Descargar un archivo](#download-a-file-windows)
+4. [Datos locales](#local-data-windows)
+5. [Crear disponibilidad de almacenamiento](#create-storage-availability-windows)
+6. [Comprar almacenamiento](#purchase-storage-windows)
+7. [Ver el estado de la compra](#view-purchase-status-windows)
 
 ### Debug {#debug-windows}
-An easy way to check that your node is up and running is:
+Una forma sencilla de comprobar que su nodo está activo y en funcionamiento es:
 
 ```batch
 curl http://localhost:8080/api/codex/v1/debug/info
 ```
 
-This will return a JSON structure with plenty of information about your local node. It contains peer information that may be useful when troubleshooting connection issues.
+Esto devolverá una estructura JSON con mucha información sobre su nodo local. Contiene información de pares que puede ser útil para solucionar problemas de conexión.
 
-### Upload a file {#upload-a-file-windows}
-> [!Warning]
-> Once you upload a file to Codex, other nodes in the network can download it. Please do not upload anything you don't want others to access, or, properly encrypt your data *first*.
+### Subir un archivo {#upload-a-file-windows}
+> [¡ATENCIÓN!]
+> Una vez que sube un archivo a Codex, otros nodos de la red pueden descargarlo. Por favor, no suba nada a lo que no quiera que otros accedan, o, encripte apropiadamente sus datos *primero*.
 
 ```batch
 curl -X POST ^
@@ -180,16 +180,16 @@ curl -X POST ^
   -T <FILE>
 ```
 
-On successful upload, you'll receive a CID. This can be used to download the file from any node in the network.
+Tras una subida exitosa, recibirá un CID. Esto puede ser utilizado para descargar el archivo desde cualquier nodo en la red.
 
-> [!TIP]
-> Are you on the [Codex Discord server](https://discord.gg/codex-storage)? Post your CID in the [# :wireless: | share-cids](https://discord.com/channels/895609329053474826/1278383098102284369) channel, see if others are able to download it. Codex does not (yet?) provide file metadata, so if you want others to be able to open your file, tell them which extension to give it.
+> [¡CONSEJO!]
+> Está en el [servidor de Discord de Codex](https://discord.gg/codex-storage)? Publique su CID en el canal [# :wireless: | share-cids](https://discord.com/channels/895609329053474826/1278383098102284369), vea si otros pueden descargarlo. Codex no proporciona (¿todavía?) metadatos de archivos, así que, si quiere que otros puedan abrir su archivo, dígasles qué extensión deben darle.
 
-### Download a file {#download-a-file-windows}
-When you have a CID of data you want to download, you can use the following commands:
+### Descargar un archivo {#download-a-file-windows}
+Cuando tenga un CID de datos que quiera descargar, puede usar los siguientes comandos:
 
 ```batch
-:: paste your CID from the previous step here between the quotes
+:: pegue su CID del paso anterior aquí entre las comillas
 set CID="..."
 ```
 
@@ -198,20 +198,20 @@ curl "http://localhost:8080/api/codex/v1/data/%CID%/network/stream" ^
   -o "%CID%.png"
 ```
 
-Please use the correct extension for the downloaded file, because Codex does not store yet content-type or extension information.
+Utilice la extensión correcta para el archivo descargado, porque Codex aún no almacena información de content-type o extensión.
 
-### Local data {#local-data-windows}
-You can view which datasets are currently being stored by your node:
+### Datos locales {#local-data-windows}
+Puede ver qué conjuntos de datos están siendo almacenados actualmente por su nodo:
 
 ```batch
 curl http://localhost:8080/api/codex/v1/data
 ```
 
-### Create storage availability {#create-storage-availability-windows}
-> [!WARNING]
-> This step requires that Codex was started with the [`prover`](/learn/run#codex-storage-node) option.
+### Crear disponibilidad de almacenamiento {#create-storage-availability-windows}
+> [¡ATENCIÓN!]
+> Este paso requiere que Codex se haya iniciado con la opción [`prover`](/learn/run#codex-storage-node) .
 
-In order to start selling storage space to the network, you must configure your node with the following command. Once configured, the node will monitor on-chain requests-for-storage and will automatically enter into contracts that meet these specifications. In order to enter and maintain storage contracts, your node is required to submit zero-knowledge storage proofs. The calculation of these proofs will increase the CPU and RAM usage of Codex.
+Para empezar a vender espacio de almacenamiento a la red, debe configurar su nodo con el siguiente comando. Una vez configurado, el nodo supervisará las solicitudes de almacenamiento en cadena y celebrará automáticamente los contratos que cumplan con estas especificaciones. Para celebrar y mantener los contratos de almacenamiento, su nodo debe presentar pruebas de almacenamiento de conocimiento cero. El cálculo de estas pruebas aumentará el uso de CPU y RAM de Codex.
 
 ```batch
 curl -X POST ^
@@ -220,12 +220,12 @@ curl -X POST ^
   -d "{""totalSize"": ""8000000"", ""duration"": ""7200"", ""minPrice"": ""10"", ""maxCollateral"": ""10""}"
 ```
 
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
+Para obtener descripciones de cada parámetro, consulte la [especificación](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
 
-### Purchase storage {#purchase-storage-windows}
-To purchase storage space from the network, first you must upload your data. Once you have the CID, use the following to create a request-for-storage.
+### Comprar almacenamiento {#purchase-storage-windows}
+Para comprar espacio de almacenamiento de la red, primero debe subir sus datos. Una vez que tenga el CID, utilice lo siguiente para crear una solicitud de almacenamiento.
 
-Set your CID:
+Establezca su CID:
 
 ```batch
 :: paste your CID from the previous step here between the quotes
@@ -233,7 +233,7 @@ set CID="..."
 echo CID: %CID%
 ```
 
-Next you can run:
+A continuación, puede ejecutar:
 
 ```batch
 curl -X POST ^
@@ -242,34 +242,34 @@ curl -X POST ^
   -d "{""duration"": ""3600"",""reward"": ""1"", ""proofProbability"": ""5"", ""expiry"": ""1200"", ""nodes"": 5, ""tolerance"": 2, ""collateral"": ""1""}"
 ```
 
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
+Para obtener descripciones de cada parámetro, consulte la [especificación](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
 
-When successful, this request will return a Purchase-ID.
+Si tiene éxito, esta solicitud devolverá un Purchase-ID.
 
-### View purchase status {#view-purchase-status-windows}
-Using a Purchase-ID, you can check the status of your request-for-storage contract:
+### Ver el estado de la compra {#view-purchase-status-windows}
+Usando un Purchase-ID, puede comprobar el estado de su contrato de solicitud de almacenamiento:
 
 ```batch
-:: paste your PURCHASE_ID from the previous step here between the quotes
+:: pegue su PURCHASE_ID del paso anterior aquí entre las comillas
 set PURCHASE_ID="..."
 ```
 
-Then:
+Entonces:
 
 ```batch
 curl "http://localhost:8080/api/codex/v1/storage/purchases/%PURCHASE_ID%"
 ```
 
-This will display state and error information for your purchase.
-| State     | Description                                                                                                                                                                                            |
+Esto mostrará información de estado y errores para su compra.
+| Estado     | Descripción                                                                                                                                                                                            |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Pending   | Request is waiting for chain confirmation.                                                                                                                                                             |
-| Submitted | Request is on-chain. Hosts may now attempt to download the data.                                                                                                                                       |
-| Started   | Hosts have downloaded the data and provided proof-of-storage.                                                                                                                                          |
-| Failed    | The request was started, but (too many) hosts failed to provide proof-of-storage on time. While the data may still be available in the network, for the purpose of the purchase it is considered lost. |
-| Finished  | The request was started successfully and the duration has elapsed.                                                                                                                                     |
-| Expired   | (Not enough) hosts have submitted proof-of-storage before the request's expiry elapsed.                                                                                                                |
-| Errored   | An unfortunate state of affairs. The 'error' field should tell you more.                                                                                                                               |
+| Pendiente    | La solicitud está esperando la confirmación de la cadena.                                                                                                                                                             |
+| Enviado | La solicitud está en la cadena. Los hosts ahora pueden intentar descargar los datos.                                                                                                                                       |
+| Iniciado   | Los hosts han descargado los datos y han proporcionado prueba de almacenamiento.                                                                                                                                          |
+| Fallido    | La solicitud se inició, pero (demasiados) hosts no proporcionaron la prueba de almacenamiento a tiempo. Aunque los datos pueden seguir estando disponibles en la red, a efectos de la compra se consideran perdidos. |
+| Finalizado  | La solicitud se inició correctamente y la duración ha transcurrido.                                                                                                                                     |
+| Expirado   | (No suficientes) hosts han enviado una prueba de almacenamiento antes de que transcurriera la fecha de caducidad de la solicitud.                                                                                                                |
+| Erróneo   | Un desafortunado estado de cosas. El campo 'error' debería darle más información.   |                                                                                                                   
 
-## Known issues
-1. We add a new line to the API calls to get more readable output, please check [[rest] Add line ending on responses #771](https://github.com/codex-storage/nim-codex/issues/771) for more details.
+## Problemas conocidos
+1. Añadimos una nueva línea a las llamadas a la API para obtener una salida más legible, consulte [[rest] Add line ending on responses #771](https://github.com/codex-storage/nim-codex/issues/771) para obtener más detalles.

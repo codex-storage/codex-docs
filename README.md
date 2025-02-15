@@ -1,25 +1,25 @@
-# Codex documentation
+# Documentación de Codex
 
- Welcome to Codex documentation.
+Bienvenido a la documentación de Codex.
 
- Codex is a decentralised data storage platform that provides exceptionally strong censorship resistance and durability guarantees.
+Codex es una plataforma descentralizada de almacenamiento de datos que ofrece una gran resistencia a la censura y sólidas garantías de durabilidad.
 
+## Ejecutar y construir
 
-## Run and build
+Para la documentación, utilizamos [VitePress](https://vitepress.dev/), que es un generador de sitios web estáticos impulsado por [Vue](https://vuejs.org/) construido sobre [Vite](https://vitejs.dev/).
 
- For documentation we use [VitePress](https://vitepress.dev/), which is [Vue](https://vuejs.org/)-powered static site generator built on top of [Vite](https://vitejs.dev/).
+Para ejecutar el sitio localmente, debemos clonar el repositorio, instalar las dependencias y ejecutar el siguiente comando:
 
- To run site locally, we should clone repository, install dependencies and run the following command
- ```shell
- npm run docs:dev
+```shell
+npm run docs:dev
  ```
 
  <details>
- <summary>Detailed guide</summary>
+ <summary>Guía detallada</summary>
 
- 1. [Install](https://nodejs.org/en/download/package-manager) node 20 or [above](https://nodejs.org/en/about/previous-releases)
+ 1. [Instala](https://nodejs.org/en/download/package-manager) node 20 o [superior](https://nodejs.org/en/about/previous-releases)
 
-    Using [nvm](https://github.com/nvm-sh/nvm)
+    Usando [nvm](https://github.com/nvm-sh/nvm)
     ```shell
     # nvm
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
@@ -33,18 +33,18 @@
     v22.6.0
     ```
 
- 2. Clone repository
+ 2. Clona el repositorio
     ```shell
     git clone https://github.com/codex-storage/codex-docs
     cd codex-docs
     ```
 
- 3. Install dependencies
+ 3. Instala las dependencias
     ```shell
     npm install
     ```
 
- 4. Start a local dev server with instant hot updates
+ 4. Inicia un servidor de desarrollo local con actualizaciones instantáneas
     ```shell
     # Local
     npm run docs:dev
@@ -53,7 +53,7 @@
     npm run docs:dev -- --host
     ```
 
- 5. [Build the site](https://vitepress.dev/guide/deploy)
+ 5. [Genera el sitio web](https://vitepress.dev/guide/deploy)
     ```shell
     npm run docs:build
 
@@ -62,17 +62,18 @@
  </details>
 
 
-## Contribute
+## Contribuir
 
- Please check [VitePress documentation](https://vitepress.dev/) for more details about customizations.
+ Por favor, consulta la [documentación de VitePress](https://vitepress.dev/) para obtener más información sobre las opciones de personalización.
 
- Process
- - Create a fork
- - Create a custom branch in your fork
- - Add your contribution
- - Make a PR to the upstream repository
+ Proceso:
 
- Project structure
- - `learn` - All information to learn about Codex
- - `networks` - Codex networks related information
- - `developers` - Codex development process and guides
+*   Haz un fork del repositorio.
+*   Crea una rama (branch) en tu fork.
+*   Añade tu contribución.
+*   Envía un pull request (PR) al repositorio upstream.
+
+ Estructura del proyecto:
+- `learn` - Toda la información para aprender sobre Codex.
+- `networks` - Información relacionada con las redes de Codex.
+- `developers` - Proceso de desarrollo y guías de Codex.

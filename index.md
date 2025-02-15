@@ -4,30 +4,29 @@ layout: home
 
 hero:
   name: Codex
-  text: Decentralised data storage platform
-  tagline: Codex is a durable, decentralised data storage protocol, created so the world community can preserve its most important knowledge without risk of censorship.
+  text: Plataforma descentralizada de almacenamiento de datos
+  tagline: Codex es un protocolo descentralizado de almacenamiento de datos duradero, creado para que la comunidad global pueda preservar su conocimiento más importante sin riesgo de ser censurado.
   actions:
     - theme: brand
-      text: What is Codex?
+      text: ¿Qué es Codex?
       link: /learn/what-is-codex
     - theme: alt
-      text: Quick start
+      text: Inicio rápido
       link: /learn/quick-start
     - theme: alt
-      text: Join Codex Testnet
+      text: Únete a la Testnet de Codex
       link: /networks/testnet
 
 features:
-  - title: Learn
-    details: Get more information about Codex
+  - title: Aprender
+    details: Obtén más información sobre Codex
     link: /learn/what-is-codex
     icon: 📚
-  - title: Networks
-    details: Participate in Codex network as a Storage operator or Buyer
+  - title: Redes
+    details: Participa en la red Codex como Operador de Almacenamiento o Comprador
     link: /networks/networks
     icon: 🚦
-  - title: Developers
-    details: Build and Codex and
+  - title: Desarrolladores
+    details: Construye con Codex
     link: /developers/api
     icon: 🏗️
----
