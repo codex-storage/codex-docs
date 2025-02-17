@@ -101,6 +101,7 @@ The following options are available:
      --validator            Enables validator, requires an Ethereum node [=false].
      --validator-max-slots  Maximum number of slots that the validator monitors [=1000].
      --reward-recipient     Address to send payouts to (eg rewards and refunds).
+     --request-cache-size   Maximum number of StorageRequests kept in memory. Reduces fetching of StorageRequest data from the contract. [=128].
 
 Available sub-commands:
 
