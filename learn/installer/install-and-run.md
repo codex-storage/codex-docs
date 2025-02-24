@@ -27,11 +27,11 @@ Once you run the above command, you will be seeing a command line interface with
 
 ![InstallCodex](/learn/codex-installer.png)
 
-Select the first option to download and install Codex. You will be asked to agree to the privacy disclaimer and provide an installation path to finish your installation.
+On selecting the `Download and install Codex` option, you will be asked to agree to the privacy disclaimer and provide an installation path to finish your installation. If you do not wish to agree to the data collection disclaimer, you can select the `Exit` option and follow the instructions [Manual setup](/learn/quick-start.md) to install Codex without using the Installer.
 
 ## Run the Codex node
 
-Upon selecting the second option, you will be asked for your Listening port (default is 8070) and discovery port (default is 8090). You can optionally provide your ERC20 public address to associate your testnet node with your wallet (Please note that Codex does not promise any incentives for running a node yet).
+Upon selecting the `Run Codex node` option, you will be asked for your Listening port (default is 8070) and discovery port (default is 8090). You can optionally provide your ERC20 public address to associate your testnet node with your wallet (Please note that Codex does not promise any incentives for running a node yet).
 
 ![RunCodex](/learn/codex-installer2.png)
 

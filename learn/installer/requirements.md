@@ -13,11 +13,11 @@ To make sure that your Codex node is running smoothly, you will need to make sur
 
 ## Port Forwarding
 
-Codex requires two ports to be open on your machine in order to function properly :
+Codex requires two ports to be open on your machine in order to function properly. However, please note that the **ports provided below are configurable** based on your preference :
 
    | Protocol | Service   | Port   |
    | -------- | --------- | ------ |
-   | UDP      | Discovery | `8090` |
-   | TCP      | Transport | `8070` |
+   | UDP      | Discovery | Default : `8090` |
+   | TCP      | Transport | Default : `8070` |
 
 If you are not familiar with port forwarding, you can follow the instructions [here](https://www.noip.com/support/knowledgebase/general-port-forwarding-guide/).
