@@ -268,7 +268,7 @@ npm install
 ```
 
 > While writing the document we used `node` version `v20.17.0` and
-> `npm` version `10.8.2`.
+> `npm` version `11.0.0`.
 
 Before continuing you now must **wait until $256$ blocks are mined**
 **in your PoAnetwork**, or deploy will fail. This should take about
@@ -525,8 +525,8 @@ curl 'http://localhost:8000/api/codex/v1/sales/availability' \
   --data '{
   "totalSize": "50000000",
   "duration": "3600",
-  "minPrice": "1",
-  "maxCollateral": "1000"
+  "minPricePerBytePerSecond": "1000",
+  "totalCollateral": "50000000"
 }'
 ```
 
@@ -585,12 +585,12 @@ curl "http://localhost:8001/api/codex/v1/storage/request/${CID}" \
   --header 'Content-Type: application/octet-stream' \
   --data "{
     \"duration\": \"600\",
-    \"reward\": \"1\",
+    \"pricePerBytePerSecond\": \"2000\",
     \"proofProbability\": \"3\",
     \"expiry\": \"500\",
     \"nodes\": 3,
     \"tolerance\": 1,
-    \"collateral\": \"1000\"
+    \"collateralPerByte\": \"1\"
   }" \
   --write-out '\n'
 ```
@@ -639,14 +639,14 @@ This returns a result like:
       "slotSize": "262144",
       "duration": "1000",
       "proofProbability": "3",
-      "reward": "1",
-      "collateral": "1",
+      "pricePerBytePerSecond": "2000",
+      "collateralPerByte": 1,
       "maxSlotLoss": 1
     },
     "content": {
       "cid": "zDvZRwzkyw1E7ABaUSmgtNEDjC7opzhUoHo99Vpvc98cDWeCs47u"
     },
-    "expiry": "1711992852",
+    "expiry": "500",
     "nonce": "0x9f5e651ecd3bf73c914f8ed0b1088869c64095c0d7bd50a38fc92ebf66ff5915",
     "id": "0x6c698cd0ad71c41982f83097d6fa75beb582924e08a658357a1cd4d7a2a6766d"
   },

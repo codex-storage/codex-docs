@@ -84,8 +84,8 @@ curl -X POST \
   -d '{
     "totalSize": "8000000",
     "duration": "7200",
-    "minPrice": "10",
-    "maxCollateral": "10"
+    "minPricePerBytePerSecond": "1000",
+    "totalCollateral": "80000000"
   }'
 ```
 
@@ -110,12 +110,12 @@ curl -X POST \
   -w '\n' \
   -d '{
     "duration": "3600",
-    "reward": "1",
+    "pricePerBytePerSecond": "2000",
     "proofProbability": "5",
     "expiry": "1200",
     "nodes": 5,
     "tolerance": 2,
-    "collateral": "1"
+    "collateralPerByte": "1"
   }'
 ```
 
@@ -217,7 +217,7 @@ In order to start selling storage space to the network, you must configure your 
 curl -X POST ^
   http://localhost:8080/api/codex/v1/sales/availability ^
   -H "Content-Type: application/json" ^
-  -d "{""totalSize"": ""8000000"", ""duration"": ""7200"", ""minPrice"": ""10"", ""maxCollateral"": ""10""}"
+  -d "{""totalSize"": ""8000000"", ""duration"": ""7200"", ""minPricePerBytePerSecond"": ""1000"", ""totalCollateral"": ""80000000""}"
 ```
 
 For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
@@ -239,7 +239,7 @@ Next you can run:
 curl -X POST ^
   "http://localhost:8080/api/codex/v1/storage/request/%CID%" ^
   -H "Content-Type: application/json" ^
-  -d "{""duration"": ""3600"",""reward"": ""1"", ""proofProbability"": ""5"", ""expiry"": ""1200"", ""nodes"": 5, ""tolerance"": 2, ""collateral"": ""1""}"
+  -d "{""duration"": ""3600"",""pricePerBytePerSecond"": ""2000"", ""proofProbability"": ""5"", ""expiry"": ""1200"", ""nodes"": 5, ""tolerance"": 2, ""**collateralPerByte**"": ""1""}"
 ```
 
 For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
