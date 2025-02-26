@@ -624,38 +624,32 @@ and a storage node will eventually pick it up.
 
 You can poll the status of your request by means of:
 ```bash
-export STORAGE_PURCHASE_ID="1d0ec5261e3364f8b9d1cf70324d70af21a9b5dccba380b24eb68b4762249185"
+export STORAGE_PURCHASE_ID="6b6e2445f33ed624891f0543fe9dbf4bd0a6971febccaae2431375a5b9a2840d"
 curl "http://localhost:8001/api/codex/v1/storage/purchases/${STORAGE_PURCHASE_ID}"
-```
-
-For instance:
-
-```bash
-> curl 'http://localhost:8001/api/codex/v1/storage/purchases/6c698cd0ad71c41982f83097d6fa75beb582924e08a658357a1cd4d7a2a6766d'
 ```
 
 This returns a result like:
 
 ```json
 {
-  "requestId": "0x86501e4677a728c6a8031971d09b921c3baa268af06b9f17f1b745e7dba5d330",
+  "requestId": "0x6b6e2445f33ed624891f0543fe9dbf4bd0a6971febccaae2431375a5b9a2840d",
   "request": {
     "client": "0x9f0c62fe60b22301751d6cde1175526b9280b965",
     "ask": {
-      "slots": 3,
-      "slotSize": "262144",
-      "duration": "1000",
       "proofProbability": "3",
       "pricePerBytePerSecond": "2000",
-      "collateralPerByte": 1,
+      "collateralPerByte": "1",
+      "slots": 3,
+      "slotSize": 524288,
+      "duration": 600,
       "maxSlotLoss": 1
     },
     "content": {
-      "cid": "zDvZRwzkyw1E7ABaUSmgtNEDjC7opzhUoHo99Vpvc98cDWeCs47u"
+      "cid": "zDvZRwzm18zqvTRMHhjDmwybKZaomW8bDFtdSyaQ4XM6MmER5fzy"
     },
-    "expiry": "500",
-    "nonce": "0x9f5e651ecd3bf73c914f8ed0b1088869c64095c0d7bd50a38fc92ebf66ff5915",
-    "id": "0x6c698cd0ad71c41982f83097d6fa75beb582924e08a658357a1cd4d7a2a6766d"
+    "expiry": 500,
+    "nonce": "0x5267b832fe9a978fb0dd3912b42fece7c5ac074a9cc3c74bf578b6cee9e43543",
+    "id": "0x6b6e2445f33ed624891f0543fe9dbf4bd0a6971febccaae2431375a5b9a2840d"
   },
   "state": "submitted",
   "error": null
