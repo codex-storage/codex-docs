@@ -360,9 +360,9 @@ export GETH_SIGNER_ADDR=$(cat geth_signer_address.txt)
 # Installs Web3-js
 npm install web3
 # Provides tokens to the storage account.
-node ./mint-tokens.js $CONTRACT_DEPLOY_FULL/TestToken.json $GETH_SIGNER_ADDR 0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37 10000000000
+node ./mint-tokens.js $CONTRACT_DEPLOY_FULL/TestToken.json $GETH_SIGNER_ADDR 0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37 1000000000000000000
 # Provides tokens to the client account.
-node ./mint-tokens.js $CONTRACT_DEPLOY_FULL/TestToken.json $GETH_SIGNER_ADDR 0x9F0C62Fe60b22301751d6cDe1175526b9280b965 10000000000
+node ./mint-tokens.js $CONTRACT_DEPLOY_FULL/TestToken.json $GETH_SIGNER_ADDR 0x9F0C62Fe60b22301751d6cDe1175526b9280b965 1000000000000000000
 ```
 
 If you get a message like 
@@ -415,8 +415,7 @@ echo ${MARKETPLACE_ADDRESS} > marketplace_address.txt
 ```
 
 where you replace `0x0000000000000000000000000000000000000000` with
-the Marketplace contract above in
-[Step 2.1](#_2-1-deploy-the-codex-marketplace-contracts).
+the address of the Marketplace contract.
 
 **Prover ceremony files.** The ceremony files are under the
 `nim-codex/vendor/codex-contracts-eth/verifier/networks/codexdisttestnetwork`
@@ -514,23 +513,27 @@ some of it for sale.
 
 ### 4.1 Sell Storage
 
-The following request will cause the storage node to put out $50\text{MB}$
-of storage for sale for $1$ hour, at a price of $1$ Codex token
-per slot per second, while expressing that it's willing to take at most
-a $1000$ Codex token penalty for not fulfilling its part of the contract.[^1]
+The following request will cause the storage node to put out $5\text{MB}$
+of storage for sale for $1$ hour, at a minimum price of $1000$ Codex token
+per byte per second, while expressing that maximum penalty (a collateral)
+the storage provider is willing to risk for not fulfilling its part of the
+contract is limited to $50000000$ tokens (wei) for this specific availability.[^1]
+This total collateral will be distributed across all storage requests matching
+this availability.
 
 ```bash
 curl 'http://localhost:8000/api/codex/v1/sales/availability' \
   --header 'Content-Type: application/json' \
   --data '{
-  "totalSize": "50000000",
+  "totalSize": "5000000",
   "duration": "3600",
   "minPricePerBytePerSecond": "1000",
   "totalCollateral": "50000000"
 }'
 ```
 
-This should return a JSON response containing an `id` (e.g. `"id": "0xb55b3bc7aac2563d5bf08ce8a177a38b5a40254bfa7ee8f9c52debbb176d44b0"`)
+This should return a JSON response containing an `id` (e.g. 
+`"id": "0xb55b3bc7aac2563d5bf08ce8a177a38b5a40254bfa7ee8f9c52debbb176d44b0"`)
 which identifies this storage offer.
 
 > To make JSON responses more readable, you can try
@@ -598,16 +601,20 @@ curl "http://localhost:8001/api/codex/v1/storage/request/${CID}" \
 The parameters under `--data` say that:
 
 1. we want to purchase storage for our file for $5$ minutes (`"duration": "600"`);
-2. we are willing to pay up to $1$ token per slot per second (`"reward": "1"`)
+2. we are willing to pay up to $2000$ tokens (wei) per slot per second
+   (`"pricePerBytePerSecond": "2000"`). It is then twice as much as
+   `minPricePerBytePerSecond`, which we set to $1000$ when creating the availability
+   above.
 3. our file will be split into three pieces (`"nodes": 3`). 
    Because we set `"tolerance": 1` we only need two (`nodes - tolerance`)
    pieces to rebuild the file; i.e., we can tolerate that at most one node
    stops storing our data; either due to failure or other reasons;
-4. we demand `1000` tokens in collateral from storage providers for each piece.
-   Since there are $3$ such pieces, there will be `3000` in total collateral
-   committed by the storage provider(s) once our request is started.
+4. we demand `1` token in collateral from storage providers per byte of storage
+   per second for each piece of data (called _slots_). Because we provide some redundancy to
+   the stored data, the actual size of the stored dataset will be bigger than original
+   content (the bigger the `tolerance` the bigger the resulting dataset).
 5. finally, the `expiry` puts a time limit for filling all the slots by
-   the storage provider(s). If slot are not filled by the `expire` interval,
+   the storage provider(s). If slots are not filled by the `expire` interval,
    the request will timeout and fail. 
 
 ### 4.3. Track your Storage Requests
@@ -666,4 +673,4 @@ successfully finishing the codex marketplace tutorial!
 [^1]: Codex files get partitioned into pieces called "slots" and distributed
 to various storage providers. The collateral refers to one such slot,
 and will be slowly eaten away as the storage provider fails to deliver
-timely proofs, but the actual logic is [more involved than that](https://github.com/codex-storage/codex-contracts-eth/blob/6c9f797f408608958714024b9055fcc330e3842f/contracts/Marketplace.sol#L209).
+timely proofs.
