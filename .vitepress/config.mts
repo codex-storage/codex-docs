@@ -95,7 +95,17 @@ export default withMermaid({
         ]
       },
       {
-        text: 'Using Codex',
+        text: 'Setup Codex with Installer',
+        collapsed: false,
+        items: [
+          { text: 'Disclaimer', link: '/codex/installer-disclaimer' },
+          { text: 'Requirements', link: '/learn/installer/requirements' },
+          { text: 'Install and Run Codex', link: '/learn/installer/install-and-run' },
+          { text: 'Upload/Download', link: '/learn/installer/upload-and-download' },
+        ]
+      },
+      {
+        text: 'Setup Codex Manually',
         collapsed: false,
         items: [
           { text: 'Disclaimer', link: '/codex/disclaimer' },

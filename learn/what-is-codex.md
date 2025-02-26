@@ -4,6 +4,8 @@ Codex is a decentralised data storage protocol. Its primary features are strong 
 
 <br/>
 
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/XH-R2oJO7P4" title="" frameBorder="0"   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowFullScreen><br>Powered by <a href="https://youtubeembedcode.com">youtube embed code</a> and <a href="https://snabblan.io/">snabblån utan uc</a></iframe></p>
+
 ### Motive
 
 The remote storage landscape is dominated by an increasingly small number of internet powerhouses—Google, Microsoft, Amazon, etc. While these services score highly in terms of user experience and convenience, centralised cloud data storage suffers from the following drawbacks:
