@@ -7,7 +7,7 @@ As for now, Codex is implemented only in [Nim](https://nim-lang.org) and can be 
 
 It is a command-line application which may be run in a different ways:
  - [Using binary](#using-binary)
- - [Run as a daemon in Linux](#run-as-a-daemon-in-linux) (not supported yet)
+ - [Run as a service in Linux](#run-as-a-service-in-linux)
  - [Run as a service in Windows](#run-as-a-service-in-windows) (not supported yet)
  - [Using Docker](#using-docker)
  - [Using Docker Compose](#using-docker-compose)
@@ -160,6 +160,8 @@ The Codex node can then read the configuration from this file using the `--confi
 ```shell
 codex --config-file=/path/to/your/config.toml
 ```
+
+Please check [Run as a service in Linux](#run-as-a-service-in-linux) for a full example of configuration file.
 
 ## Run
 
@@ -403,9 +405,105 @@ We should keep in mind some important things about SPR record (see [ENR](https:/
 
 For bootstrap node, it is required to forward just discovery port on your Internet router.
 
-### Run as a daemon in Linux
+### Run as a service in Linux
 
-This functionality is not supported yet :construction:
+We can run Codex as a service via [systemd](https://systemd.io) using following steps
+
+ 1. Create an user for Codex
+    ```shell
+    sudo useradd \
+      --system \
+      --home-dir /opt/codex \
+      --shell /usr/sbin/nologin \
+      codex
+    ```
+    In case you would like to run commands using a created user, you could do it like following `sudo -u codex ls -la /opt/codex`.
+
+ 2. Install Codex [using a script](https://github.com/codex-storage/get-codex) or [build from sources](/learn/build)
+    ```shell
+    # codex with cirdl
+    curl -s https://get.codex.storage/install.sh | INSTALL_DIR=/usr/local/bin CIRDL=true bash
+    ```
+
+ 3. Create directories
+    ```shell
+    sudo mkdir -p /opt/codex/data
+    ```
+
+ 4. Create a configuration file
+    ```shell
+    sudo vi /opt/codex/codex.conf
+    ```
+    ```toml
+    data-dir       = "/opt/codex/data"
+    listen-addrs   = ["/ip4/0.0.0.0/tcp/8070"]
+    nat            = "extip:<Public IP>"
+    disc-port      = 8090
+    api-port       = 8080
+    bootstrap-node = [
+      "spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P",
+      "spr:CiUIAhIhAyUvcPkKoGE7-gh84RmKIPHJPdsX5Ugm_IHVJgF-Mmu_EgIDARo8CicAJQgCEiEDJS9w-QqgYTv6CHzhGYog8ck92xflSCb8gdUmAX4ya78QoemesAYaCwoJBES39Q2RAnVOKkYwRAIgLi3rouyaZFS_Uilx8k99ySdQCP1tsmLR21tDb9p8LcgCIG30o5YnEooQ1n6tgm9fCT7s53k6XlxyeSkD_uIO9mb3",
+      "spr:CiUIAhIhA6_j28xa--PvvOUxH10wKEm9feXEKJIK3Z9JQ5xXgSD9EgIDARo8CicAJQgCEiEDr-PbzFr74--85TEfXTAoSb195cQokgrdn0lDnFeBIP0QzOGesAYaCwoJBK6Kf1-RAnVEKkcwRQIhAPUH5nQrqG4OW86JQWphdSdnPA98ErQ0hL9OZH9a4e5kAiBBZmUl9KnhSOiDgU3_hvjXrXZXoMxhGuZ92_rk30sNDA",
+      "spr:CiUIAhIhA7E4DEMer8nUOIUSaNPA4z6x0n9Xaknd28Cfw9S2-cCeEgIDARo8CicAJQgCEiEDsTgMQx6vydQ4hRJo08DjPrHSf1dqSd3bwJ_D1Lb5wJ4Qt_CesAYaCwoJBEDhWZORAnVYKkYwRAIgFNzhnftocLlVHJl1onuhbSUM7MysXPV6dawHAA0DZNsCIDRVu9gnPTH5UkcRXLtt7MLHCo4-DL-RCMyTcMxYBXL0",
+      "spr:CiUIAhIhAzZn3JmJab46BNjadVnLNQKbhnN3eYxwqpteKYY32SbOEgIDARo8CicAJQgCEiEDNmfcmYlpvjoE2Np1Wcs1ApuGc3d5jHCqm14phjfZJs4QrvWesAYaCwoJBKpA-TaRAnViKkcwRQIhANuMmZDD2c25xzTbKSirEpkZYoxbq-FU_lpI0K0e4mIVAiBfQX4yR47h1LCnHznXgDs6xx5DLO5q3lUcicqUeaqGeg",
+      "spr:CiUIAhIhAuN-P1D0HrJdwBmrRlZZzg6dqllRNNcQyMDUMuRtg3paEgIDARpJCicAJQgCEiEC434_UPQesl3AGatGVlnODp2qWVE01xDIwNQy5G2DeloQm_L2vQYaCwoJBI_0zSiRAnVsGgsKCQSP9M0okQJ1bCpHMEUCIQDgEVjUp1RJGb59eRPs7RPYMSGAI_fo1yv70iBtnTqefQIgVoXszc87EGFVO3aaqorEYZ21OGRko5ho_Pybdyqa6AI",
+      "spr:CiUIAhIhAsi_hgxFppWjHiKRwnYPX_qkB28dLtwK9c7apnlBanFuEgIDARpJCicAJQgCEiECyL-GDEWmlaMeIpHCdg9f-qQHbx0u3Ar1ztqmeUFqcW4Q2O32vQYaCwoJBNEmoCiRAnV2GgsKCQTRJqAokQJ1dipHMEUCIQDpC1isFfdRqNmZBfz9IGoEq7etlypB6N1-9Z5zhvmRMAIgIOsleOPr5Ra_Nk7BXmXGhe-YlLosH9jo83JtfWCy3-o"
+    ]
+    storage-quota  = "8gb"
+    block-ttl      = "24h"
+    log-level      = "info"
+    ```
+
+    Make sure to use bootstrap nodes for the [network](/networks/networks) you would like to join, update `nat` variable with a node Public IP and adjust other settings by your needs.
+
+ 5. Change folders ownership and permissions
+    ```shell
+    sudo chown -R codex:codex /opt/codex
+    ```
+
+ 6. Create systemd unit file
+    ```shell
+    sudo vi /lib/systemd/system/codex.service
+    ```
+    ```shell
+    [Unit]
+    Description=Codex service
+    Documentation=https://docs.codex.storage
+    After=local-fs.target network-online.target
+
+    [Service]
+    MemorySwapMax=0
+    TimeoutStartSec=infinity
+    Type=exec
+    User=codex
+    Group=codex
+    StateDirectory=codex
+    ExecStart=/usr/local/bin/codex --config-file="/opt/codex/codex.conf"
+    Restart=always
+    RestartSec=3
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+    Check `man systemd`, `man systemd.service` and `man systemd.directives` for additional details.
+
+ 7. Enable and start Codex service 
+    ```shell
+    sudo systemctl enable codex
+    sudo systemctl start codex
+    ```
+
+ 8. Check service status
+    ```shell
+    sudo systemctl status codex
+    ```
+
+ 9. Check the logs
+    ```shell
+    sudo journalctl -u codex -S "5min ago"
+    sudo journalctl -f -u codex
+    sudo tail -f /var/log/syslog | grep codex
+    ```
 
 ### Run as a service in Windows
 
