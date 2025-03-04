@@ -1,6 +1,6 @@
 # Upload/Download Files in the Testnet
 
-You can either upload or download files by using the fourth and fifth option in the Codex Installer or by using the Codex GUI app (recommended).
+You can either upload or download files by using the Upload / Download option in the Codex Installer or by using the Codex GUI app (recommended).
 
 ## Codex Vault
 

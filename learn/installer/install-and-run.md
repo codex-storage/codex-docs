@@ -2,7 +2,7 @@
 
 Codex Installer is a CLI tool that simplifies the process of setting up a Codex node. It handles all the necessary steps to get your node running quickly and efficiently.
 
-> Before we get started, please make sure to reivew and accept the [disclaimer](/codex/installer-disclaimer) as Codex Installer collects some of your node information to improve the user experience.
+> Before we get started, please make sure to review and accept the [disclaimer](/codex/installer-disclaimer) as Codex Installer collects some of your node information to improve the user experience.
 
 <br/>
 
