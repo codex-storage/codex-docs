@@ -76,3 +76,47 @@
  - `learn` - All information to learn about Codex
  - `networks` - Codex networks related information
  - `developers` - Codex development process and guides
+
+
+## Internationalization
+
+ We are using built-in [i18n features for Internationalization support](https://vitepress.dev/guide/i18n).
+
+ In order to add a new language version of the docs it is required
+ 1. Create a folder with a name of the two letter language code - `ko` for Korean, please check [List of ISO 639 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes).
+
+ 2. Copy and translate required pages. It make sense to use English pages as a source as it is the primary language. Pages are located inside the repository sub-folders
+    - *codex*
+    - *developers*
+    - *learn*
+    - *networks*
+
+    After translation, we will have a new folder with all sub-folders
+    ```
+    ko
+    ├── codex
+    ├── developers
+    ├── learn
+    └── networks
+    ```
+
+ 3. If you need to translate images, they are located inside a *public* folder. After translation, add a language suffix to the language specific file, for example *public/learn/architecture-`ko`.png*.
+
+    Then, update the docs to use a language specific image.
+
+ 4. Add new language to the site config file - [*.vitepress/config.mts*](.vitepress/config.mts)
+    ```json
+    // Korean
+    ko: {
+      label: '한국어',
+      lang: 'ko-KP',
+      link: '/ko',
+      themeConfig: {}
+    }
+    ```
+    - `label` - Native language name from [List of ISO 639 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
+    - `lang` - [\<Language code\>](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)-[\<Country code\>](https://en.wikipedia.org/wiki/ISO_3166-1)
+    - `link` - link to the index document located in the language specific folder
+    - `themeConfig` - contains translation of the site elements like Nav/Side bar, etc.
+
+ After performed changes, we should have a documentation site in a newly added language.
