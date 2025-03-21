@@ -1,9 +1,9 @@
 ---
 outline: [2, 4]
 ---
-# Codex Testnet
+# Codex 테스트넷
 
-The Codex Testnet has been launched and is ready to be used for testing.
+Codex 테스트넷이 출시되어 테스트에 사용할 준비가 되었습니다.
 
 Your participation in the Codex Testnet is subject to the [Codex Testnet Terms and Conditions](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Terms%20and%20Conditions.pdf) and [Codex Testnet Privacy Policy](https://github.com/codex-storage/codex-testnet-starter/blob/master/Codex%20Testnet%20Privacy%20Policy.pdf).
 
@@ -21,6 +21,18 @@ The guides were tested on the following operating systems:
  - Linux: Ubuntu 24.04, Debian 12, Fedora 40
  - macOS: 15
  - Windows: 11, Server 2022
+
+## 테스트넷 정보
+
+| 항목 | 값 |
+| --- | --- |
+| 체인 ID | 2430 |
+| 통화 기호 | ETH |
+| 블록 시간 | 5초 |
+| 합의 | Clique PoA |
+| 네트워크 ID | 2430 |
+| 네트워크 이름 | Codex Testnet |
+| RPC URL | https://rpc.testnet.codex.storage |
 
 ## Running a Storage Client (Discord Version) {#sc-guide-discord}
 
@@ -166,11 +178,11 @@ Work in progress :construction:
 ```shell
 spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
 spr:CiUIAhIhAyUvcPkKoGE7-gh84RmKIPHJPdsX5Ugm_IHVJgF-Mmu_EgIDARo8CicAJQgCEiEDJS9w-QqgYTv6CHzhGYog8ck92xflSCb8gdUmAX4ya78QoemesAYaCwoJBES39Q2RAnVOKkYwRAIgLi3rouyaZFS_Uilx8k99ySdQCP1tsmLR21tDb9p8LcgCIG30o5YnEooQ1n6tgm9fCT7s53k6XlxyeSkD_uIO9mb3
-spr:CiUIAhIhAlNJ7ary8eOK5GcwQ6q4U8brR7iWjwhMwzHb8BzzmCEDEgIDARpJCicAJQgCEiECU0ntqvLx44rkZzBDqrhTxutHuJaPCEzDMdvwHPOYIQMQsZ67vgYaCwoJBK6Kf1-RAnVEGgsKCQSuin9fkQJ1RCpGMEQCIDxd6lXDvj1PcHgQYnNpHGfgCO5a7fejg3WhSjh2wTimAiB7YHsL1WZYU_zkHcNDWhRgMbkb3C5yRuvUhjBjGOYJYQ
+spr:CiUIAhIhA6_j28xa--PvvOUxH10wKEm9feXEKJIK3Z9JQ5xXgSD9EgIDARo8CicAJQgCEiEDr-PbzFr74--85TEfXTAoSb195cQokgrdn0lDnFeBIP0QzOGesAYaCwoJBK6Kf1-RAnVEKkcwRQIhAPUH5nQrqG4OW86JQWphdSdnPA98ErQ0hL9OZH9a4e5kAiBBZmUl9KnhSOiDgU3_hvjXrXZXoMxhGuZ92_rk30sNDA
 spr:CiUIAhIhA7E4DEMer8nUOIUSaNPA4z6x0n9Xaknd28Cfw9S2-cCeEgIDARo8CicAJQgCEiEDsTgMQx6vydQ4hRJo08DjPrHSf1dqSd3bwJ_D1Lb5wJ4Qt_CesAYaCwoJBEDhWZORAnVYKkYwRAIgFNzhnftocLlVHJl1onuhbSUM7MysXPV6dawHAA0DZNsCIDRVu9gnPTH5UkcRXLtt7MLHCo4-DL-RCMyTcMxYBXL0
 spr:CiUIAhIhAzZn3JmJab46BNjadVnLNQKbhnN3eYxwqpteKYY32SbOEgIDARo8CicAJQgCEiEDNmfcmYlpvjoE2Np1Wcs1ApuGc3d5jHCqm14phjfZJs4QrvWesAYaCwoJBKpA-TaRAnViKkcwRQIhANuMmZDD2c25xzTbKSirEpkZYoxbq-FU_lpI0K0e4mIVAiBfQX4yR47h1LCnHznXgDs6xx5DLO5q3lUcicqUeaqGeg
-spr:CiUIAhIhAuN-P1D0HrJdwBmrRlZZzg6dqllRNNcQyMDUMuRtg3paEgIDARpJCicAJQgCEiEC434_UPQesl3AGatGVlnODp2qWVE01xDIwNQy5G2DeloQm_L2vQYaCwoJBI_0zSiRAnVsGgsKCQSP9M0okQJ1bCpHMEUCIQDgEVjUp1RJGb59eRPs7RPYMSGAI_fo1yv70iBtnTqefQIgVoXszc87EGFVO3aaqorEYZ21OGRko5ho_Pybdyqa6AI
-spr:CiUIAhIhAsi_hgxFppWjHiKRwnYPX_qkB28dLtwK9c7apnlBanFuEgIDARpJCicAJQgCEiECyL-GDEWmlaMeIpHCdg9f-qQHbx0u3Ar1ztqmeUFqcW4Q2O32vQYaCwoJBNEmoCiRAnV2GgsKCQTRJqAokQJ1dipHMEUCIQDpC1isFfdRqNmZBfz9IGoEq7etlypB6N1-9Z5zhvmRMAIgIOsleOPr5Ra_Nk7BXmXGhe-YlLosH9jo83JtfWCy3-o
+spr:CiUIAhIhAgybmRwboqDdUJjeZrzh43sn5mp8jt6ENIb08tLn4x01EgIDARo8CicAJQgCEiECDJuZHBuioN1QmN5mvOHjeyfmanyO3oQ0hvTy0ufjHTUQh4ifsAYaCwoJBI_0zSiRAnVsKkcwRQIhAJCb_z0E3RsnQrEePdJzMSQrmn_ooHv6mbw1DOh5IbVNAiBbBJrWR8eBV6ftzMd6ofa5khNA2h88OBhMqHCIzSjCeA
+spr:CiUIAhIhAntGLadpfuBCD9XXfiN_43-V3L5VWgFCXxg4a8uhDdnYEgIDARo8CicAJQgCEiECe0Ytp2l-4EIP1dd-I3_jf5XcvlVaAUJfGDhry6EN2dgQsIufsAYaCwoJBNEmoCiRAnV2KkYwRAIgXO3bzd5VF8jLZG8r7dcLJ_FnQBYp1BcxrOvovEa40acCIDhQ14eJRoPwJ6GKgqOkXdaFAsoszl-HIRzYcXKeb7D9
 ```
 
 **Geth**
@@ -190,7 +202,7 @@ enode://6ba0e8b5d968ca8eb2650dd984cdcf50acc01e4ea182350e990191aadd79897801b79455
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Token       | [`0x34a22f3911De437307c6f4485931779670f78764`](https://explorer.testnet.codex.storage/address/0x34a22f3911De437307c6f4485931779670f78764) |
 | Verifier    | [`0x02dd582726F7507D7d0F8bD8bf8053d3006F9092`](https://explorer.testnet.codex.storage/address/0x02dd582726F7507D7d0F8bD8bf8053d3006F9092) |
-| Marketplace | [`0xfFaF679D5Cbfdd5Dbc9Be61C616ed115DFb597ed`](https://explorer.testnet.codex.storage/address/0xfFaF679D5Cbfdd5Dbc9Be61C616ed115DFb597ed) |
+| Marketplace | [`0xAB03b6a58C5262f530D54146DA2a552B1C0F7648`](https://explorer.testnet.codex.storage/address/0xAB03b6a58C5262f530D54146DA2a552B1C0F7648) |
 
 ### Endpoints
 
@@ -201,3 +213,13 @@ enode://6ba0e8b5d968ca8eb2650dd984cdcf50acc01e4ea182350e990191aadd79897801b79455
 | 3 | Faucet ETH      | [faucet-eth.testnet.codex.storage](https://faucet-eth.testnet.codex.storage) |
 | 4 | Faucet TST      | [faucet-tst.testnet.codex.storage](https://faucet-tst.testnet.codex.storage) |
 | 5 | Status page     | [status.testnet.codex.storage](https://status.testnet.codex.storage)         |
+
+## 유용한 링크
+
+| # | 서비스          | URL                                                                        |
+| - | --------------- | ---------------------------------------------------------------------------- |
+| 1 | Geth 공개 RPC | [rpc.testnet.codex.storage](https://rpc.testnet.codex.storage)               |
+| 2 | 블록 탐색기    | [explorer.testnet.codex.storage](https://explorer.testnet.codex.storage)     |
+| 3 | ETH 수도꼭지    | [faucet-eth.testnet.codex.storage](https://faucet-eth.testnet.codex.storage) |
+| 4 | TST 수도꼭지    | [faucet-tst.testnet.codex.storage](https://faucet-tst.testnet.codex.storage) |
+| 5 | 상태 페이지     | [status.testnet.codex.storage](https://status.testnet.codex.storage)         |

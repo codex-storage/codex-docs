@@ -1,3 +1,3 @@
-# Codex 소개
+# About Codex
 
-작업 진행 중 :construction:
+ Work in progress :construction:

@@ -160,92 +160,92 @@ export default withMermaid({
       lang: 'en'
     },
     // Korean
-  //   ko: {
-  //     label: '한국어',
-  //     lang: 'ko-KP',
-  //     link: '/ko',
-  //     themeConfig: {
-  //       nav: [
-  //         { text: '백서', link: '/ko/learn/whitepaper' },
-  //         { text: 'Tokenomics Litepaper', link: '/ko/learn/tokenomics-litepaper' },
-  //         {
-  //           text: 'Codex',
-  //           items: [
-  //             { text: '소개', link: '/ko/codex/about' },
-  //             { text: '보안', link: '/ko/codex/security' },
-  //             { text: '개인정보 처리방침', link: '/ko/codex/privacy-policy' },
-  //             { text: '이용 약관', link: '/ko/codex/terms-of-use' }
-  //           ]
-  //         }
-  //       ],
-  //       editLink: {
-  //         pattern: 'https://github.com/codex-storage/codex-docs/edit/master/:path',
-  //         text: 'Edit this page on GitHub',
-  //       },
-  //       siteTitle: 'Codex • 문서',
-  //       logoLink: '/ko/learn/what-is-codex',
-  //       sidebar: [
-  //         {
-  //           text: 'Introduction',
-  //           collapsed: false,
-  //           items: [
-  //             { text: 'Codex란 무엇인가?', link: '/ko/learn/what-is-codex' },
-  //             { text: '아키텍처', link: '/ko/learn/architecture' },
-  //             { text: '백서', link: '/ko/learn/whitepaper' },
-  //             { text: 'Tokenomics Litepaper', link: '/ko/learn/tokenomics-litepaper' }
-  //           ]
-  //         },
-  //         {
-  //           text: 'Setup Codex with Installer',
-  //           collapsed: false,
-  //           items: [
-  //             { text: '면책 조항', link: '/ko/codex/installer-disclaimer' },
-  //             { text: 'Requirements', link: '/ko/learn/installer/requirements' },
-  //             { text: 'Install and Run Codex', link: '/ko/learn/installer/install-and-run' },
-  //             { text: 'Upload/Download', link: '/ko/learn/installer/upload-and-download' },
-  //           ]
-  //         },
-  //         {
-  //           text: 'Setup Codex Manually',
-  //           collapsed: false,
-  //           items: [
-  //             { text: '면책 조항', link: '/ko/codex/disclaimer' },
-  //             { text: '빠른 시작', link: '/ko/learn/quick-start' },
-  //             { text: 'Build Codex', link: '/ko/learn/build' },
-  //             { text: 'Run Codex', link: '/ko/learn/run' },
-  //             { text: '사용하기', link: '/ko/learn/using' },
-  //             { text: 'Local Two Client Test', link: '/ko/learn/local-two-client-test' },
-  //             { text: 'Local Marketplace', link: '/ko/learn/local-marketplace' },
-  //             { text: 'Download Flow', link: '/ko/learn/download-flow' },
-  //             { text: '문제 해결', link: '/ko/learn/troubleshoot' }
-  //           ]
-  //         },
-  //         {
-  //           text: 'Codex networks',
-  //           collapsed: false,
-  //           items: [
-  //             { text: '테스트넷', link: '/ko/networks/testnet' }
-  //           ]
-  //         },
-  //         {
-  //           text: 'Developers',
-  //           collapsed: false,
-  //           items: [
-  //             { text: 'API', link: '/developers/api' }
-  //           ]
-  //         },
-  //         {
-  //           text: 'Codex',
-  //           collapsed: false,
-  //           items: [
-  //             { text: '소개', link: '/ko/codex/about' },
-  //             { text: '보안', link: '/ko/codex/security' },
-  //             { text: '개인정보 처리방침', link: '/ko/codex/privacy-policy' },
-  //             { text: '이용 약관', link: '/ko/codex/terms-of-use' }
-  //           ]
-  //         }
-  //       ],
-  //     }
-  //   }
+    ko: {
+      label: '한국어',
+      lang: 'ko-KP',
+      link: '/ko',
+      themeConfig: {
+        nav: [
+          { text: '백서', link: '/ko/learn/whitepaper' },
+          { text: 'Tokenomics Litepaper', link: '/ko/learn/tokenomics-litepaper' },
+          {
+            text: 'Codex',
+            items: [
+              { text: '소개', link: '/ko/codex/about' },
+              { text: '보안', link: '/ko/codex/security' },
+              { text: '개인정보 처리방침', link: '/ko/codex/privacy-policy' },
+              { text: '이용 약관', link: '/ko/codex/terms-of-use' }
+            ]
+          }
+        ],
+        editLink: {
+          pattern: 'https://github.com/codex-storage/codex-docs/edit/master/:path',
+          text: 'Edit this page on GitHub',
+        },
+        siteTitle: 'Codex • 문서',
+        logoLink: '/ko/learn/what-is-codex',
+        sidebar: [
+          {
+            text: 'Introduction',
+            collapsed: false,
+            items: [
+              { text: 'Codex란 무엇인가?', link: '/ko/learn/what-is-codex' },
+              { text: '아키텍처', link: '/ko/learn/architecture' },
+              { text: '백서', link: '/ko/learn/whitepaper' },
+              { text: 'Tokenomics Litepaper', link: '/ko/learn/tokenomics-litepaper' }
+            ]
+          },
+          {
+            text: 'Setup Codex with Installer',
+            collapsed: false,
+            items: [
+              { text: '면책 조항', link: '/ko/codex/installer-disclaimer' },
+              { text: 'Requirements', link: '/ko/learn/installer/requirements' },
+              { text: 'Install and Run Codex', link: '/ko/learn/installer/install-and-run' },
+              { text: 'Upload/Download', link: '/ko/learn/installer/upload-and-download' },
+            ]
+          },
+          {
+            text: 'Setup Codex Manually',
+            collapsed: false,
+            items: [
+              { text: '면책 조항', link: '/ko/codex/disclaimer' },
+              { text: '빠른 시작', link: '/ko/learn/quick-start' },
+              { text: 'Build Codex', link: '/ko/learn/build' },
+              { text: 'Run Codex', link: '/ko/learn/run' },
+              { text: '사용하기', link: '/ko/learn/using' },
+              { text: 'Local Two Client Test', link: '/ko/learn/local-two-client-test' },
+              { text: 'Local Marketplace', link: '/ko/learn/local-marketplace' },
+              { text: 'Download Flow', link: '/ko/learn/download-flow' },
+              { text: '문제 해결', link: '/ko/learn/troubleshoot' }
+            ]
+          },
+          {
+            text: 'Codex networks',
+            collapsed: false,
+            items: [
+              { text: '테스트넷', link: '/ko/networks/testnet' }
+            ]
+          },
+          {
+            text: 'Developers',
+            collapsed: false,
+            items: [
+              { text: 'API', link: '/developers/api' }
+            ]
+          },
+          {
+            text: 'Codex',
+            collapsed: false,
+            items: [
+              { text: '소개', link: '/ko/codex/about' },
+              { text: '보안', link: '/ko/codex/security' },
+              { text: '개인정보 처리방침', link: '/ko/codex/privacy-policy' },
+              { text: '이용 약관', link: '/ko/codex/terms-of-use' }
+            ]
+          }
+        ],
+      }
+    }
   }
 })

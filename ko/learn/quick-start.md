@@ -1,10 +1,10 @@
-# Quick Start
+# 빠른 시작
 
-To run Codex through this guide we would need to perform the following steps:
-- [Review the disclaimer](/codex/disclaimer)
-- [Get Codex binary](#get-codex-binary)
-- [Run Codex](#run-codex)
-- [Interact with Codex](#interact-with-codex)
+이 가이드를 통해 Codex를 실행하려면 다음 단계를 수행해야 합니다:
+- [면책 조항 검토](/codex/disclaimer)
+- [Codex 바이너리 얻기](#get-codex-binary)
+- [Codex 실행하기](#run-codex)
+- [Codex와 상호작용하기](#interact-with-codex)
 
 ## Get Codex binary
 
@@ -82,7 +82,7 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
      --data-dir=datadir \
      --disc-port=8090 \
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
-     --nat=any \
+     --nat=`curl -s https://ip.codex.storage` \
      --api-cors-origin="*" \
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
    ```
@@ -111,12 +111,15 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    </details>
 
    ```batch
+   :: Get Public IP
+   for /f "delims=" %a in ('curl -s --ssl-reqd ip.codex.storage') do set nat=%a
+
    :: Run Codex
    codex ^
      --data-dir=datadir ^
      --disc-port=8090 ^
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 ^
-     --nat=any ^
+     --nat=%nat% ^
      --api-cors-origin="*" ^
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
    ```
