@@ -1,123 +1,95 @@
 # 설명 및 아키텍처
 
-Codex는 web3 애플리케이션에 부패 및 검열 저항성을 제공하는 완전히 분산된 내구성 있는 데이터 저장 엔진을 구축하고 있습니다. 노드 운영자에게는 저장하는 데이터에 대한 타당한 부인 가능성을, 클라이언트에게는 최대 99.99%의 입증 가능한 내구성 보장을 제공하면서도 저장소와 대역폭 효율성을 유지합니다.
+Codex는 완전히 탈중앙화된 형태의 내구성 높은 데이터 저장 엔진을 구축하고 있으며, Web3 애플리케이션에 대해 손상 및 검열 저항성을 제공합니다. Codex는 저장된 데이터에 대해 호스트에게는 **그럴듯한 부인 가능성**(plausible deniability)을, 클라이언트에게는 최대 **99.99%의 입증 가능한 내구성 보장**을 제공함으로써 네트워크 참여자들을 근본적으로 보호합니다. 이 모든 기능은 저장 효율성과 대역폭 효율성도 유지하면서 구현됩니다.
 
-These four key features combine to differentiate Codex from existing projects in the decentralised storage niche:
+다음의 네 가지 핵심 기능은 Codex를 기존의 분산 스토리지 프로젝트들과 차별화합니다:
 
-- **Erasure coding:** Provides efficient data redundancy, which increases data durability guarantees.
+- **이레이저 코딩(Erasure coding):** 데이터 중복성을 효율적으로 제공하여 내구성 보장을 향상시킵니다.
 
-- **ZK-based proof-of-retrievability:** For lightweight data durability assurances.
+- **제로 지식 기반 데이터 복구 증명(ZK-based proof-of-retrievability):** 가볍고 효율적인 데이터 내구성 검증을 가능하게 합니다.
 
-- **Lazy repair mechanism:** For efficient data reconstruction and loss prevention.
+- **지연 복구 메커니즘(Lazy repair mechanism):** 효율적인 데이터 복구 및 손실 방지를 지원합니다.
 
-- **Incentivization:**  To encourage rational behaviour, widespread network participation, and the efficient provision of finite network resources.
+- **인센티브 설계(Incentivization):** 합리적인 행동을 유도하고, 네트워크 참여를 확대하며, 제한된 네트워크 자원의 효율적인 활용을 장려합니다.
 
+### 인센티브 기반 탈중앙화
 
-### Incentivized decentralisation
+기존 파일 공유 네트워크에서는 인센티브 메커니즘이 핵심적으로 부족한 요소 중 하나입니다. Codex는 견고한 **마켓플레이스 기반 인센티브 구조**를 통해 아래에 설명된 다양한 노드 유형 전반에 걸쳐 **광범위한 참여를 유도할 수 있다**고 믿습니다.
 
-Incentivization mechanisms are one of the key pieces missing from traditional file-sharing networks. Codex believes that a robust marketplace-based incentive structure will ensure wide participation across the node types detailed below.
+적절한 인센티브 구조의 개발은 다음과 같은 목표를 바탕으로 추진됩니다:
 
-The development of an adequate incentive structure is driven by the following goals: 
+- **수요와 공급을 조율**하여 네트워크 자원의 최적 사용을 유도
+- 각 노드가 **자신의 경쟁력을 활용해 수익을 극대화**할 수 있도록 하여 참여를 증가
+- **스팸을 방지하고 악의적인 참여를 억제**
 
-- Supply and demand to encourage optimum network resource usage.
+Codex의 인센티브 구조는 아직 최종 확정되지는 않았지만, 데이터를 저장하고자 하는 참여자들과, 저장 공간을 제공하며 **담보를 걸고 공개 저장 계약에 입찰하는 제공자들**로 구성된 마켓플레이스를 중심으로 운영될 예정입니다. 이 구조는 참여자들의 인센티브를 자연스럽게 정렬시켜, Codex가 설계 의도대로 작동하도록 하는 것을 목표로 합니다.
 
-- Increase participation by enabling nodes to utilise their competitive advantages to maximise profits.
+### 네트워크 아키텍처
 
-- Prevent spam and discourage malicious participation. 
+Codex는 여러 유형의 노드로 구성되어 있으며, 각 노드는 네트워크 운영에서 서로 다른 역할을 수행합니다. 이에 따라 노드 유형별로 요구되는 하드웨어 사양도 달라져, 자원이 제한된 장치에서도 네트워크 참여가 가능하도록 설계되어 있습니다.
 
-Although still to be finalised, the Codex incentive structure will involve a marketplace of participants who want to store data, and those provisioning storage posting collateral, with the latter bidding on open storage contracts. This structure aims to ensure that participants' incentives align, resulting in Codex functioning as intended.
+**스토리지 노드(Storage nodes)**
 
+스토리지 노드는 Codex에서 장기적으로 신뢰할 수 있는 저장 공간을 제공하는 역할을 합니다. 이들은 계약 요청 측에서 게시한 담보금과 계약이 갖는 슬롯 수에 따라 **담보를 예치**하며, 이는 사용자가 요구하는 내구성 수준과 직접적으로 연결되어 있습니다.  
+스토리지 노드는 **정기적으로 데이터 보유 증명을 제출해야** 하며, 이를 이행하지 못할 경우 **패널티**(slashing)가 부과됩니다.
 
-### Network architecture
+**애그리게이터 노드(Aggregator Node)**
 
-Codex is composed of multiple node types, each taking a different role in the network's operation. Similarly, the hardware demands for each node type vary, enabling those operating resource-restricted devices to participate.
+리소스가 제한된 클라이언트 노드가 **이레이저 코딩**, **증명 생성**, **증명 집계 작업을 위임**할 수 있도록 하는 방식입니다. 현재 개발 중이며, 내년 2분기 또는 4분기 Codex의 향후 릴리스에 포함될 예정입니다.
 
-**Storage nodes**
+**클라이언트 노드(Client nodes)**
 
-As Codex's long-term reliable storage providers, storage nodes stake collateral based on the collateral posted on the request side of contracts, and the number of slots that a contract has. This is tied to the durability demanded by the user. Failure to provide periodic proof of data possession results in slashing penalties.
+클라이언트 노드는 **다른 노드에게 데이터를 저장, 검색, 전송하도록 요청**하는 역할을 합니다. Codex 네트워크의 대부분은 클라이언트 노드로 구성되며, 이들은 네트워크 자원 소비에 따른 비용을 상쇄하기 위해 **캐싱 노드 역할을 병행**할 수 있습니다.
 
-**Aggregator Node**
+노드가 저장 계약에 참여하고 사용자가 데이터를 업로드하면, **네트워크는 해당 스토리지 노드가 온라인 상태이며 데이터가 검색 가능한지 사전 검증**을 수행합니다. 이후 계약 기간과 Codex 프로토콜이 보장하는 검색 가능성(9’s of retrievability)에 따라, **스토리지 노드는 무작위로 선택되어 정기적으로 데이터 보유 증명을 브로드캐스트**해야 합니다.
 
-A method for off-loading erasure coding, proof generation and proof aggregation by a client node with low-resources, currently a WIP and will be part of subsequent Codex release Q2/Q4 next year.
+스토리지 노드가 유효하지 않은 증명을 제출하거나 기한 내 제출에 실패할 경우, 네트워크는 해당 노드를 슬롯에서 제거하고, **해당 슬롯에 대해 유효한 증명을 가장 먼저 생성한 노드**가 그 자리를 차지하게 됩니다.
 
-**Client nodes**
-
-Client nodes make requests for other nodes to store, find, and retrieve data. Most of the Codex network will be Client nodes, and these participants can double as caching nodes to offset the cost of the network resources they consume. 
-
-When a node commits to a storage contract and a user uploads data, the network will proactively verify that the storage node is online and that the data is retrievable. Storage nodes are then randomly queried to broadcast proofs of data possession over an interval corresponding to the contract duration and 9's of retrievability guarantee the protocol provides.
-
-If the storage node sends invalid proofs or fails to provide them in time, the network evicts the storage node from the slot, and the slot will become available for the first node that generates a valid proof for that slot. 
-
-When the contract is reposted, some of the faulty node's collateral pays for the new storage node's bandwidth fees. Erasure coding complements the repair scheme by allowing the reconstruction of the missing chunks from data in other slots within the same storage contract hosted by faultless storage nodes.
-
+계약이 다시 게시될 때, 문제가 있던 노드가 예치한 담보금 일부는 **새로운 스토리지 노드의 대역폭 비용**을 충당하는 데 사용됩니다. 또한 **이레이저 코딩은 복구 스킴을 보완하여**, 동일한 저장 계약 내의 무결한 노드가 보유한 다른 슬롯의 데이터를 통해 **손실된 조각을 재구성**할 수 있도록 합니다.
 
 ![architect](/learn/architecture.png)
 
-### Marketplace architecture ###
+### 마켓플레이스 아키텍처
 
-The marketplace consists of a smart contract that is deployed on-chain, and the
-purchasing and sales modules that are part of the node software. The purchasing
-module is responsible for posting storage requests to the smart contract. The
-sales module is its counterpart that storage providers use to determine which
-storage requests they are interested in.
+Codex의 마켓플레이스는 **온체인에 배포된 스마트 계약**과, 노드 소프트웨어에 포함된 **구매 및 판매 모듈**로 구성됩니다.
 
-#### Smart contract ####
+구매 모듈은 스마트 계약에 **스토리지 요청을 게시하는 역할**을 하며, 판매 모듈은 스토리지 제공자가 **관심 있는 요청을 선택**할 수 있도록 돕는 기능입니다.
 
-The smart contract facilitates matching between storage providers and storage
-clients. A storage client can request a certain amount of storage for a certain
-duration. This request is then posted on-chain, so that storage providers can
-see it, and decide whether they want to fill a slot in the request.
+#### 스마트 계약
 
-The main parameters of a storage request are:
-- the amount of bytes of storage that is requested
-- a content identifier (CID) of the data that should be stored
-- the duration for which the data should be stored
-- the number of slots (based on the erasure coding parameters)
-- an amount of tokens to pay for the storage
+스마트 계약은 **스토리지 제공자와 클라이언트를 연결**해주는 역할을 합니다.
 
-At the protocol level a storage client is free to determine these parameters as
-it sees fit, so that it can choose a level of durability that is suitable for
-the data, and adjust for changing storage prices. Applications built on Codex
-can provide guidance to their users for picking the correct parameters,
-analogous to how Ethereum wallets help with determining gas fees.
+스토리지 클라이언트는 특정 기간 동안 특정 용량의 저장 공간을 요청할 수 있으며, 이 요청은 온체인에 게시되어 스토리지 제공자가 이를 확인하고. 요청된 슬롯을 채울지 결정할 수 있도록 합니다.
 
-The smart contract also checks that storage providers keep their promises.
-Storage providers post collateral when they promise to fill a slot of a storage
-request. They are expected to post periodic storage proofs to the contract,
-either directly or through an aggregator. If they fail to do so repeatedly, then
-their collateral can be forfeited. Their slot is then awarded to another storage
-provider.
+스토리지 요청의 주요 파라미터는 다음과 같습니다:
 
-The smart contract indicates when a certain storage provider has to provide a
-storage proof. This is not done on a fixed time interval, but determined
-stochastically to ensure that it is not possible for a storage provider to
-predict when it should provide the next storage proof.
+- 요청된 저장 용량 (바이트 단위)
+- 저장될 데이터의 콘텐츠 식별자(CID)
+- 데이터가 저장되어야 하는 기간
+- 슬롯 개수 (이레이저 코딩 파라미터 기반)
+- 저장 공간에 대해 지불할 토큰 수량
 
-#### Purchasing ####
+프로토콜 차원에서 스토리지 클라이언트는 위의 파라미터를 **자유롭게 설정**할 수 있으며, 데이터의 특성에 맞는 내구성을 선택하거나, 변화하는 스토리지 가격에 대응할 수 있습니다.
 
-The purchasing module in the node software interacts with the smart contract on
-behalf of the node operator. It posts storage requests, and handles any other
-interactions that are required during the lifetime of the request. For instance,
-when a request is canceled because there are not enough interested storage
-providers, then the purchasing module can withdraw the tokens that were
-associated with the request.
+Codex 위에 구축된 애플리케이션은 사용자가 올바른 파라미터를 선택할 수 있도록 가이드할 수 있으며, 이는 이더리움 지갑이 가스 요금을 추천하는 방식과 유사합니다.
 
-#### Sales ####
+스마트 계약은 스토리지 제공자가 **약속한 대로 서비스를 이행하는지도 검증**합니다. 스토리지 제공자는 슬롯을 채우기로 약속할 때 **담보금을 예치**해야 하며, 정기적으로 **스토리지 증명**을 스마트 계약에 제출해야 합니다(직접 또는 애그리게이터를 통해 가능). 이를 반복적으로 실패할 경우 담보금은 몰수되며, 해당 슬롯은 다른 스토리지 제공자에게 이전됩니다.
 
-The sales module is the counterpart to the sales module. It monitors the smart
-contract to be notified of incoming storage requests. It keeps a list of the
-most promising requests that it can fulfill. It will favor those requests that
-have a high reward and low collateral. As soon as it finds a suitable request,
-it will then try to first reserve and then fill a slot by downloading the
-associated data, creating a storage proof, and posting it to the smart contract.
-It will then continue to monitor the smart contract to provide it with storage
-proofs when they are required.
+또한 스마트 계약은 특정 스토리지 제공자가 언제 스토리지 증명을 제출해야 하는지를 **지정**합니다. 이 시점은 고정된 주기로 정해지지 않으며, **무작위적으로 결정**되어 스토리지 제공자가 다음 증명 시점을 예측할 수 없도록 합니다.
 
-The sales module contains a best effort strategy for determining which storage
-requests it is interested in. Over time, we expect more specialized strategies
-to emerge to cater to the needs of e.g. large providers versus providers that
-run a node from their home.
+#### 구매(Purchasing)
 
-### 백서 ###
+노드 소프트웨어 내의 **구매 모듈**은 노드 운영자를 대신하여 스마트 계약과 상호작용합니다. 이 모듈은 **스토리지 요청을 게시**하고, 요청이 유효한 동안 필요한 기타 상호작용도 처리합니다. 예를 들어, **관심 있는 스토리지 제공자가 충분하지 않아 요청이 취소될 경우**, 구매 모듈은 해당 요청에 할당되었던 토큰을 **회수**할 수 있습니다.
 
-[Codex 백서](/learn/whitepaper)를 읽어보세요.
+#### 판매(Sales)
+
+**판매 모듈**은 구매 모듈의 상대 역할로, 스마트 계약을 **모니터링하여 새로운 스토리지 요청이 등록되는 것을 감지**합니다.  
+이 모듈은 자신이 수락할 수 있는 **가장 유망한 요청 목록**을 유지하며, 보상은 높고 담보 요구는 낮은 요청을 **우선적으로 선택**합니다.
+
+적절한 요청을 찾으면, 해당 데이터를 **다운로드**, **스토리지 증명 생성**, **스마트 계약에 증명 게시**의 절차를 거쳐 슬롯을 우선적으로 예약하고 채우려 시도합니다. 이후에는 스마트 계약을 계속 모니터링하며 요구될 때마다 스토리지 증명을 제출합니다.
+
+판매 모듈은 어떤 스토리지 요청에 관심을 가질지 결정하는 **베스트 에포트(best-effort)** 전략을 따릅니다. 시간이 지남에 따라, **대형 제공자**와 **개인 홈 서버 운영자**와 같은 다양한 유형의 운영자 요구에 맞춘 보다 **전문화된 전략들이 등장할 것으로 기대**됩니다.
+
+### 백서
+
+[Codex 백서](/learn/whitepaper)에서 더 자세한 내용을 확인해 보세요.

@@ -1,8 +1,9 @@
 # 빠른 시작
 
 이 가이드를 통해 Codex를 실행하려면 다음 단계를 수행해야 합니다:
+
 - [면책 조항 검토](/codex/disclaimer)
-- [Codex 바이너리 얻기](#get-codex-binary)
+- [Codex 바이너리 다운로드](#get-codex-binary)
 - [Codex 실행하기](#run-codex)
 - [Codex와 상호작용하기](#interact-with-codex)
 
@@ -11,17 +12,20 @@
 For quick a start we will use precompiled binaries from [GitHub release page](https://github.com/codex-storage/nim-codex/releases). If you prefer to compile from the sources, please check [Build Codex](/learn/build).
 
 Please follow the steps for your OS from the list:
+
 - [Linux/macOS](#linux-macos)
 - [Windows](#windows)
 
 ### Linux/macOS
 
 1. Install latest Codex release
+
    ```shell
    curl -s https://get.codex.storage/install.sh | bash
    ```
 
 2. Install dependencies
+
    ```shell
    # Debian-based Linux
    sudo apt update && sudo apt install libgomp1
@@ -35,8 +39,9 @@ Please follow the steps for your OS from the list:
 ### Windows
 
 1. Install latest Codex release
+
    ```batch
-    curl -sO https://get.codex.storage/install.cmd && install.cmd 
+    curl -sO https://get.codex.storage/install.cmd && install.cmd
    ```
 
    > [!WARNING]
@@ -52,18 +57,20 @@ Please follow the steps for your OS from the list:
 
    ```batch
     curl -LO --ssl-no-revoke https://...
-    ```
+   ```
 
 2. Update path using console output
-    - Current session only
-      ```batch
-      :: Default installation directory
-      set "PATH=%PATH%%LOCALAPPDATA%\Codex;"
-      ```
 
-    - Update PATH permanently
-      - Control Panel --> System --> Advanced System settings --> Environment Variables
-      - Alternatively, type `environment variables` into the Windows Search box
+   - Current session only
+
+     ```batch
+     :: Default installation directory
+     set "PATH=%PATH%%LOCALAPPDATA%\Codex;"
+     ```
+
+   - Update PATH permanently
+     - Control Panel --> System --> Advanced System settings --> Environment Variables
+     - Alternatively, type `environment variables` into the Windows Search box
 
 3. Check the result
    ```shell
@@ -77,6 +84,7 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
 1. Run Codex
 
    **Linux/macOS**
+
    ```shell
    codex \
      --data-dir=datadir \
@@ -108,6 +116,7 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    netsh advfirewall firewall delete rule name="Allow Codex (TCP-In)"
    netsh advfirewall firewall delete rule name="Allow Codex (UDP-In)"
    ```
+
    </details>
 
    ```batch
@@ -128,10 +137,10 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    > In the example above we use [Codex Testnet](/networks/testnet#bootstrap-nodes) bootstrap nodes and thus we join Testnet. If you would like to join a different network, please use [appropriate value](/networks/networks).
 
 2. Configure port-forwarding for the TCP/UDP ports on your Internet router
-   | Protocol | Service   | Port   |
+   | Protocol | Service | Port |
    | -------- | --------- | ------ |
-   | UDP      | Discovery | `8090` |
-   | TCP      | Transport | `8070` |
+   | UDP | Discovery | `8090` |
+   | TCP | Transport | `8070` |
 
 If you would like to purchase or sell storage, please consider to run [Codex node with marketplace support](/learn/run#codex-node-with-marketplace-support) or [Codex storage node](/learn/run#codex-storage-node).
 
