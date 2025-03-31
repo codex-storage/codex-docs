@@ -428,6 +428,7 @@ We can run Codex as a service via [systemd](https://systemd.io) using following 
  3. Create directories
     ```shell
     sudo mkdir -p /opt/codex/data
+    sudo mkdir -p /opt/codex/logs
     ```
 
  4. Create a configuration file
@@ -481,6 +482,8 @@ We can run Codex as a service via [systemd](https://systemd.io) using following 
     ExecStart=/usr/local/bin/codex --config-file="/opt/codex/codex.conf"
     Restart=always
     RestartSec=3
+    StandardOutput=append:/opt/codex/logs/codex.log
+    StandardError=append:/opt/codex/logs/codex.log
 
     [Install]
     WantedBy=multi-user.target
@@ -498,11 +501,26 @@ We can run Codex as a service via [systemd](https://systemd.io) using following 
     sudo systemctl status codex
     ```
 
- 9. Check the logs
+ 9. Enable logs rotation using logrotate
     ```shell
-    sudo journalctl -u codex -S "5min ago"
-    sudo journalctl -f -u codex
-    sudo tail -f /var/log/syslog | grep codex
+    sudo vi /etc/logrotate.d/codex
+    ```
+    ```logrotate
+    /opt/codex/logs/*.log {
+      daily
+      missingok
+      rotate 5
+      copytruncate
+      nocreate
+      nomail
+      dateext
+      dateyesterday
+    }
+    ```
+
+ 1. Check the logs
+    ```shell
+    tail -f /opt/codex/logs/codex.log
     ```
 
 ### Run as a service in Windows
