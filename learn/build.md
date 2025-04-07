@@ -1,83 +1,80 @@
-# Build Codex
+# Сборка Codex
 
-## Table of Contents
+## Содержание
 
-- [Install developer tools](#prerequisites)
+- [Установка инструментов разработчика](#prerequisites)
   - [Linux](#linux)
   - [macOS](#macos)
   - [Windows + MSYS2](#windows-msys2)
-  - [Other](#other)
-- [Clone and prepare the Git repository](#repository)
-- [Build the executable](#executable)
-- [Run the example](#example-usage)
+  - [Другие](#other)
+- [Клонирование и подготовка Git-репозитория](#repository)
+- [Сборка исполняемого файла](#executable)
+- [Запуск примера](#example-usage)
 
-**Optional**
-- [Run the tests](#tests)
+**Дополнительно**
+- [Запуск тестов](#tests)
 
-## Prerequisites
+## Предварительные требования
 
-To build nim-codex, developer tools need to be installed and accessible in the OS.
+Для сборки nim-codex необходимо установить и сделать доступными инструменты разработчика в операционной системе.
 
-Instructions below correspond roughly to environmental setups in nim-codex's [CI workflow](https://github.com/codex-storage/nim-codex/blob/master/.github/workflows/ci.yml) and are known to work.
+Инструкции ниже примерно соответствуют настройкам окружения в [CI workflow](https://github.com/codex-storage/nim-codex/blob/master/.github/workflows/ci.yml) nim-codex и известны как рабочие.
 
-Other approaches may be viable. On macOS, some users may prefer [MacPorts](https://www.macports.org/) to [Homebrew](https://brew.sh/). On Windows, rather than use MSYS2, some users may prefer to install developer tools with [winget](https://docs.microsoft.com/en-us/windows/package-manager/winget/), [Scoop](https://scoop.sh/), or [Chocolatey](https://chocolatey.org/), or download installers for e.g. Make and CMake while otherwise relying on official Windows developer tools. Community contributions to these docs and our build system are welcome!
+Другие подходы могут быть жизнеспособны. На macOS некоторые пользователи могут предпочесть [MacPorts](https://www.macports.org/) вместо [Homebrew](https://brew.sh/). На Windows вместо MSYS2 некоторые пользователи могут предпочесть установку инструментов разработчика с помощью [winget](https://docs.microsoft.com/en-us/windows/package-manager/winget/), [Scoop](https://scoop.sh/) или [Chocolatey](https://chocolatey.org/), или загрузку установщиков для, например, Make и CMake, в остальном полагаясь на официальные инструменты разработчика Windows. Приветствуются вклады сообщества в эти документы и нашу систему сборки!
 
 ### Rust
 
-The current implementation of Codex's zero-knowledge proving circuit requires the installation of rust v1.79.0 or greater. Be sure to install it for your OS and add it to your terminal's path such that the command `cargo --version` gives a compatible version.
+Текущая реализация схемы доказательств с нулевым разглашением Codex требует установки Rust версии 1.79.0 или выше. Убедитесь, что вы установили его для вашей ОС и добавили в PATH вашего терминала так, чтобы команда `cargo --version` показывала совместимую версию.
 
 ### Linux
 
 > [!WARNING]
-> Linux builds currently require gcc $\leq$ 13. If this is not an option in your
-> system, you can try [building within Docker](#building-within-docker) as a workaround.
+> Сборка в Linux в настоящее время требует gcc $\leq$ 13. Если это не вариант в вашей системе, вы можете попробовать [сборку в Docker](#building-within-docker) как обходной путь.
 
-*Package manager commands may require `sudo` depending on OS setup.*
+*Команды менеджера пакетов могут требовать `sudo` в зависимости от настройки ОС.*
 
-On a bare bones installation of Debian (or a distribution derived from Debian, such as Ubuntu), run
+На базовой установке Debian (или дистрибутива, производного от Debian, такого как Ubuntu), выполните
 
 ```shell
 apt-get update && apt-get install build-essential cmake curl git rustc cargo
 ```
 
-Non-Debian distributions have different package managers: `apk`, `dnf`, `pacman`, `rpm`, `yum`, etc.
+Не-Debian дистрибутивы имеют разные менеджеры пакетов: `apk`, `dnf`, `pacman`, `rpm`, `yum` и т.д.
 
-For example, on a bare bones installation of Fedora, run
+Например, на базовой установке Fedora выполните
 
 ```shell
 dnf install @development-tools cmake gcc-c++ rust cargo
 ```
 
-In case your distribution does not provide required Rust version, we may install it using [rustup](https://www.rust-lang.org/tools/install)
+В случае, если ваш дистрибутив не предоставляет требуемую версию Rust, мы можем установить её с помощью [rustup](https://www.rust-lang.org/tools/install)
 ```shell
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs/ | sh -s -- --default-toolchain=1.79.0 -y
 
 . "$HOME/.cargo/env"
 ```
 
-Note that you will currently not be able to build Codex with gcc 14. To verify that 
-you have a supported version, run:
+Обратите внимание, что в настоящее время вы не сможете собрать Codex с gcc 14. Чтобы проверить, что у вас поддерживаемая версия, выполните:
 
 ```shell
 gcc --version
 ```
 
-If you get a number that starts with 14 (e.g. `14.2.0`), then you need to either
-downgrade, or try a workaround like [building within Docker](#building-within-docker).
+Если вы получите число, начинающееся с 14 (например, `14.2.0`), то вам нужно либо понизить версию, либо попробовать обходной путь, например [сборку в Docker](#building-within-docker).
 
 ### macOS
 
-Install the [Xcode Command Line Tools](https://mac.install.guide/commandlinetools/index.html) by opening a terminal and running
+Установите [Xcode Command Line Tools](https://mac.install.guide/commandlinetools/index.html), открыв терминал и выполнив
 ```shell
 xcode-select --install
 ```
 
-Install [Homebrew (`brew`)](https://brew.sh/) and in a new terminal run
+Установите [Homebrew (`brew`)](https://brew.sh/) и в новом терминале выполните
 ```shell
 brew install bash cmake rust
 ```
 
-Check that `PATH` is setup correctly
+Проверьте, что `PATH` настроен правильно
 ```shell
 which bash cmake
 
@@ -87,33 +84,29 @@ which bash cmake
 
 ### Windows + MSYS2
 
-*Instructions below assume the OS is 64-bit Windows and that the hardware or VM is [x86-64](https://en.wikipedia.org/wiki/X86-64) compatible.*
+*Инструкции ниже предполагают, что ОС - 64-битная Windows и что оборудование или ВМ совместимо с [x86-64](https://en.wikipedia.org/wiki/X86-64).*
 
-Download and run the installer from [msys2.org](https://www.msys2.org/).
+Скачайте и запустите установщик с [msys2.org](https://www.msys2.org/).
 
-Launch an MSYS2 [environment](https://www.msys2.org/docs/environments/). UCRT64 is generally recommended: from the Windows *Start menu* select `MSYS2 MinGW UCRT x64`.
+Запустите среду MSYS2 [environment](https://www.msys2.org/docs/environments/). UCRT64 обычно рекомендуется: из меню *Пуск* Windows выберите `MSYS2 MinGW UCRT x64`.
 
-Assuming a UCRT64 environment, in Bash run
+Предполагая среду UCRT64, в Bash выполните
 ```shell
 pacman -Suy
 pacman -S base-devel git unzip mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-rust
 ```
 
-We should downgrade GCC to version 13 [^gcc-14]
+Нам следует понизить GCC до версии 13 [^gcc-14]
 ```shell
 pacman -U --noconfirm \
   https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gcc-13.2.0-6-any.pkg.tar.zst \
   https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-gcc-libs-13.2.0-6-any.pkg.tar.zst
 ```
 
-<!-- #### Headless Windows container -->
-<!-- add instructions re: getting setup with MSYS2 in a Windows container -->
-<!-- https://github.com/StefanScherer/windows-docker-machine -->
+#### Опционально: Интеграция с терминалом VSCode
 
-#### Optional: VSCode Terminal integration
-
-You can link the MSYS2-UCRT64 terminal into VSCode by modifying the configuration file as shown below.
-File: `C:/Users/<username>/AppData/Roaming/Code/User/settings.json`
+Вы можете связать терминал MSYS2-UCRT64 с VSCode, изменив файл конфигурации, как показано ниже.
+Файл: `C:/Users/<username>/AppData/Roaming/Code/User/settings.json`
 ```json
 {
     ...
@@ -135,111 +128,111 @@ File: `C:/Users/<username>/AppData/Roaming/Code/User/settings.json`
 }
 ```
 
-### Other
+### Другие
 
-It is possible that nim-codex can be built and run on other platforms supported by the [Nim](https://nim-lang.org/) language: BSD family, older versions of Windows, etc. There has not been sufficient experimentation with nim-codex on such platforms, so instructions are not provided. Community contributions to these docs and our build system are welcome!
+Возможно, что nim-codex может быть собран и запущен на других платформах, поддерживаемых языком [Nim](https://nim-lang.org/): семейство BSD, более старые версии Windows и т.д. Не было достаточного экспериментирования с nim-codex на таких платформах, поэтому инструкции не предоставляются. Приветствуются вклады сообщества в эти документы и нашу систему сборки!
 
-## Repository
+## Репозиторий
 
-In Bash run
+В Bash выполните
 ```shell
 git clone https://github.com/codex-storage/nim-codex.git repos/nim-codex && cd repos/nim-codex
 ```
 
-nim-codex uses the [nimbus-build-system](https://github.com/status-im/nimbus-build-system), so next run
+nim-codex использует [nimbus-build-system](https://github.com/status-im/nimbus-build-system), поэтому затем выполните
 ```shell
 make update
 ```
 
-This step can take a while to complete because by default it builds the [Nim compiler](https://nim-lang.org/docs/nimc.html).
+Этот шаг может занять некоторое время для завершения, потому что по умолчанию он собирает [компилятор Nim](https://nim-lang.org/docs/nimc.html).
 
-To see more output from `make` pass `V=1`. This works for all `make` targets in projects using the nimbus-build-system
+Чтобы увидеть больше вывода от `make`, передайте `V=1`. Это работает для всех целей `make` в проектах, использующих nimbus-build-system
 ```shell
 make V=1 update
 ```
 
-## Executable
+## Исполняемый файл
 
-In Bash run
+В Bash выполните
 ```shell
 make
 ```
 
-The default `make` target creates the `build/codex` executable.
+Цель `make` по умолчанию создает исполняемый файл `build/codex`.
 
-## Tools
+## Инструменты
 
-### Circuit download tool
+### Инструмент загрузки схемы
 
-To build the circuit download tool located in `tools/cirdl` run:
+Чтобы собрать инструмент загрузки схемы, расположенный в `tools/cirdl`, выполните:
 
 ```shell
 make cirdl
 ```
 
-## Example usage
+## Пример использования
 
-See the instructions in the [Quick Start](/learn/quick-start).
+См. инструкции в [Быстром старте](/learn/quick-start).
 
-## Tests
+## Тесты
 
-In Bash run
+В Bash выполните
 ```shell
 make test
 ```
 
 ### testAll
 
-#### Prerequisites
+#### Предварительные требования
 
-To run the integration tests, an Ethereum test node is required. Follow these instructions to set it up.
+Для запуска интеграционных тестов требуется тестовый узел Ethereum. Следуйте этим инструкциям для его настройки.
 
-##### Windows (do this before 'All platforms')
+##### Windows (сделайте это перед "Все платформы")
 
-1. Download and install Visual Studio 2017 or newer. (Not VSCode!) In the Workloads overview, enable `Desktop development with C++`. ( https://visualstudio.microsoft.com )
+1. Скачайте и установите Visual Studio 2017 или новее. (Не VSCode!) В обзоре рабочих нагрузок включите `Desktop development with C++`. ( https://visualstudio.microsoft.com )
 
-##### All platforms
+##### Все платформы
 
-1. Install NodeJS (tested with v18.14.0), consider using NVM as a version manager. [Node Version Manager (`nvm`)](https://github.com/nvm-sh/nvm#readme)
-1. Open a terminal
-1. Go to the vendor/codex-contracts-eth folder: `cd /<git-root>/vendor/codex-contracts-eth/`
-1. `npm install` -> Should complete with the number of packages added and an overview of known vulnerabilities.
-1. `npm test` -> Should output test results. May take a minute.
+1. Установите NodeJS (проверено с v18.14.0), рассмотрите использование NVM как менеджера версий. [Node Version Manager (`nvm`)](https://github.com/nvm-sh/nvm#readme)
+1. Откройте терминал
+1. Перейдите в папку vendor/codex-contracts-eth: `cd /<git-root>/vendor/codex-contracts-eth/`
+1. `npm install` -> Должно завершиться с количеством добавленных пакетов и обзором известных уязвимостей.
+1. `npm test` -> Должен вывести результаты тестов. Может занять минуту.
 
-Before the integration tests are started, you must start the Ethereum test node manually.
-1. Open a terminal
-1. Go to the vendor/codex-contracts-eth folder: `cd /<git-root>/vendor/codex-contracts-eth/`
-1. `npm start` -> This should launch Hardhat, and output a number of keys and a warning message.
+Перед запуском интеграционных тестов вы должны вручную запустить тестовый узел Ethereum.
+1. Откройте терминал
+1. Перейдите в папку vendor/codex-contracts-eth: `cd /<git-root>/vendor/codex-contracts-eth/`
+1. `npm start` -> Это должно запустить Hardhat и вывести ряд ключей и предупреждающее сообщение.
 
-#### Run
+#### Запуск
 
-The `testAll` target runs the same tests as `make test` and also runs tests for nim-codex's Ethereum contracts, as well a basic suite of integration tests.
+Цель `testAll` запускает те же тесты, что и `make test`, а также запускает тесты для контрактов Ethereum nim-codex, а также базовый набор интеграционных тестов.
 
-To run `make testAll`.
+Чтобы запустить `make testAll`.
 
-Use a new terminal to run:
+Используйте новый терминал для запуска:
 ```shell
 make testAll
 ```
 
-## Building Within Docker
+## Сборка в Docker
 
-For the specific case of Linux distributions which ship with gcc 14
-and a downgrade to 13 is not possible/desirable, building within a Docker
-container and pulling the binaries out by copying or mounting remains an
-option; e.g.:
+Для конкретного случая дистрибутивов Linux, которые поставляются с gcc 14
+и понижение до 13 невозможно/нежелательно, сборка в контейнере Docker
+и извлечение бинарных файлов путем копирования или монтирования остается
+вариантом; например:
 
 ```bash=
-# Clone original repo.
+# Клонировать оригинальный репозиторий.
 git clone https://github.com/codex-storage/nim-codex
 
-# Build inside docker
+# Собрать внутри docker
 docker build -t codexstorage/nim-codex:latest -f nim-codex/docker/codex.Dockerfile nim-codex
 
-# Extract executable
+# Извлечь исполняемый файл
 docker create --name=codex-build codexstorage/nim-codex:latest
 docker cp codex-build:/usr/local/bin/codex ./codex
 docker cp codex-build:/usr/local/bin/cirdl ./cirdl
 ```
 
-and voilà, you should have the binaries available in the current folder.
+и вуаля, у вас должны быть бинарные файлы доступны в текущей папке.

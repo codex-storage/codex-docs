@@ -1,8 +1,8 @@
-# Download Flow
-Sequence of interactions that result in dat blocks being transferred across the network.
+# Процесс загрузки
+Последовательность взаимодействий, приводящих к передаче блоков данных через сеть.
 
-## Local Store
-When data is available in the local blockstore,
+## Локальное хранилище
+Когда данные доступны в локальном хранилище блоков,
 
 ```mermaid
 sequenceDiagram
@@ -21,8 +21,8 @@ Node/StoreStream->>-API: Data stream
 API->>Alice: Stream download of block
 ```
 
-## Network Store
-When data is not found ih the local blockstore, the block-exchange engine is used to discover the location of the block within the network. Connection will be established to the node(s) that have the block, and exchange can take place.
+## Сетевое хранилище
+Когда данные не найдены в локальном хранилище блоков, используется механизм обмена блоками для обнаружения местоположения блока в сети. Устанавливается соединение с узлом(ами), у которых есть блок, и происходит обмен.
 
 ```mermaid
 sequenceDiagram

@@ -1,19 +1,19 @@
 ---
 lastUpdated: false
 ---
-# Terms of Use
+# Условия использования
 
-Last updated: 14 February 2024
+Последнее обновление: 14 февраля 2024 года
 
-These website terms of use ("**Website Terms of Use**") are entered into by you and us, and they govern your access and use of this Website, including any content and functionality contained in the Website.
+Настоящие условия использования веб-сайта ("**Условия использования веб-сайта**") заключены между вами и нами и регулируют ваш доступ и использование данного веб-сайта, включая любой контент и функциональность, содержащиеся на веб-сайте.
 
-It is your responsibility to read the Website Terms of Use carefully before your use of the Website and your use of the Website means you have agreed to be bound and comply with these Website Terms of Use.
+Вы несете ответственность за тщательное ознакомление с Условиями использования веб-сайта перед использованием веб-сайта, и ваше использование веб-сайта означает ваше согласие соблюдать настоящие Условия использования веб-сайта.
 
-If you do not agree with these Website Terms of Use, you must not access or use the Website.
+Если вы не согласны с настоящими Условиями использования веб-сайта, вы не должны получать доступ к веб-сайту или использовать его.
 
-### 1) Who we are
+### 1) Кто мы
 
-For the purposes of these Website Terms of Use, the relevant entity is the Logos Collective Association, which has its registered office in Zug and its legal domicile address at:
+Для целей настоящих Условий использования веб-сайта соответствующей организацией является Logos Collective Association, которая имеет зарегистрированный офис в Цуге и юридический адрес:
 
 ```
 Logos Collective Association
@@ -23,74 +23,74 @@ Baarerstrasse 10
 Switzerland
 ```
 
-Whenever we refer to "Logos", "we", "us" or any other similar references, we are referring to the Logos Collective Association.
+Всякий раз, когда мы ссылаемся на "Logos", "мы", "нас" или любые другие подобные ссылки, мы имеем в виду Logos Collective Association.
 
-### 2) Disclaimers
+### 2) Отказ от ответственности
 
-The Website is provided by us on an ‘as is’ basis and you use the Website at your own sole discretion and risk.
+Веб-сайт предоставляется нами на условиях "как есть", и вы используете веб-сайт на свой собственный риск.
 
-We disclaim all warranties of any kind, express or implied, including without limitation the warranties of merchantability, fitness for a particular purpose, and non-infringement of intellectual property or other violation of rights. We do not warrant or make any representations concerning the completeness, accuracy, legality, utility, reliability, suitability or availability of the use of the Website, the content on this Website or otherwise relating to the Website, such content or on any sites linked to this site.These disclaimers will apply to the maximum extent permitted by applicable law.
+Мы отказываемся от всех гарантий любого рода, явных или подразумеваемых, включая, помимо прочего, гарантии товарности, пригодности для определенной цели и ненарушения прав интеллектуальной собственности или других прав. Мы не гарантируем и не делаем никаких заявлений относительно полноты, точности, законности, полезности, надежности, пригодности или доступности использования веб-сайта, контента на этом веб-сайте или иным образом связанного с веб-сайтом, такого контента или любых сайтов, связанных с этим сайтом. Эти отказы от ответственности применяются в максимальной степени, разрешенной применимым законодательством.
 
-We make no claims that the Website or any of its content is accessible, legally compliant or appropriate in your jurisdiction. Your access or use of the Website is at your own sole discretion and you are solely responsible for complying with any applicable local laws.
+Мы не заявляем, что веб-сайт или любой его контент доступен, соответствует законодательству или подходит в вашей юрисдикции. Ваш доступ или использование веб-сайта осуществляется на ваш собственный риск, и вы несете единоличную ответственность за соблюдение любых применимых местных законов.
 
-The content herein or as accessible through this website is intended to be made available for informational purposes only and should not be considered as creating any expectations or forming the basis of any contract, commitment or binding obligation with us. No information herein shall be considered to contain or be relied upon as a promise, representation, warranty or guarantee, whether express or implied and whether as to the past, present or the future in relation to the projects and matters described herein.
+Контент, содержащийся здесь или доступный через этот веб-сайт, предназначен только для информационных целей и не должен рассматриваться как создающий какие-либо ожидания или формирующий основу любого контракта, обязательства или обязательного обязательства с нами. Никакая информация здесь не должна рассматриваться как содержащая или на которую можно полагаться как на обещание, заявление, гарантию или гарантию, будь то явная или подразумеваемая, и будь то в отношении прошлого, настоящего или будущего в отношении проектов и вопросов, описанных здесь.
 
-The information contained herein does not constitute financial, legal, tax, or other advice and should not be treated as such.
+Информация, содержащаяся здесь, не является финансовой, юридической, налоговой или иной консультацией и не должна рассматриваться как таковая.
 
-Nothing in this Website should be construed by you as an offer to buy or sell, or soliciting any offer to buy or sell any tokens or any security.
+Ничто на этом веб-сайте не должно толковаться вами как предложение купить или продать, или призыв к предложению купить или продать какие-либо токены или ценные бумаги.
 
-### 3) Forward looking statements
+### 3) Прогнозные заявления
 
-The Website may also contain forward-looking statements that are based on current expectations, estimates, forecasts, assumptions and projections about the technology, industry and markets in general.
+Веб-сайт также может содержать прогнозные заявления, основанные на текущих ожиданиях, оценках, прогнозах, предположениях и проекциях о технологии, отрасли и рынках в целом.
 
-The forward looking statements, which may include statements about the roadmap, project descriptions, technical details, functionalities, features, the development and use of tokens by projects, and any other statements related to such matters or as accessible through this website are subject to a high degree of risk and uncertainty. The forward looking statements are subject to change based on, among other things, market conditions, technical developments, and regulatory environment. The actual development and results, including the order and the timeline, might vary from what’s presented. The information contained herein is a summary and does not purport to be accurate, reliable or complete and we bear no responsibility for the accuracy, reliability or completeness of information contained herein. Because of the high degree of risk and uncertainty described above, you should not place undue reliance on any matters described in this website or as accessible through this website.
+Прогнозные заявления, которые могут включать заявления о дорожной карте, описаниях проектов, технических деталях, функциональности, функциях, разработке и использовании токенов проектами, и любые другие заявления, связанные с такими вопросами или доступные через этот веб-сайт, подвержены высокой степени риска и неопределенности. Прогнозные заявления могут изменяться в зависимости от, среди прочего, рыночных условий, технических разработок и нормативной среды. Фактическая разработка и результаты, включая порядок и сроки, могут отличаться от представленных. Информация, содержащаяся здесь, является кратким изложением и не претендует на точность, надежность или полноту, и мы не несем ответственности за точность, надежность или полноту информации, содержащейся здесь. Из-за высокой степени риска и неопределенности, описанных выше, вы не должны чрезмерно полагаться на любые вопросы, описанные на этом веб-сайте или доступные через этот веб-сайт.
 
-While we aim to update our website regularly, all information, including the timeline and the specifics of each stage, is subject to change and may be amended or supplemented at any time, without notice and at our sole discretion.
+Хотя мы стремимся регулярно обновлять наш веб-сайт, вся информация, включая сроки и детали каждого этапа, может быть изменена и может быть изменена или дополнена в любое время без уведомления и по нашему собственному усмотрению.
 
-### 4) Intellectual property rights
+### 4) Права интеллектуальной собственности
 
-The Website and its contents are made available under Creative Commons Attribution 4.0 International license (CC-BY 4.0). In essence this licence allows users to copy, modify and distribute the content in any format for any purpose, including commercial use, subject to certain requirements such as attributing us. For the full terms of this licence, please refer to the following website: https://creativecommons.org/licenses/by/4.0/.
+Веб-сайт и его содержимое доступны под лицензией Creative Commons Attribution 4.0 International (CC-BY 4.0). По сути, эта лицензия позволяет пользователям копировать, изменять и распространять контент в любом формате для любых целей, включая коммерческое использование, при условии соблюдения определенных требований, таких как указание авторства. Для полных условий этой лицензии, пожалуйста, обратитесь к следующему веб-сайту: https://creativecommons.org/licenses/by/4.0/.
 
-### 5) Third party website links
+### 5) Ссылки на сторонние веб-сайты
 
-To the extent the Website provides any links to a third party website, then their terms and conditions, including privacy policies, govern your use of those third party websites. By linking such third party websites, Status does not represent or imply that it endorses or supports such third party websites or content therein, or that it believes such third party websites and content therein to be accurate, useful or non-harmful. We have no control over such third party websites and will not be liable for your use of or activities on any third party websites accessed through the Website. If you access such third party websites through the Website, it is at your own risk and you are solely responsible for your activities on such third party websites.
+В той степени, в которой веб-сайт предоставляет какие-либо ссылки на сторонний веб-сайт, их условия и положения, включая политики конфиденциальности, регулируют ваше использование этих сторонних веб-сайтов. Ссылаясь на такие сторонние веб-сайты, Status не представляет и не подразумевает, что он поддерживает такие сторонние веб-сайты или контент на них, или что он считает такие сторонние веб-сайты и контент на них точными, полезными или безвредными. Мы не контролируем такие сторонние веб-сайты и не несем ответственности за ваше использование или действия на любых сторонних веб-сайтах, доступ к которым осуществляется через веб-сайт. Если вы получаете доступ к таким сторонним веб-сайтам через веб-сайт, это происходит на ваш собственный риск, и вы несете единоличную ответственность за свои действия на таких сторонних веб-сайтах.
 
-### 6) Limitation of liability
+### 6) Ограничение ответственности
 
-We will not be held liable to you under any contract, negligence, strict liability, or other legal or equitable theory for any lost profits, cost of procurement for substitute services, or any special, incidental, or consequential damages related to, arising from, or in any way connected with these Website Terms of Use, the Website, the content on the Website, or your use of the Website, even if we have been advised of the possibility of such damages. In any event, our aggregate liability for such claims is limited to EUR 100 (one hundred Euros). This limitation of liability will apply to the maximum extent permitted by applicable law.
+Мы не несем ответственности перед вами по любому контракту, небрежности, строгой ответственности или любой другой правовой или справедливой теории за любые упущенные выгоды, стоимость приобретения замещающих услуг или любые специальные, случайные или косвенные убытки, связанные с, возникающие из или каким-либо образом связанные с настоящими Условиями использования веб-сайта, веб-сайтом, контентом на веб-сайте или вашим использованием веб-сайта, даже если мы были уведомлены о возможности таких убытков. В любом случае наша совокупная ответственность за такие претензии ограничена 100 евро (сто евро). Это ограничение ответственности применяется в максимальной степени, разрешенной применимым законодательством.
 
-### 7) Indemnity
+### 7) Возмещение убытков
 
-You shall indemnify us and hold us harmless from and against any and all claims, damages and expenses, including attorneys’ fees, arising from or related to your use of the Website, the content on the Website, including without limitation your violation of these Website Terms of Use.
+Вы должны возместить нам убытки и защитить нас от любых и всех претензий, убытков и расходов, включая гонорары адвокатов, возникающих в связи с или связанных с вашим использованием веб-сайта, контентом на веб-сайте, включая, помимо прочего, ваше нарушение настоящих Условий использования веб-сайта.
 
-### 8) Modifications
+### 8) Изменения
 
-We may modify or replace any part of this Website Terms of Use at any time and without notice. You are responsible for checking the Website periodically for any changes. The new Website Terms of Use will be effective immediately upon its posting on the Website.
+Мы можем изменить или заменить любую часть настоящих Условий использования веб-сайта в любое время и без уведомления. Вы несете ответственность за периодическую проверку веб-сайта на наличие изменений. Новые Условия использования веб-сайта вступают в силу немедленно после их размещения на веб-сайте.
 
-### 9) Governing law
+### 9) Применимое право
 
-Swiss law governs these Website Terms of Use and any disputes between you and us, whether in court or arbitration, without regard to conflict of laws provisions.
+Швейцарское право регулирует настоящие Условия использования веб-сайта и любые споры между вами и нами, будь то в суде или арбитраже, без учета положений о коллизии законов.
 
-### 10) Disputes
+### 10) Споры
 
-In these terms, “dispute” has the broadest meaning enforceable by law and includes any claim you make against or controversy you may have in relation to these Website Terms of Use, the Website, the content on the Website, or your use of the Website.
+В этих условиях термин "спор" имеет самое широкое значение, допустимое законом, и включает любую претензию, которую вы предъявляете, или спор, который у вас может возникнуть в отношении настоящих Условий использования веб-сайта, веб-сайта, контента на веб-сайте или вашего использования веб-сайта.
 
-We prefer arbitration over litigation as we believe it meets our principle of resolving disputes in the most effective and cost effective manner. You are bound by the following arbitration clause, which waives your right to litigation and to be heard by a judge. Please note that court review of an arbitration award is limited. You also waive all your rights to a jury trial (if any) in any and all jurisdictions.
+Мы предпочитаем арбитраж судебному разбирательству, поскольку считаем, что он соответствует нашему принципу разрешения споров наиболее эффективным и экономически эффективным способом. Вы связаны следующим арбитражным положением, которое отказывает вам в праве на судебное разбирательство и на слушание судьей. Обратите внимание, что судебный пересмотр арбитражного решения ограничен. Вы также отказываетесь от всех своих прав на суд присяжных (если таковые имеются) во всех юрисдикциях.
 
-If a (potential) dispute arises, you must first use your reasonable efforts to resolve it amicably with us. If these efforts do not result in a resolution of such dispute, you shall then send us a written notice of dispute setting out (i) the nature of the dispute, and the claim you are making; and (ii) the remedy you are seeking.
+Если возникает (потенциальный) спор, вы должны сначала использовать разумные усилия для его урегулирования с нами. Если эти усилия не приводят к разрешению такого спора, вы должны отправить нам письменное уведомление о споре, в котором указывается (i) характер спора и претензия, которую вы предъявляете; и (ii) средство правовой защиты, которое вы ищете.
 
-If we and you are unable to further resolve this dispute within sixty (60) calendar days of us receiving this notice of dispute, then any such dispute will be referred to and finally resolved by you and us through an arbitration administered by the Swiss Chambers’ Arbitration Institution in accordance with the Swiss Rules of International Arbitration for the time being in force, which rules are deemed to be incorporated herein by reference. The arbitral decision may be enforced in any court. The arbitration will be held in Zug, Switzerland, and may be conducted via video conference virtual/online methods if possible. The tribunal will consist of one arbitrator, and all proceedings as well as communications between the parties will be kept confidential. The language of the arbitration will be in English. Payment of all relevant fees in respect of the arbitration, including filing, administration and arbitrator fees will be in accordance with the Swiss Rules of International Arbitration.
+Если мы и вы не сможем разрешить этот спор в течение шестидесяти (60) календарных дней с момента получения нами этого уведомления о споре, то любой такой спор будет передан и окончательно разрешен вами и нами через арбитраж, проводимый Швейцарским арбитражным институтом в соответствии с действующими Швейцарскими правилами международного арбитража, которые считаются включенными здесь посредством ссылки. Арбитражное решение может быть исполнено в любом суде. Арбитраж будет проводиться в Цуге, Швейцария, и может проводиться с помощью видеоконференции виртуальными/онлайн методами, если это возможно. Трибунал будет состоять из одного арбитра, и все разбирательства, а также переписка между сторонами будут конфиденциальными. Языком арбитража будет английский. Оплата всех соответствующих сборов в отношении арбитража, включая подачу, администрирование и гонорары арбитра, будет осуществляться в соответствии с Швейцарскими правилами международного арбитража.
 
-Regardless of any applicable statute of limitations, you must bring any claims within one year after the claim arose or the time when you should have reasonably known about the claim. You also waive the right to participate in a class action lawsuit or a classwide arbitration against us.
+Независимо от любого применимого срока исковой давности, вы должны предъявить любые претензии в течение одного года после возникновения претензии или времени, когда вы должны были разумно узнать о претензии. Вы также отказываетесь от права участвовать в коллективном иске или коллективном арбитраже против нас.
 
-### 11) About these Website Terms of Use
+### 11) О настоящих Условиях использования веб-сайта
 
-These Website Terms of Use cover the entire agreement between you and us regarding the Website and supersede all prior and contemporaneous understandings, agreements, representations and warranties, both written and oral, with respect to the Website.
+Настоящие Условия использования веб-сайта охватывают все соглашение между вами и нами в отношении веб-сайта и заменяют все предыдущие и современные договоренности, соглашения, заявления и гарантии, как письменные, так и устные, в отношении веб-сайта.
 
-The captions and headings identifying sections and subsections of these Website Terms of Use are for reference only and do not define, modify, expand, limit, or affect the interpretation of any provisions of these Website Terms of Use.
+Заголовки и подзаголовки, идентифицирующие разделы и подразделы настоящих Условий использования веб-сайта, предназначены только для справки и не определяют, не изменяют, не расширяют, не ограничивают и не влияют на толкование каких-либо положений настоящих Условий использования веб-сайта.
 
-If any part of these Website Terms of Use is held invalid or unenforceable, that part will be severable from these Website Terms of Use, and the remaining portions will remain in full force and effect. If we fail to enforce any of these Website Terms of Use, that does not mean that we have waived our right to enforce them.
+Если какая-либо часть настоящих Условий использования веб-сайта признана недействительной или не имеющей исковой силы, эта часть будет отделима от настоящих Условий использования веб-сайта, а оставшиеся части останутся в полной силе и действии. Если мы не применяем какие-либо из настоящих Условий использования веб-сайта, это не означает, что мы отказались от нашего права применять их.
 
-If you have any specific questions about these Website Terms of Use, please contact us at <a href="mailto:legal@free.technology">llegal@free.technology</a>.
+Если у вас есть какие-либо конкретные вопросы о настоящих Условиях использования веб-сайта, пожалуйста, свяжитесь с нами по адресу <a href="mailto:legal@free.technology">legal@free.technology</a>.
 
 This document is licensed under CC-BY-SA.

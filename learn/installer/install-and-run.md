@@ -1,48 +1,48 @@
-# Quick Start
+# Быстрый старт
 
-Codex Installer is a CLI tool that simplifies the process of setting up a Codex node. It handles all the necessary steps to get your node running quickly and efficiently.
+Codex Installer - это инструмент командной строки, который упрощает процесс настройки узла Codex. Он обрабатывает все необходимые шаги для быстрого и эффективного запуска вашего узла.
 
-> Before we get started, please make sure to review and accept the [disclaimer](/codex/installer-disclaimer) as Codex Installer collects some of your node information to improve the user experience.
+> Прежде чем мы начнем, пожалуйста, просмотрите и примите [отказ от ответственности](/codex/installer-disclaimer), так как Codex Installer собирает некоторую информацию о вашем узле для улучшения пользовательского опыта.
 
 <br/>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/CcFtQzmzGSg?si=wUHfIgGWggIcyzqT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-## Requirements
+## Требования
 
 - git
 - npm
 
-## Run the Codex Installer
+## Запуск Codex Installer
 
-To start the Codex Installer, simply run the following command in your terminal :
+Чтобы запустить Codex Installer, просто выполните следующую команду в вашем терминале:
 
 ```bash
 npx codexstorage
 ```
 
-## Download and install Codex
+## Скачивание и установка Codex
 
-Once you run the above command, you will be seeing a command line interface with various options as below :
+После выполнения вышеуказанной команды вы увидите интерфейс командной строки с различными опциями, как показано ниже:
 
 ![InstallCodex](/learn/codex-installer.png)
 
-On selecting the `Download and install Codex` option, you will be asked to agree to the privacy disclaimer and provide an installation path to finish your installation. If you do not wish to agree to the data collection disclaimer, you can select the `Exit` option and follow the instructions [Manual setup](/learn/quick-start.md) to install Codex without using the Installer.
+При выборе опции `Download and install Codex` вам будет предложено согласиться с отказом от ответственности за конфиденциальность и указать путь установки для завершения установки. Если вы не хотите соглашаться с отказом от ответственности за сбор данных, вы можете выбрать опцию `Exit` и следовать инструкциям [Ручной настройки](/learn/quick-start.md) для установки Codex без использования Installer.
 
-## Run the Codex node
+## Запуск узла Codex
 
-Upon selecting the `Run Codex node` option, you will be asked for your Listening port (default is 8070) and discovery port (default is 8090). You can optionally provide your ERC20 public address to associate your testnet node with your wallet (Please note that Codex does not promise any incentives for running a node yet).
+При выборе опции `Run Codex node` вам будет предложено указать порт прослушивания (по умолчанию 8070) и порт обнаружения (по умолчанию 8090). Вы можете дополнительно указать ваш публичный адрес ERC20 для привязки вашего тестового узла к вашему кошельку (Обратите внимание, что Codex пока не обещает никаких стимулов за запуск узла).
 
 ![RunCodex](/learn/codex-installer2.png)
 
-Keep this terminal window open as closing this will terminate your node.
+Держите это окно терминала открытым, так как его закрытие приведет к завершению работы вашего узла.
 
-## Get the *ALTRUISTIC MODE* role on Codex discord
+## Получение роли *ALTRUISTIC MODE* в Discord Codex
 
-With that, your Codex node should be up and running. You can check the information and status of your node by proceeding to the third option.
+После этого ваш узел Codex должен быть запущен и работать. Вы можете проверить информацию и статус вашего узла, выбрав третью опцию.
 
 ![Get Role](/learn/codex-installer3.png)
 
-To claim the *ALTRUISTIC MODE* role, join the [Codex Discord](https://discord.gg/codex-storage) and go to the #bot channel. Run the `/node <NODE_ID>` command where `<NODE_ID>` can be found in the Node Information menu in your Installer.
+Чтобы получить роль *ALTRUISTIC MODE*, присоединитесь к [Discord Codex](https://discord.gg/codex-storage) и перейдите в канал #bot. Выполните команду `/node <NODE_ID>`, где `<NODE_ID>` можно найти в меню Node Information в вашем Installer.
 
-In order to keep your role, you will be required to frequently interact with the Codex testnet by running your node and/or [uploading/downloading files](/learn/installer/upload-and-download.md) using the testnet.
+Чтобы сохранить свою роль, вам потребуется часто взаимодействовать с тестовой сетью Codex, запуская свой узел и/или [загружая/скачивая файлы](/learn/installer/upload-and-download.md) с использованием тестовой сети.

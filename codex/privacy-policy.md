@@ -1,15 +1,15 @@
 ---
 lastUpdated: false
 ---
-# Privacy Policy
+# Политика конфиденциальности
 
-Last updated: 9 February 2024
+Последнее обновление: 9 февраля 2024 года
 
-This Privacy Policy is intended to inform users of our approach to privacy in respect of this website (**"Website"**). In this regard, if you are visiting our Website, this Privacy Policy applies to you.
+Настоящая Политика конфиденциальности предназначена для информирования пользователей о нашем подходе к конфиденциальности в отношении данного веб-сайта (**"Веб-сайт"**). В этом отношении, если вы посещаете наш Веб-сайт, настоящая Политика конфиденциальности применяется к вам.
 
-### 1) Who we are
+### 1) Кто мы
 
-For the purposes of this Privacy Policy and the collection and processing of personal data as a controller, the relevant entity is the Logos Collective Association, which has its registered office in Zug and its legal domicile address at
+Для целей настоящей Политики конфиденциальности и сбора и обработки персональных данных в качестве контролера соответствующей организацией является Logos Collective Association, которая имеет зарегистрированный офис в Цуге и юридический адрес:
 
 ```
 Logos Collective Association
@@ -19,54 +19,54 @@ Baarerstrasse 10
 Switzerland
 ```
 
-Whenever we refer to “Logos”, “we” or other similar references, we are referring to the Logos Collective Association.
+Всякий раз, когда мы ссылаемся на "Logos", "мы" или другие подобные ссылки, мы имеем в виду Logos Collective Association.
 
-### 2) We limit the collection and processing of personal data from your use of the Website
+### 2) Мы ограничиваем сбор и обработку персональных данных при использовании вами Веб-сайта
 
-We aim to limit the collection and collection and processing of personal data from users of the Website. We only collect and process certain personal data for specific purposes and where we have the legal basis to do so under applicable privacy legislation. We will not collect or process any personal data that we don’t need and where we do store any personal data, we will only store it for the least amount of time needed for the indicated purpose.
+Мы стремимся ограничить сбор и обработку персональных данных от пользователей Веб-сайта. Мы собираем и обрабатываем только определенные персональные данные для конкретных целей и только в тех случаях, когда у нас есть правовое основание для этого в соответствии с применимым законодательством о конфиденциальности. Мы не будем собирать или обрабатывать какие-либо персональные данные, которые нам не нужны, и там, где мы храним какие-либо персональные данные, мы будем хранить их только в течение минимального времени, необходимого для указанной цели.
 
-In this regard, we collect and process the following personal data from your use of the Website:
+В этом отношении мы собираем и обрабатываем следующие персональные данные при использовании вами Веб-сайта:
 
-* **IP address**: As part of such use of the Website, we briefly process your IP address but we have no way of identifying you. We however have a legitimate interest in processing such IP addresses to ensure the technical functionality and enhance the security measures of the Website. This IP address is not stored by us over time.
+* **IP-адрес**: В рамках такого использования Веб-сайта мы кратковременно обрабатываем ваш IP-адрес, но у нас нет возможности идентифицировать вас. Однако у нас есть законный интерес в обработке таких IP-адресов для обеспечения технической функциональности и усиления мер безопасности Веб-сайта. Этот IP-адрес не хранится нами с течением времени.
 
-### 3) Third party processing of personal data
+### 3) Обработка персональных данных третьими сторонами
 
-In addition to our limited and collection of personal data, third parties may collect or process personal data as a result of the Website making use of certain features or to provide certain content. To the extent you interact with such third party content or features, their respective privacy policies will apply.
+В дополнение к нашему ограниченному сбору персональных данных, третьи стороны могут собирать или обрабатывать персональные данные в результате использования Веб-сайтом определенных функций или для предоставления определенного контента. В той степени, в которой вы взаимодействуете с таким контентом или функциями третьих сторон, будут применяться их соответствующие политики конфиденциальности.
 
-### 4) Security measures we take in respect of the Website
+### 4) Меры безопасности, которые мы принимаем в отношении Веб-сайта
 
-As a general approach, we take data security seriously and we have implemented a variety of security measures on the Website to maintain the safety of your personal data when you submit such information to us.
+В качестве общего подхода мы серьезно относимся к безопасности данных и внедрили различные меры безопасности на Веб-сайте для поддержания безопасности ваших персональных данных, когда вы отправляете такую информацию нам.
 
-### 5) Exporting data outside the European Union and Switzerland
+### 5) Экспорт данных за пределы Европейского Союза и Швейцарии
 
-We are obliged to protect the privacy of personal data that you may have submitted in the unlikely event that we export your personal data to places outside the European Union or Switzerland. This means that personal data will only be processed in countries or by parties that provide an adequate level of protection as deemed by Switzerland or the European Commission. Otherwise, we will use other forms of protections, such as specific forms of contractual clauses to ensure such personal data is provided the same protection as required in Switzerland or Europe. In any event, the transmission of personal data outside the European Union and Switzerland will always occur in conformity with applicable privacy legislation. 
+Мы обязаны защищать конфиденциальность персональных данных, которые вы могли предоставить в маловероятном случае, если мы экспортируем ваши персональные данные в места за пределами Европейского Союза или Швейцарии. Это означает, что персональные данные будут обрабатываться только в странах или сторонами, которые обеспечивают адекватный уровень защиты, признанный Швейцарией или Европейской комиссией. В противном случае мы будем использовать другие формы защиты, такие как специальные формы договорных положений, чтобы обеспечить таким персональным данным такую же защиту, как требуется в Швейцарии или Европе. В любом случае передача персональных данных за пределы Европейского Союза и Швейцарии всегда будет происходить в соответствии с применимым законодательством о конфиденциальности.
 
-### 6) Your choices and rights
+### 6) Ваши выбор и права
 
-As explained in this Privacy Policy, we limit our collection and processing of your personal data wherever possible. Nonetheless, you still have certain choices and rights in respect of the personal data which we do collect and process. As laid out in relevant privacy legislation, you have the right to:
+Как объяснено в настоящей Политике конфиденциальности, мы ограничиваем сбор и обработку ваших персональных данных везде, где это возможно. Тем не менее, у вас все еще есть определенные выбор и права в отношении персональных данных, которые мы собираем и обрабатываем. Как изложено в соответствующем законодательстве о конфиденциальности, вы имеете право:
 
-* Ask us to correct or update your personal data (where reasonably possible);
+* Попросить нас исправить или обновить ваши персональные данные (где это разумно возможно);
 
-* Ask us to remove your personal data from our systems;
+* Попросить нас удалить ваши персональные данные из наших систем;
 
-* Ask us for a copy of your personal data, which may also be transferred to another data controller at your request;
+* Попросить нас предоставить копию ваших персональных данных, которая также может быть передана другому контролеру данных по вашему запросу;
 
-* Withdraw your consent to process your personal data (only if consent was asked for a processing activity), which only affects processing activities that are based on your consent and doesn’t affect the validity of such processing activities before you have withdrawn your consent;
+* Отозвать свое согласие на обработку ваших персональных данных (только если согласие было запрошено для деятельности по обработке), что влияет только на действия по обработке, основанные на вашем согласии, и не влияет на действительность таких действий по обработке до того, как вы отозвали свое согласие;
 
-* Object to the processing of your personal data; and
+* Возражать против обработки ваших персональных данных; и
 
-* File a complaint with the Federal Data Protection and Information Commissioner (FDPIC), if you believe that your personal data has been processed unlawfully.
+* Подать жалобу в Федерального комиссара по защите данных и информации (FDPIC), если вы считаете, что ваши персональные данные были обработаны незаконно.
 
-### 7) Third party links
+### 7) Ссылки на сторонние сайты
 
-On this Website, you may come across links to third party websites. These third party sites have separate and independent privacy policies. We therefore have no responsibility or liability for the content and activities of these third party websites.
+На этом Веб-сайте вы можете встретить ссылки на сторонние веб-сайты. У этих сторонних сайтов есть отдельные и независимые политики конфиденциальности. Поэтому мы не несем ответственности за содержание и деятельность этих сторонних веб-сайтов.
 
-### 8) This Privacy Policy might change
+### 8) Настоящая Политика конфиденциальности может измениться
 
-We may modify or replace any part of this Privacy Policy at any time and without notice. Please check the Website periodically for any changes. The new Privacy Policy will be effective immediately upon its posting on our Website.
+Мы можем изменить или заменить любую часть настоящей Политики конфиденциальности в любое время и без уведомления. Пожалуйста, периодически проверяйте Веб-сайт на наличие изменений. Новая Политика конфиденциальности вступает в силу немедленно после ее размещения на нашем Веб-сайте.
 
-### 9) Contact information
+### 9) Контактная информация
 
-To the extent that you have any questions about the Privacy Policy, please contact us at <a href="mailto:legal@free.technology">legal@free.technology</a>.
+Если у вас есть какие-либо вопросы о Политике конфиденциальности, пожалуйста, свяжитесь с нами по адресу <a href="mailto:legal@free.technology">legal@free.technology</a>.
 
-This document is licensed under CC-BY-SA.
+Этот документ лицензирован под CC-BY-SA.

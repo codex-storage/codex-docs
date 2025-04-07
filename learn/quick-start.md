@@ -1,80 +1,80 @@
-# Quick Start
+# Быстрый старт
 
-To run Codex through this guide we would need to perform the following steps:
-- [Review the disclaimer](/codex/disclaimer)
-- [Get Codex binary](#get-codex-binary)
-- [Run Codex](#run-codex)
-- [Interact with Codex](#interact-with-codex)
+Чтобы запустить Codex через это руководство, нам нужно выполнить следующие шаги:
+- [Ознакомиться с отказом от ответственности](/codex/disclaimer)
+- [Получить бинарный файл Codex](#get-codex-binary)
+- [Запустить Codex](#run-codex)
+- [Взаимодействовать с Codex](#interact-with-codex)
 
-## Get Codex binary
+## Получение бинарного файла Codex
 
-For quick a start we will use precompiled binaries from [GitHub release page](https://github.com/codex-storage/nim-codex/releases). If you prefer to compile from the sources, please check [Build Codex](/learn/build).
+Для быстрого старта мы будем использовать предварительно скомпилированные бинарные файлы со [страницы релизов GitHub](https://github.com/codex-storage/nim-codex/releases). Если вы предпочитаете компилировать из исходного кода, пожалуйста, проверьте [Сборка Codex](/learn/build).
 
-Please follow the steps for your OS from the list:
+Пожалуйста, следуйте шагам для вашей ОС из списка:
 - [Linux/macOS](#linux-macos)
 - [Windows](#windows)
 
 ### Linux/macOS
 
-1. Install latest Codex release
+1. Установите последний релиз Codex
    ```shell
    curl -s https://get.codex.storage/install.sh | bash
    ```
 
-2. Install dependencies
+2. Установите зависимости
    ```shell
    # Debian-based Linux
    sudo apt update && sudo apt install libgomp1
    ```
 
-3. Check the result
+3. Проверьте результат
    ```shell
    codex --version
    ```
 
 ### Windows
 
-1. Install latest Codex release
+1. Установите последний релиз Codex
    ```batch
     curl -sO https://get.codex.storage/install.cmd && install.cmd 
    ```
 
    > [!WARNING]
-   > Windows antivirus software and built-in firewalls may cause steps to fail. We will cover some possible errors here, but always consider checking your setup if requests fail - in particular, if temporarily disabling your antivirus fixes it, then it is likely to be the culprit.
+   > Антивирусное программное обеспечение Windows и встроенные брандмауэры могут привести к сбою шагов. Мы рассмотрим некоторые возможные ошибки здесь, но всегда учитывайте проверку вашей настройки, если запросы завершаются неудачей - в частности, если временное отключение вашего антивируса исправляет это, то, вероятно, это является причиной.
 
-   If you see an error like:
+   Если вы видите ошибку типа:
 
    ```batch
    curl: (35) schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
    ```
 
-   You may need to add the `--ssl-no-revoke` option to your curl calls, i.e., modify the calls above so they look like this:
+   Возможно, вам нужно добавить опцию `--ssl-no-revoke` к вашим вызовам curl, т.е. изменить вызовы выше, чтобы они выглядели так:
 
    ```batch
     curl -LO --ssl-no-revoke https://...
     ```
 
-2. Update path using console output
-    - Current session only
+2. Обновите путь, используя вывод консоли
+    - Только для текущей сессии
       ```batch
-      :: Default installation directory
+      :: Путь установки по умолчанию
       set "PATH=%PATH%%LOCALAPPDATA%\Codex;"
       ```
 
-    - Update PATH permanently
-      - Control Panel --> System --> Advanced System settings --> Environment Variables
-      - Alternatively, type `environment variables` into the Windows Search box
+    - Обновление PATH постоянно
+      - Панель управления --> Система --> Дополнительные параметры системы --> Переменные среды
+      - Или введите `environment variables` в поле поиска Windows
 
-3. Check the result
+3. Проверьте результат
    ```shell
    codex --version
    ```
 
-## Run Codex
+## Запуск Codex
 
-We may [run Codex in different modes](/learn/run#run), and for a quick start we will run [Codex node](/learn/run#codex-node), to be able to share files in the network.
+Мы можем [запустить Codex в разных режимах](/learn/run#run), и для быстрого старта мы запустим [узел Codex](/learn/run#codex-node), чтобы иметь возможность обмениваться файлами в сети.
 
-1. Run Codex
+1. Запустите Codex
 
    **Linux/macOS**
    ```shell
@@ -90,28 +90,28 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    **Windows**
 
    > [!WARNING]
-   > Windows might at this stage prompt you to grant internet access to Codex. You must allow it for things to work.
-   > It also might be required to add incoming firewall rules for Codex and we can use `netsh` utility.
+   > Windows на этом этапе может запросить разрешение на доступ в интернет для Codex. Вы должны разрешить это для работы.
+   > Также может потребоваться добавить правила входящего брандмауэра для Codex, и мы можем использовать утилиту `netsh`.
 
    <details>
-   <summary>add firewall rules using netsh</summary>
+   <summary>добавить правила брандмауэра с помощью netsh</summary>
 
    ```batch
-   :: Add rules
+   :: Добавить правила
    netsh advfirewall firewall add rule name="Allow Codex (TCP-In)" protocol=TCP dir=in localport=8070 action=allow
    netsh advfirewall firewall add rule name="Allow Codex (UDP-In)" protocol=UDP dir=in localport=8090 action=allow
 
-   :: List rules
+   :: Показать правила
    netsh advfirewall firewall show rule name=all | find /I "Codex"
 
-   :: Delete rules
+   :: Удалить правила
    netsh advfirewall firewall delete rule name="Allow Codex (TCP-In)"
    netsh advfirewall firewall delete rule name="Allow Codex (UDP-In)"
    ```
    </details>
 
    ```batch
-   :: Run Codex
+   :: Запустить Codex
    codex ^
      --data-dir=datadir ^
      --disc-port=8090 ^
@@ -122,26 +122,26 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
    ```
 
    > [!TIP]
-   > In the example above we use [Codex Testnet](/networks/testnet#bootstrap-nodes) bootstrap nodes and thus we join Testnet. If you would like to join a different network, please use [appropriate value](/networks/networks).
+   > В примере выше мы используем [узлы начальной загрузки тестовой сети Codex](/networks/testnet#bootstrap-nodes) и, таким образом, присоединяемся к тестовой сети. Если вы хотите присоединиться к другой сети, пожалуйста, используйте [соответствующее значение](/networks/networks).
 
-2. Configure port-forwarding for the TCP/UDP ports on your Internet router
-   | Protocol | Service   | Port   |
-   | -------- | --------- | ------ |
-   | UDP      | Discovery | `8090` |
-   | TCP      | Transport | `8070` |
+2. Настройте проброс портов TCP/UDP на вашем интернет-маршрутизаторе
+   | Протокол | Сервис     | Порт   |
+   | -------- | ---------- | ------ |
+   | UDP      | Discovery  | `8090` |
+   | TCP      | Transport  | `8070` |
 
-If you would like to purchase or sell storage, please consider to run [Codex node with marketplace support](/learn/run#codex-node-with-marketplace-support) or [Codex storage node](/learn/run#codex-storage-node).
+Если вы хотите покупать или продавать хранилище, рассмотрите возможность запуска [узла Codex с поддержкой маркетплейса](/learn/run#codex-node-with-marketplace-support) или [узла хранения Codex](/learn/run#codex-storage-node).
 
-## Interact with Codex
+## Взаимодействие с Codex
 
-When your Codex node is up and running you can interact with it using [Codex App UI](https://app.codex.storage) for files sharing.
+Когда ваш узел Codex запущен и работает, вы можете взаимодействовать с ним, используя [Пользовательский интерфейс приложения Codex](https://app.codex.storage) для обмена файлами.
 
-Also, you can interact with Codex using [Codex API](/developers/api) and for a walk-through of the API, consider following the [Using Codex](/learn/using) guide.
+Также вы можете взаимодействовать с Codex, используя [API Codex](/developers/api), и для ознакомления с API рассмотрите возможность следования руководству [Использование Codex](/learn/using).
 
-## Stay in touch
+## Оставайтесь на связи
 
-Want to stay up-date, or looking for further assistance? Try our [discord-server](https://discord.gg/codex-storage).
+Хотите быть в курсе или ищете дополнительную помощь? Попробуйте наш [дискорд-сервер](https://discord.gg/codex-storage).
 
-Ready to explore Codex functionality? Please [Join Codex Testnet](/networks/testnet).
+Готовы исследовать функциональность Codex? Пожалуйста, [Присоединитесь к тестовой сети Codex](/networks/testnet).
 
-If you want to run Codex locally without joining the Testnet, consider trying the [Codex Two-Client Test](/learn/local-two-client-test) or the [Running a Local Codex Network with Marketplace Support](/learn/local-marketplace).
+Если вы хотите запустить Codex локально без присоединения к тестовой сети, рассмотрите возможность попробовать [Тест с двумя клиентами Codex](/learn/local-two-client-test) или [Запуск локальной сети Codex с поддержкой маркетплейса](/learn/local-marketplace).

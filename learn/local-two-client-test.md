@@ -1,28 +1,28 @@
-# Codex Two-Client Test
+# Тест с двумя клиентами Codex
 
-The two-client test is a manual test you can perform to check your setup and familiarize yourself with the Codex API. These steps will guide you through running and connecting two nodes, in order to upload a file to one and then download that file from the other. This test also includes running a local blockchain node in order to have the Marketplace functionality available. However, running a local blockchain node is not strictly necessary, and you can skip steps marked as optional if you choose not start a local blockchain node.
+Тест с двумя клиентами - это ручной тест, который вы можете выполнить для проверки вашей настройки и ознакомления с API Codex. Эти шаги проведут вас через запуск и подключение двух узлов, чтобы загрузить файл на один и затем скачать этот файл с другого. Этот тест также включает запуск локального узла блокчейна для обеспечения доступности функциональности Marketplace. Однако запуск локального узла блокчейна не является строго необходимым, и вы можете пропустить шаги, отмеченные как необязательные, если решите не запускать локальный узел блокчейна.
 
-## Prerequisite
+## Предварительные требования
 
-Make sure you have [built the client](/learn/build) or obtained [compiled binary](/learn/quick-start#get-codex-binary).
+Убедитесь, что вы [собрали клиент](/learn/build) или получили [скомпилированный бинарный файл](/learn/quick-start#get-codex-binary).
 
-## Steps
+## Шаги
 
-### 0. Setup blockchain node (optional)
+### 0. Настройка узла блокчейна (необязательно)
 
-You need to have installed NodeJS and npm in order to spinup a local blockchain node.
+Вам необходимо установить NodeJS и npm для запуска локального узла блокчейна.
 
-Go to directory `vendor/codex-contracts-eth` and run these two commands:
+Перейдите в директорию `vendor/codex-contracts-eth` и выполните эти две команды:
 ```
 npm ci
 npm start
 ```
 
-This will launch a local Ganache blockchain.
+Это запустит локальный блокчейн Ganache.
 
-### 1. Launch Node #1
+### 1. Запуск Узла #1
 
-Open a terminal and run:
+Откройте терминал и выполните:
 - Mac/Linux:
   ```shell
    codex \
@@ -40,17 +40,20 @@ Open a terminal and run:
     --listen-addrs="/ip4/127.0.0.1/tcp/8070"
   ```
 
-Optionally, if you want to use the Marketplace blockchain functionality, you need to also include these flags: `--persistence --eth-account=<account>`, where `account` can be one following:
+Необязательно, если вы хотите использовать функциональность блокчейна Marketplace, вам также нужно включить эти флаги: `--persistence --eth-account=<account>`, где `account` может быть одним из следующих:
 
   - `0x70997970C51812dc3A010C7d01b50e0d17dc79C8`
   - `0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC`
   - `0x90F79bf6EB2c4f870365E785982E1f101E93b906`
   - `0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65`
 
-**For each node use a different account!**
+**Для каждого узла используйте разный аккаунт!**
 
-| Argument       | Description                                                           |
+| Аргумент       | Описание                                                           |
 |----------------|-----------------------------------------------------------------------|
+| `data-dir`     | Мы указываем относительный путь, где узел будет хранить свои данные. |
+| `listen-addrs` | Multiaddress, где узел будет принимать соединения от других узлов. |
+| `api-port`     | Порт на localhost, где узел будет предоставлять свой API. |
 | `data-dir`     | We specify a relative path where the node will store its data.        |
 | `listen-addrs` | Multiaddress where the node will accept connections from other nodes. |
 | `api-port`     | Port on localhost where the node will expose its API.                 |

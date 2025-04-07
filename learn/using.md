@@ -1,38 +1,38 @@
 ---
 outline: [2, 3]
 ---
-# Using Codex
+# Использование Codex
 
-We can interact with Codex using [REST API](/developers/api). This document will show you several useful examples.
+Мы можем взаимодействовать с Codex, используя [REST API](/developers/api). В этом документе показаны несколько полезных примеров.
 
-Also, we can check [Codex App UI](https://app.codex.storage).
+Также мы можем использовать [Пользовательский интерфейс приложения Codex](https://app.codex.storage).
 
-Command line interpreter on [Linux/macOS](#linux-macos) and [Windows](#windows) works slightly different, so please use steps for your OS.
+Интерпретатор командной строки работает немного по-разному на [Linux/macOS](#linux-macos) и [Windows](#windows), поэтому используйте инструкции для вашей ОС.
 
 ## Linux/macOS
 
-### Overview
-1. [Debug](#debug)
-2. [Upload a file](#upload-a-file)
-3. [Download a file](#download-a-file)
-4. [Local data](#local-data)
-5. [Create storage availability](#create-storage-availability)
-6. [Purchase storage](#purchase-storage)
-7. [View purchase status](#view-purchase-status)
+### Обзор
+1. [Отладка](#debug)
+2. [Загрузка файла](#upload-a-file)
+3. [Скачивание файла](#download-a-file)
+4. [Локальные данные](#local-data)
+5. [Создание доступности хранилища](#create-storage-availability)
+6. [Покупка хранилища](#purchase-storage)
+7. [Просмотр статуса покупки](#view-purchase-status)
 
-### Debug
-An easy way to check that your node is up and running is:
+### Отладка
+Простой способ проверить, что ваш узел запущен и работает:
 
 ```shell
 curl http://localhost:8080/api/codex/v1/debug/info \
   -w '\n'
 ```
 
-This will return a JSON structure with plenty of information about your local node. It contains peer information that may be useful when troubleshooting connection issues.
+Это вернет JSON-структуру с множеством информации о вашем локальном узле. Она содержит информацию о пирах, которая может быть полезна при устранении проблем с подключением.
 
-### Upload a file
+### Загрузка файла
 > [!Warning]
-> Once you upload a file to Codex, other nodes in the network can download it. Please do not upload anything you don't want others to access, or, properly encrypt your data *first*.
+> После загрузки файла в Codex другие узлы в сети могут его скачать. Пожалуйста, не загружайте ничего, что вы не хотите, чтобы другие видели, или правильно зашифруйте ваши данные *перед загрузкой*.
 
 ```shell
 curl -X POST \
@@ -42,16 +42,16 @@ curl -X POST \
   -T <FILE>
 ```
 
-On successful upload, you'll receive a CID. This can be used to download the file from any node in the network.
+При успешной загрузке вы получите CID. Его можно использовать для скачивания файла с любого узла в сети.
 
 > [!TIP]
-> Are you on the [Codex Discord server](https://discord.gg/codex-storage)? Post your CID in the [# :wireless: | share-cids](https://discord.com/channels/895609329053474826/1278383098102284369) channel, see if others are able to download it. Codex does not (yet?) provide file metadata, so if you want others to be able to open your file, tell them which extension to give it.
+> Вы на [сервере Discord Codex](https://discord.gg/codex-storage)? Опубликуйте ваш CID в канале [# :wireless: | share-cids](https://discord.com/channels/895609329053474826/1278383098102284369), посмотрите, смогут ли другие его скачать. Codex пока не предоставляет метаданные файлов, поэтому если вы хотите, чтобы другие могли открыть ваш файл, скажите им, какое расширение ему дать.
 
-### Download a file
-When you have a CID of data you want to download, you can use the following commands:
+### Скачивание файла
+Когда у вас есть CID данных, которые вы хотите скачать, вы можете использовать следующие команды:
 
 ```shell
-# paste your CID from the previous step here between the quotes
+# вставьте ваш CID из предыдущего шага между кавычками
 CID="..."
 ```
 
@@ -60,21 +60,21 @@ curl "http://localhost:8080/api/codex/v1/data/${CID}/network/stream" \
   -o "${CID}.png"
 ```
 
-Please use the correct extension for the downloaded file, because Codex does not store yet content-type or extension information.
+Пожалуйста, используйте правильное расширение для скачанного файла, потому что Codex пока не хранит информацию о типе содержимого или расширении.
 
-### Local data
-You can view which datasets are currently being stored by your node:
+### Локальные данные
+Вы можете просмотреть, какие наборы данных в настоящее время хранятся вашим узлом:
 
 ```shell
 curl http://localhost:8080/api/codex/v1/data \
   -w '\n'
 ```
 
-### Create storage availability
+### Создание доступности хранилища
 > [!WARNING]
-> This step requires that Codex was started with the [`prover`](/learn/run#codex-storage-node) option.
+> Этот шаг требует, чтобы Codex был запущен с опцией [`prover`](/learn/run#codex-storage-node).
 
-In order to start selling storage space to the network, you must configure your node with the following command. Once configured, the node will monitor on-chain requests-for-storage and will automatically enter into contracts that meet these specifications. In order to enter and maintain storage contracts, your node is required to submit zero-knowledge storage proofs. The calculation of these proofs will increase the CPU and RAM usage of Codex.
+Чтобы начать продавать пространство для хранения в сети, вы должны настроить ваш узел с помощью следующей команды. После настройки узел будет отслеживать запросы на хранение в блокчейне и автоматически вступать в контракты, соответствующие этим спецификациям. Для вступления и поддержания контрактов на хранение ваш узел должен предоставлять доказательства хранения с нулевым разглашением. Расчет этих доказательств увеличит использование CPU и RAM Codex.
 
 ```shell
 curl -X POST \
@@ -89,20 +89,20 @@ curl -X POST \
   }'
 ```
 
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
+Для описания каждого параметра, пожалуйста, просмотрите [спецификацию](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
 
-### Purchase storage
-To purchase storage space from the network, first you must upload your data. Once you have the CID, use the following to create a request-for-storage.
+### Покупка хранилища
+Чтобы купить пространство для хранения в сети, сначала вы должны загрузить ваши данные. После получения CID используйте следующее для создания запроса на хранение.
 
-Set your CID:
+Установите ваш CID:
 
 ```shell
-# paste your CID from the previous step here between the quotes
+# вставьте ваш CID из предыдущего шага между кавычками
 CID="..."
 echo "CID: ${CID}"
 ```
 
-Next you can run:
+Затем вы можете выполнить:
 
 ```shell
 curl -X POST \
@@ -119,59 +119,59 @@ curl -X POST \
   }'
 ```
 
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
+Для описания каждого параметра, пожалуйста, просмотрите [спецификацию](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
 
-When successful, this request will return a Purchase-ID.
+При успешном выполнении этот запрос вернет Purchase-ID.
 
-### View purchase status
-Using a Purchase-ID, you can check the status of your request-for-storage contract:
+### Просмотр статуса покупки
+Используя Purchase-ID, вы можете проверить статус вашего контракта на хранение:
 
 ```shell
-# paste your PURCHASE_ID from the previous step here between the quotes
+# вставьте ваш PURCHASE_ID из предыдущего шага между кавычками
 PURCHASE_ID="..."
 ```
 
-Then:
+Затем:
 
 ```shell
 curl "http://localhost:8080/api/codex/v1/storage/purchases/${PURCHASE_ID}" \
   -w '\n'
 ```
 
-This will display state and error information for your purchase.
-| State     | Description                                                                                                                                                                                            |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Pending   | Request is waiting for chain confirmation.                                                                                                                                                             |
-| Submitted | Request is on-chain. Hosts may now attempt to download the data.                                                                                                                                       |
-| Started   | Hosts have downloaded the data and provided proof-of-storage.                                                                                                                                          |
-| Failed    | The request was started, but (too many) hosts failed to provide proof-of-storage on time. While the data may still be available in the network, for the purpose of the purchase it is considered lost. |
-| Finished  | The request was started successfully and the duration has elapsed.                                                                                                                                     |
-| Expired   | (Not enough) hosts have submitted proof-of-storage before the request's expiry elapsed.                                                                                                                |
-| Errored   | An unfortunate state of affairs. The 'error' field should tell you more.                                                                                                                               |
+Это отобразит информацию о состоянии и ошибках для вашей покупки.
+| Состояние  | Описание                                                                                                                                                                                            |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Pending    | Запрос ожидает подтверждения в блокчейне.                                                                                                                                                             |
+| Submitted  | Запрос находится в блокчейне. Хосты теперь могут попытаться скачать данные.                                                                                                                                       |
+| Started    | Хосты скачали данные и предоставили доказательство хранения.                                                                                                                                          |
+| Failed     | Запрос был начат, но (слишком много) хостов не смогли предоставить доказательство хранения вовремя. Хотя данные все еще могут быть доступны в сети, для целей покупки они считаются утерянными. |
+| Finished   | Запрос был успешно начат, и срок действия истек.                                                                                                                                     |
+| Expired    | (Недостаточно) хостов предоставили доказательство хранения до истечения срока действия запроса.                                                                                                                |
+| Errored    | Неудачное состояние. Поле 'error' должно рассказать больше.                                                                                                                               |
 
 ## Windows
 
-### Overview {#overview-windows}
-1. [Debug](#debug-windows)
-2. [Upload a file](#upload-a-file-windows)
-3. [Download a file](#download-a-file-windows)
-4. [Local data](#local-data-windows)
-5. [Create storage availability](#create-storage-availability-windows)
-6. [Purchase storage](#purchase-storage-windows)
-7. [View purchase status](#view-purchase-status-windows)
+### Обзор {#overview-windows}
+1. [Отладка](#debug-windows)
+2. [Загрузка файла](#upload-a-file-windows)
+3. [Скачивание файла](#download-a-file-windows)
+4. [Локальные данные](#local-data-windows)
+5. [Создание доступности хранилища](#create-storage-availability-windows)
+6. [Покупка хранилища](#purchase-storage-windows)
+7. [Просмотр статуса покупки](#view-purchase-status-windows)
 
-### Debug {#debug-windows}
-An easy way to check that your node is up and running is:
+### Отладка {#debug-windows}
+Простой способ проверить, что ваш узел запущен и работает:
 
 ```batch
 curl http://localhost:8080/api/codex/v1/debug/info
 ```
 
-This will return a JSON structure with plenty of information about your local node. It contains peer information that may be useful when troubleshooting connection issues.
+Это вернет JSON-структуру с множеством информации о вашем локальном узле. Она содержит информацию о пирах, которая может быть полезна при устранении проблем с подключением.
 
-### Upload a file {#upload-a-file-windows}
+### Загрузка файла {#upload-a-file-windows}
 > [!Warning]
-> Once you upload a file to Codex, other nodes in the network can download it. Please do not upload anything you don't want others to access, or, properly encrypt your data *first*.
+> После загрузки файла в Codex другие узлы в сети могут его скачать. Пожалуйста, не загружайте ничего, что вы не хотите, чтобы другие видели, или правильно зашифруйте ваши данные *перед загрузкой*.
 
 ```batch
 curl -X POST ^
@@ -180,16 +180,16 @@ curl -X POST ^
   -T <FILE>
 ```
 
-On successful upload, you'll receive a CID. This can be used to download the file from any node in the network.
+При успешной загрузке вы получите CID. Его можно использовать для скачивания файла с любого узла в сети.
 
 > [!TIP]
-> Are you on the [Codex Discord server](https://discord.gg/codex-storage)? Post your CID in the [# :wireless: | share-cids](https://discord.com/channels/895609329053474826/1278383098102284369) channel, see if others are able to download it. Codex does not (yet?) provide file metadata, so if you want others to be able to open your file, tell them which extension to give it.
+> Вы на [сервере Discord Codex](https://discord.gg/codex-storage)? Опубликуйте ваш CID в канале [# :wireless: | share-cids](https://discord.com/channels/895609329053474826/1278383098102284369), посмотрите, смогут ли другие его скачать. Codex пока не предоставляет метаданные файлов, поэтому если вы хотите, чтобы другие могли открыть ваш файл, скажите им, какое расширение ему дать.
 
-### Download a file {#download-a-file-windows}
-When you have a CID of data you want to download, you can use the following commands:
+### Скачивание файла {#download-a-file-windows}
+Когда у вас есть CID данных, которые вы хотите скачать, вы можете использовать следующие команды:
 
 ```batch
-:: paste your CID from the previous step here between the quotes
+:: вставьте ваш CID из предыдущего шага между кавычками
 set CID="..."
 ```
 
@@ -198,20 +198,20 @@ curl "http://localhost:8080/api/codex/v1/data/%CID%/network/stream" ^
   -o "%CID%.png"
 ```
 
-Please use the correct extension for the downloaded file, because Codex does not store yet content-type or extension information.
+Пожалуйста, используйте правильное расширение для скачанного файла, потому что Codex пока не хранит информацию о типе содержимого или расширении.
 
-### Local data {#local-data-windows}
-You can view which datasets are currently being stored by your node:
+### Локальные данные {#local-data-windows}
+Вы можете просмотреть, какие наборы данных в настоящее время хранятся вашим узлом:
 
 ```batch
 curl http://localhost:8080/api/codex/v1/data
 ```
 
-### Create storage availability {#create-storage-availability-windows}
+### Создание доступности хранилища {#create-storage-availability-windows}
 > [!WARNING]
-> This step requires that Codex was started with the [`prover`](/learn/run#codex-storage-node) option.
+> Этот шаг требует, чтобы Codex был запущен с опцией [`prover`](/learn/run#codex-storage-node).
 
-In order to start selling storage space to the network, you must configure your node with the following command. Once configured, the node will monitor on-chain requests-for-storage and will automatically enter into contracts that meet these specifications. In order to enter and maintain storage contracts, your node is required to submit zero-knowledge storage proofs. The calculation of these proofs will increase the CPU and RAM usage of Codex.
+Чтобы начать продавать пространство для хранения в сети, вы должны настроить ваш узел с помощью следующей команды. После настройки узел будет отслеживать запросы на хранение в блокчейне и автоматически вступать в контракты, соответствующие этим спецификациям. Для вступления и поддержания контрактов на хранение ваш узел должен предоставлять доказательства хранения с нулевым разглашением. Расчет этих доказательств увеличит использование CPU и RAM Codex.
 
 ```batch
 curl -X POST ^
@@ -220,20 +220,20 @@ curl -X POST ^
   -d "{""totalSize"": ""8000000"", ""duration"": ""7200"", ""minPricePerBytePerSecond"": ""1000"", ""totalCollateral"": ""80000000""}"
 ```
 
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
+Для описания каждого параметра, пожалуйста, просмотрите [спецификацию](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
 
-### Purchase storage {#purchase-storage-windows}
-To purchase storage space from the network, first you must upload your data. Once you have the CID, use the following to create a request-for-storage.
+### Покупка хранилища {#purchase-storage-windows}
+Чтобы купить пространство для хранения в сети, сначала вы должны загрузить ваши данные. После получения CID используйте следующее для создания запроса на хранение.
 
-Set your CID:
+Установите ваш CID:
 
 ```batch
-:: paste your CID from the previous step here between the quotes
+:: вставьте ваш CID из предыдущего шага между кавычками
 set CID="..."
 echo CID: %CID%
 ```
 
-Next you can run:
+Затем вы можете выполнить:
 
 ```batch
 curl -X POST ^
@@ -242,34 +242,34 @@ curl -X POST ^
   -d "{""duration"": ""3600"",""pricePerBytePerSecond"": ""2000"", ""proofProbability"": ""5"", ""expiry"": ""1200"", ""nodes"": 5, ""tolerance"": 2, ""**collateralPerByte**"": ""1""}"
 ```
 
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
+Для описания каждого параметра, пожалуйста, просмотрите [спецификацию](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
 
-When successful, this request will return a Purchase-ID.
+При успешном выполнении этот запрос вернет Purchase-ID.
 
-### View purchase status {#view-purchase-status-windows}
-Using a Purchase-ID, you can check the status of your request-for-storage contract:
+### Просмотр статуса покупки {#view-purchase-status-windows}
+Используя Purchase-ID, вы можете проверить статус вашего контракта на хранение:
 
 ```batch
-:: paste your PURCHASE_ID from the previous step here between the quotes
+:: вставьте ваш PURCHASE_ID из предыдущего шага между кавычками
 set PURCHASE_ID="..."
 ```
 
-Then:
+Затем:
 
 ```batch
 curl "http://localhost:8080/api/codex/v1/storage/purchases/%PURCHASE_ID%"
 ```
 
-This will display state and error information for your purchase.
-| State     | Description                                                                                                                                                                                            |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Pending   | Request is waiting for chain confirmation.                                                                                                                                                             |
-| Submitted | Request is on-chain. Hosts may now attempt to download the data.                                                                                                                                       |
-| Started   | Hosts have downloaded the data and provided proof-of-storage.                                                                                                                                          |
-| Failed    | The request was started, but (too many) hosts failed to provide proof-of-storage on time. While the data may still be available in the network, for the purpose of the purchase it is considered lost. |
-| Finished  | The request was started successfully and the duration has elapsed.                                                                                                                                     |
-| Expired   | (Not enough) hosts have submitted proof-of-storage before the request's expiry elapsed.                                                                                                                |
-| Errored   | An unfortunate state of affairs. The 'error' field should tell you more.                                                                                                                               |
+Это отобразит информацию о состоянии и ошибках для вашей покупки.
+| Состояние  | Описание                                                                                                                                                                                            |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Pending    | Запрос ожидает подтверждения в блокчейне.                                                                                                                                                             |
+| Submitted  | Запрос находится в блокчейне. Хосты теперь могут попытаться скачать данные.                                                                                                                                       |
+| Started    | Хосты скачали данные и предоставили доказательство хранения.                                                                                                                                          |
+| Failed     | Запрос был начат, но (слишком много) хостов не смогли предоставить доказательство хранения вовремя. Хотя данные все еще могут быть доступны в сети, для целей покупки они считаются утерянными. |
+| Finished   | Запрос был успешно начат, и срок действия истек.                                                                                                                                     |
+| Expired    | (Недостаточно) хостов предоставили доказательство хранения до истечения срока действия запроса.                                                                                                                |
+| Errored    | Неудачное состояние. Поле 'error' должно рассказать больше.                                                                                                                               |
 
 ## Known issues
 1. We add a new line to the API calls to get more readable output, please check [[rest] Add line ending on responses #771](https://github.com/codex-storage/nim-codex/issues/771) for more details.

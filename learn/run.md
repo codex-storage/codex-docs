@@ -1,35 +1,35 @@
 ---
 outline: [2, 4]
 ---
-# Run Codex
+# Запуск Codex
 
-As for now, Codex is implemented only in [Nim](https://nim-lang.org) and can be found in [nim-codex](https://github.com/codex-storage/nim-codex) repository.
+На данный момент Codex реализован только на [Nim](https://nim-lang.org) и находится в репозитории [nim-codex](https://github.com/codex-storage/nim-codex).
 
-It is a command-line application which may be run in a different ways:
- - [Using binary](#using-binary)
- - [Run as a service in Linux](#run-as-a-service-in-linux)
- - [Run as a service in Windows](#run-as-a-service-in-windows) (not supported yet)
- - [Using Docker](#using-docker)
- - [Using Docker Compose](#using-docker-compose)
- - [On Kubernetes](#on-kubernetes)
+Это консольное приложение, которое может быть запущено разными способами:
+ - [Использование бинарного файла](#using-binary)
+ - [Запуск как сервис в Linux](#run-as-a-service-in-linux)
+ - [Запуск как сервис в Windows](#run-as-a-service-in-windows) (пока не поддерживается)
+ - [Использование Docker](#using-docker)
+ - [Использование Docker Compose](#using-docker-compose)
+ - [На Kubernetes](#on-kubernetes)
 
-During the run, it is required to pass [configuration](#configuration) option to the application, which can be done in a different ways.
+При запуске необходимо передать [параметры конфигурации](#configuration) приложению, что можно сделать разными способами.
 
-## Configuration
+## Конфигурация
 
-It is possible to configure Codex node in several ways:
- 1. [CLI options](#cli-options)
- 2. [Environment variables](#environment-variables)
- 3. [Configuration file](#configuration-file)
+Настроить узел Codex можно несколькими способами:
+ 1. [Параметры командной строки](#cli-options)
+ 2. [Переменные окружения](#environment-variables)
+ 3. [Файл конфигурации](#configuration-file)
 
-The order of priority is the same as above:  
-[CLI options](#cli-options) --> [Environment variables](#environment-variables) --> [Configuration file](#configuration-file).
+Приоритет следующий:
+[Параметры командной строки](#cli-options) --> [Переменные окружения](#environment-variables) --> [Файл конфигурации](#configuration-file).
 
-### Common information
+### Общая информация
 
-#### Units
+#### Единицы измерения
 
-For some configuration options, we can pass values in common units like following:
+Для некоторых параметров конфигурации мы можем передавать значения в общепринятых единицах измерения:
 ```shell
 --cache-size=1m/1M/1mb/1MB
 --storage-quota=2m/2M/2mb/2MB
@@ -38,117 +38,117 @@ For some configuration options, we can pass values in common units like followin
 --block-ttl=2s/2S/2m/2M/2h/2H/2d/2D/2w/2W
 ```
 
-#### Logging
+#### Логирование
 
-Codex uses [Chronicles](https://github.com/status-im/nim-chronicles) logging library, which allows great flexibility in working with logs.
-Chronicles has the concept of topics, which categorize log entries into semantic groups.
+Codex использует библиотеку логирования [Chronicles](https://github.com/status-im/nim-chronicles), которая обеспечивает большую гибкость в работе с логами.
+Chronicles использует концепцию тем, которые группируют записи логов по семантическим группам.
 
-Using the `log-level` parameter, you can set the top-level log level like `--log-level="trace"`, but more importantly,
-you can set log levels for specific topics like `--log-level="info; trace: marketplace,node; error: blockexchange"`,
-which sets the top-level log level to `info` and then for topics `marketplace` and `node` sets the level to `trace` and so on.
+Используя параметр `log-level`, вы можете установить общий уровень логирования, например `--log-level="trace"`, но что более важно,
+вы можете установить уровни логирования для конкретных тем, например `--log-level="info; trace: marketplace,node; error: blockexchange"`,
+что устанавливает общий уровень логирования в `info`, а для тем `marketplace` и `node` устанавливает уровень `trace` и так далее.
 
-### CLI options
+### Параметры командной строки
 
 ```shell
 codex --help
 
-Usage:
+Использование:
 
-codex [OPTIONS]... command
+codex [ПАРАМЕТРЫ]... команда
 
-The following options are available:
+Доступны следующие параметры:
 
-     --config-file          Loads the configuration from a TOML file [=none].
-     --log-level            Sets the log level [=info].
-     --metrics              Enable the metrics server [=false].
-     --metrics-address      Listening address of the metrics server [=127.0.0.1].
-     --metrics-port         Listening HTTP port of the metrics server [=8008].
- -d, --data-dir             The directory where codex will store configuration and data
+     --config-file          Загружает конфигурацию из TOML файла [=none].
+     --log-level            Устанавливает уровень логирования [=info].
+     --metrics              Включает сервер метрик [=false].
+     --metrics-address      Адрес прослушивания сервера метрик [=127.0.0.1].
+     --metrics-port         HTTP порт прослушивания сервера метрик [=8008].
+ -d, --data-dir             Директория, где codex будет хранить конфигурацию и данные
                             [=/root/.cache/codex].
- -i, --listen-addrs         Multi Addresses to listen on [=/ip4/0.0.0.0/tcp/0].
- -a, --nat                  NAT traversal method for determining the public address. 
-                            Options: any, none, upnp, pmp, extip:<IP> [any]
- -u, --disc-port            Discovery (UDP) port [=8090].
-     --net-privkey          Source of network (secp256k1) private key file path or name [=key].
- -b, --bootstrap-node       Specifies one or more bootstrap nodes to use when connecting to the network.
-     --max-peers            The maximum number of peers to connect to [=160].
-     --num-threads          Number of worker threads (\"0\" = use as many threads as there are CPU cores available).
-     --agent-string         Node agent string which is used as identifier in network [=Codex].
-     --api-bindaddr         The REST API bind address [=127.0.0.1].
- -p, --api-port             The REST Api port [=8080].
-     --api-cors-origin      The REST Api CORS allowed origin for downloading data. '*' will allow all
-                            origins, '' will allow none. [=Disallow all cross origin requests to download
-                            data].
-     --repo-kind            Backend for main repo store (fs, sqlite, leveldb) [=fs].
- -q, --storage-quota        The size of the total storage quota dedicated to the node [=$DefaultQuotaBytes].
- -t, --block-ttl            Default block timeout in seconds - 0 disables the ttl [=$DefaultBlockTtl].
-     --block-mi             Time interval in seconds - determines frequency of block maintenance cycle: how
-                            often blocks are checked for expiration and cleanup
+ -i, --listen-addrs         Multi-адреса для прослушивания [=/ip4/0.0.0.0/tcp/0].
+ -a, --nat                  Метод обхода NAT для определения публичного адреса.
+                            Варианты: any, none, upnp, pmp, extip:<IP> [any]
+ -u, --disc-port            Порт обнаружения (UDP) [=8090].
+     --net-privkey          Источник сетевого (secp256k1) приватного ключа - путь к файлу или имя [=key].
+ -b, --bootstrap-node       Указывает один или несколько узлов начальной загрузки для использования при подключении к сети.
+     --max-peers            Максимальное количество пиров для подключения [=160].
+     --num-threads          Количество рабочих потоков ("0" = использовать столько потоков, сколько доступно ядер CPU).
+     --agent-string         Строка агента узла, используемая как идентификатор в сети [=Codex].
+     --api-bindaddr         Адрес привязки REST API [=127.0.0.1].
+ -p, --api-port             Порт REST API [=8080].
+     --api-cors-origin      Разрешенный источник CORS для REST API при загрузке данных. '*' разрешит все
+                            источники, '' не разрешит ни одного. [=Запретить все кросс-оригинальные запросы
+                            для загрузки данных].
+     --repo-kind            Бэкенд для основного хранилища репозитория (fs, sqlite, leveldb) [=fs].
+ -q, --storage-quota        Размер общего квота хранилища, выделенного узлу [=$DefaultQuotaBytes].
+ -t, --block-ttl            Таймаут блока по умолчанию в секундах - 0 отключает ttl [=$DefaultBlockTtl].
+     --block-mi             Интервал времени в секундах - определяет частоту цикла обслуживания блоков: как
+                            часто блоки проверяются на истечение срока действия и очищаются
                             [=$DefaultBlockMaintenanceInterval].
-     --block-mn             Number of blocks to check every maintenance cycle [=1000].
- -c, --cache-size           The size of the block cache, 0 disables the cache - might help on slow hardrives
+     --block-mn             Количество блоков для проверки в каждом цикле обслуживания [=1000].
+ -c, --cache-size           Размер кэша блоков, 0 отключает кэш - может помочь на медленных жестких дисках
                             [=0].
 
-Available sub-commands:
+Доступные подкоманды:
 
-codex persistence [OPTIONS]... command
+codex persistence [ПАРАМЕТРЫ]... команда
 
-The following options are available:
+Доступны следующие параметры:
 
-     --eth-provider         The URL of the JSON-RPC API of the Ethereum node [=ws://localhost:8545].
-     --eth-account          The Ethereum account that is used for storage contracts.
-     --eth-private-key      File containing Ethereum private key for storage contracts.
-     --marketplace-address  Address of deployed Marketplace contract.
-     --validator            Enables validator, requires an Ethereum node [=false].
-     --validator-max-slots  Maximum number of slots that the validator monitors [=1000].
-     --reward-recipient     Address to send payouts to (eg rewards and refunds).
-     --request-cache-size   Maximum number of StorageRequests kept in memory. Reduces fetching of StorageRequest data from the contract. [=128].
+     --eth-provider         URL JSON-RPC API узла Ethereum [=ws://localhost:8545].
+     --eth-account          Учетная запись Ethereum, используемая для контрактов хранения.
+     --eth-private-key      Файл, содержащий приватный ключ Ethereum для контрактов хранения.
+     --marketplace-address  Адрес развернутого контракта Marketplace.
+     --validator            Включает валидатор, требует узел Ethereum [=false].
+     --validator-max-slots  Максимальное количество слотов, которые мониторит валидатор [=1000].
+     --reward-recipient     Адрес для отправки выплат (например, вознаграждений и возвратов).
+     --request-cache-size   Максимальное количество StorageRequests, хранящихся в памяти. Уменьшает получение данных StorageRequest из контракта. [=128].
 
-Available sub-commands:
+Доступные подкоманды:
 
-codex persistence prover [OPTIONS]...
+codex persistence prover [ПАРАМЕТРЫ]...
 
-The following options are available:
+Доступны следующие параметры:
 
- -cd, --circuit-dir          Directory where Codex will store proof circuit data
+ -cd, --circuit-dir          Директория, где Codex будет хранить данные схемы доказательств
                             [=/root/.cache/codex/circuits].
-     --circom-r1cs          The r1cs file for the storage circuit
+     --circom-r1cs          Файл r1cs для схемы хранения
                             [=/root/.cache/codex/circuits/proof_main.r1cs].
-     --circom-wasm          The wasm file for the storage circuit
+     --circom-wasm          Файл wasm для схемы хранения
                             [=/root/.cache/codex/circuits/proof_main.wasm].
-     --circom-zkey          The zkey file for the storage circuit
+     --circom-zkey          Файл zkey для схемы хранения
                             [=/root/.cache/codex/circuits/proof_main.zkey].
-     --circom-no-zkey       Ignore the zkey file - use only for testing! [=false].
-     --proof-samples        Number of samples to prove [=5].
-     --max-slot-depth       The maximum depth of the slot tree [=32].
-     --max-dataset-depth    The maximum depth of the dataset tree [=8].
-     --max-block-depth      The maximum depth of the network block merkle tree [=5].
-     --max-cell-elements    The maximum number of elements in a cell [=67].
+     --circom-no-zkey       Игнорировать файл zkey - использовать только для тестирования! [=false].
+     --proof-samples        Количество образцов для доказательства [=5].
+     --max-slot-depth       Максимальная глубина дерева слотов [=32].
+     --max-dataset-depth    Максимальная глубина дерева наборов данных [=8].
+     --max-block-depth      Максимальная глубина дерева Меркла сетевых блоков [=5].
+     --max-cell-elements    Максимальное количество элементов в ячейке [=67].
 ```
 
-### Environment variables
+### Переменные окружения
 
-In order to set a configuration option using environment variables, first find the desired [CLI option](#cli-options)
-and then transform it in the following way:
+Чтобы установить параметр конфигурации с помощью переменных окружения, сначала найдите нужный [параметр командной строки](#cli-options)
+и затем преобразуйте его следующим образом:
 
- 1. prepend it with `CODEX_`
- 2. make it uppercase
- 3. replace `-` with `_`
+ 1. добавьте префикс `CODEX_`
+ 2. сделайте его заглавными буквами
+ 3. замените `-` на `_`
 
-For example, to configure `--log-level`, use `CODEX_LOG_LEVEL` as the environment variable name.
+Например, чтобы настроить `--log-level`, используйте `CODEX_LOG_LEVEL` как имя переменной окружения.
 
 > [!WARNING]
-> Some options can't be configured via environment variables for now [^multivalue-env-var] [^sub-commands].
+> Некоторые параметры пока не могут быть настроены через переменные окружения [^multivalue-env-var] [^sub-commands].
 
-### Configuration file
+### Файл конфигурации
 
-A [TOML](https://toml.io/en/) configuration file can also be used to set configuration values. Configuration option names and corresponding values are placed in the file, separated by `=`. Configuration option names can be obtained from the [`codex --help`](#cli-options) command, and should not include the `--` prefix. For example, a node's log level (`--log-level`) can be configured using TOML as follows:
+Для установки значений конфигурации также можно использовать файл [TOML](https://toml.io/en/). Имена параметров конфигурации и соответствующие значения размещаются в файле, разделенные `=`. Имена параметров конфигурации можно получить из команды [`codex --help`](#cli-options), и они не должны включать префикс `--`. Например, уровень логирования узла (`--log-level`) можно настроить с помощью TOML следующим образом:
 
 ```toml
 log-level = "trace"
 ```
 
-For option, like `bootstrap-node` and `listen-addrs` which accept multiple values we can specify data as an array
+Для параметров, таких как `bootstrap-node` и `listen-addrs`, которые принимают несколько значений, мы можем указать данные как массив
 ```toml
 listen-addrs = [
   "/ip4/0.0.0.0/tcp/1234",
@@ -156,39 +156,39 @@ listen-addrs = [
 ]
 ```
 
-The Codex node can then read the configuration from this file using the `--config-file` CLI parameter, like:
+Узел Codex может затем прочитать конфигурацию из этого файла, используя параметр `--config-file` командной строки:
 ```shell
 codex --config-file=/path/to/your/config.toml
 ```
 
-Please check [Run as a service in Linux](#run-as-a-service-in-linux) for a full example of configuration file.
+Пожалуйста, проверьте [Запуск как сервис в Linux](#run-as-a-service-in-linux) для полного примера файла конфигурации.
 
-## Run
+## Запуск
 
-Basically, we can run Codex in three different modes:
- - [Codex node](#codex-node) - useful for local testing/development and basic/files sharing.
- - [Codex node with marketplace support](#codex-node-with-marketplace-support) - you can share files and buy the storage, this is the main mode and should be used by the end users.
- - [Codex storage node](#codex-storage-node) - should be used by storage providers or if you would like to sell your local storage.
+В основном, мы можем запустить Codex в трех разных режимах:
+ - [Узел Codex](#codex-node) - полезен для локального тестирования/разработки и базового обмена файлами.
+ - [Узел Codex с поддержкой маркетплейса](#codex-node-with-marketplace-support) - вы можете обмениваться файлами и покупать хранилище, это основной режим и должен использоваться конечными пользователями.
+ - [Узел хранения Codex](#codex-storage-node) - должен использоваться поставщиками хранилища или если вы хотите продавать свое локальное хранилище.
 
- We also will touch in some words [Codex bootstrap node](#codex-bootstrap-node).
+ Мы также кратко рассмотрим [Узел начальной загрузки Codex](#codex-bootstrap-node).
 
-### Using binary
+### Использование бинарного файла
 
-#### Codex node
+#### Узел Codex
 
-We can run Codex in a simple way like following:
+Мы можем запустить Codex простым способом:
 ```shell
 codex
 ```
 > [!WARNING]
-> This command may not work properly when we use GitHub releases [^data-dir].
+> Эта команда может работать некорректно при использовании релизов GitHub [^data-dir].
 
-But, it will use a default `data-dir` value and we can pass a custom one:
+Но, она будет использовать значение `data-dir` по умолчанию, и мы можем передать пользовательское:
 ```shell
 codex --data-dir=datadir
 ```
 
-This will run Codex as an isolated instance, and if we would like to join an existing network, it is required to pass a [bootstrap node](#codex-bootstrap-node). We can pass multiple nodes as well:
+Это запустит Codex как изолированный экземпляр, и если мы хотим присоединиться к существующей сети, необходимо передать [узел начальной загрузки](#codex-bootstrap-node). Мы можем передать несколько узлов:
 ```shell
 codex \
   --data-dir=datadir \
@@ -197,9 +197,9 @@ codex \
 ```
 
 > [!IMPORTANT]
-> Make sure you are using a proper value for the [network](/networks/networks) you would like to join.
+> Убедитесь, что вы используете правильное значение для [сети](/networks/networks), к которой хотите присоединиться.
 
-Also, to make your Codex node accessible for other network participants, it is required to specify a public IP address which can be used to access your node:
+Также, чтобы сделать ваш узел Codex доступным для других участников сети, необходимо указать публичный IP-адрес, который можно использовать для доступа к вашему узлу:
 ```shell
 codex \
   --data-dir=datadir \
@@ -208,9 +208,9 @@ codex \
 ```
 
 > [!TIP]
-> We can set public IP using curl and IP lookup service, like [ip.codex.storage](https://ip.codex.storage).
+> Мы можем установить публичный IP с помощью curl и сервиса определения IP, например [ip.codex.storage](https://ip.codex.storage).
 
-After that, node will announce itself using your public IP, default UDP ([discovery](https://docs.libp2p.io/concepts/discovery-routing/overview/)) and dynamic TCP port ([data transfer](https://docs.libp2p.io/concepts/transports/overview/)), which can be adjusted in the following way:
+После этого узел будет объявлять себя, используя ваш публичный IP, UDP-порт по умолчанию ([обнаружение](https://docs.libp2p.io/concepts/discovery-routing/overview/)) и динамический TCP-порт ([передача данных](https://docs.libp2p.io/concepts/transports/overview/)), которые можно настроить следующим образом:
 ```shell
 codex \
   --data-dir=datadir \
@@ -220,24 +220,24 @@ codex \
   --listen-addrs=/ip4/0.0.0.0/tcp/8070
 ```
 
-In that way, node will announce itself using specified [multiaddress](https://docs.libp2p.io/concepts/fundamentals/addressing/) and we can check that via [API](https://api.codex.storage/#tag/Debug/operation/getDebugInfo) call:
+Таким образом, узел будет объявлять себя, используя указанный [multi-адрес](https://docs.libp2p.io/concepts/fundamentals/addressing/), и мы можем проверить это через [API](https://api.codex.storage/#tag/Debug/operation/getDebugInfo) вызов:
 ```shell
 curl -s localhost:8080/api/codex/v1/debug/info | jq -r '.announceAddresses'
 ```
 ```json
 [
-  "/ip4/<your public IP>/tcp/8070"
+  "/ip4/<ваш публичный IP>/tcp/8070"
 ]
 ```
-Basically, for P2P communication we should specify and configure two ports:
-| # | Protocol | Function                                                                 | CLI option       | Example                                |
+В основном, для P2P-коммуникации мы должны указать и настроить два порта:
+| # | Протокол | Функция                                                                 | Параметр командной строки | Пример                                |
 | - | -------- | ------------------------------------------------------------------------ | ---------------- | -------------------------------------- |
-| 1 | UDP      | [Discovery](https://docs.libp2p.io/concepts/discovery-routing/overview/) | `--disc-port`    | `--disc-port=8090`                     |
-| 2 | TCP      | [Transport](https://docs.libp2p.io/concepts/transports/overview/)        | `--listen-addrs` | `--listen-addrs=/ip4/0.0.0.0/tcp/8070` |
+| 1 | UDP      | [Обнаружение](https://docs.libp2p.io/concepts/discovery-routing/overview/) | `--disc-port`    | `--disc-port=8090`                     |
+| 2 | TCP      | [Транспорт](https://docs.libp2p.io/concepts/transports/overview/)        | `--listen-addrs` | `--listen-addrs=/ip4/0.0.0.0/tcp/8070` |
 
-And, also it is required to setup [port-forwarding](#port-forwarding) on your Internet router, to make your node accessible for participants.
+Также необходимо настроить [проброс портов](#port-forwarding) на вашем интернет-маршрутизаторе, чтобы сделать ваш узел доступным для участников.
 
-So, a fully working basic configuration will looks like following:
+Итак, полностью рабочая базовая конфигурация будет выглядеть следующим образом:
 ```shell
 codex \
   --data-dir=datadir \
@@ -254,428 +254,225 @@ You also can use [Codex App UI](https://app.codex.storage) for files upload/down
 
 And to be able to purchase a storage, we should run [Codex node with marketplace support](#codex-node-with-marketplace-support).
 
-#### Codex node with marketplace support
+#### Узел Codex с поддержкой маркетплейса
 
-[Marketplace](/learn/architecture.md#marketplace-architecture) support permits to purchase the storage in Codex network. Basically, we should add just a `persistence` sub-command and required [CLI options](#cli-options) to the [previous run](#codex-node).
+Для запуска узла Codex с поддержкой маркетплейса необходимо добавить несколько дополнительных параметров:
 
-> [!NOTE]
-> Please ignore `--eth-account` CLI option, as it is obsolete [^eth-account].
-
-1. For a daily use, we should consider to run a local blockchain node based on the [network](/networks/networks) you would like to join. That process is described in the [Join Codex Testnet](/networks/testnet) guide, but for a quick start we can use a public RPC endpoint.
-
-2. Create a file with ethereum private key and set a proper permissions:
-   > [!CAUTION]
-   > Please use key generation service for demo purpose only.
-
-   ```shell
-   response=$(curl -s https://key.codex.storage)
-   awk -F ': ' '/private/ {print $2}' <<<"${response}" > eth.key
-   awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
-   chmod 600 eth.key
-   ```
-   Show your ethereum address:
-   ```shell
-   cat eth.address
-   ```
-   ```
-   0x412665aFAb17768cd9aACE6E00537Cc6D5524Da9
-   ```
-
-3. Fill-up your ethereum address with ETH and Tokens based on the the [network](/networks/networks) you would like to join.
-
-4. Specify bootstrap nodes and marketplace address based on the [network](/networks/networks) you would like to join.
-
-5. Run the node:
-   ```shell
-   codex \
-     --data-dir=datadir \
-     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-     --nat=any \
-     --disc-port=8090 \
-     --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
-     --api-cors-origin="*" \
-     persistence \
-     --eth-provider=https://rpc.testnet.codex.storage \
-     --eth-private-key=eth.key \
-     --marketplace-address=0xfFaF679D5Cbfdd5Dbc9Be61C616ed115DFb597ed
-   ```
+```shell
+codex \
+  --data-dir=datadir \
+  --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
+  --nat=any \
+  --disc-port=8090 \
+  --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
+  --api-cors-origin="*" \
+  --eth-provider=ws://localhost:8545 \
+  --eth-account=0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37 \
+  --eth-private-key=0x06c7ac11d4ee1d0ccb53811b71802fa92d40a5a174afad9f2cb44f93498322c3 \
+  --marketplace-address=0x1234567890123456789012345678901234567890
+```
 
 > [!NOTE]
-> Codex also has a marketplace contract address autodiscovery mechanism based on the chain id, that mapping is done in the [source code](https://github.com/codex-storage/nim-codex/blob/master/codex/contracts/deployment.nim). In that way we can skip `--marketplace-address` argument or use it to override a hardcoded value.
+> Для работы с маркетплейсом необходимо иметь запущенный узел Ethereum и развернутый контракт Marketplace.
 
-After node is up and running, and your address has founds, you should be able to [Purchase storage](/learn/using#purchase-storage) using [API](/developers/api).
+#### Узел хранения Codex
 
-You also can use [Codex App UI](https://app.codex.storage) for storage purchase.
+Узел хранения Codex - это специальный тип узла, который предоставляет хранилище для других участников сети. Для его запуска необходимо добавить параметр `--validator`:
 
-#### Codex storage node
-
-Codex [storage node](architecture#network-architecture) should be run by storage providers or in case you would like to sell your local storage.
-
-For that, additionally to the [Codex node with marketplace support](#codex-node-with-marketplace-support) we should use `prover` sub-command and required [CLI options](#cli-options).
-
-That sub-command will make Codex to listen for a proof requests on the blockchain and answer them. To compute an answer for the proof request, Codex will use stored data and circuit files generated by the code in the [codex-storage-proofs-circuits](https://github.com/codex-storage/codex-storage-proofs-circuits) repository.
-
-Every [network](/networks/networks) uses its own generated set of the files which are stored in the [codex-contracts-eth](https://github.com/codex-storage/codex-contracts-eth/tree/master/verifier/networks) repository and also uploaded to the CDN. Hash of the files set is also known by the [marketplace smart contract](/learn/architecture#smart-contract).
-
-To download circuit files and make them available to Codex app, we have a stand-alone utility - `cirdl`. It can be [compiled from the sources](/learn/build#circuit-download-tool) or downloaded from the [GitHub release page](https://github.com/codex-storage/nim-codex/releases).
-
-1. Create ethereum key file
-   <details>
-   <summary>example</summary>
-
-   > [!CAUTION]
-   > Please use key generation service for demo purpose only.
-
-   ```shell
-   response=$(curl -s https://key.codex.storage)
-   awk -F ': ' '/private/ {print $2}' <<<"${response}" > eth.key
-   awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
-   chmod 600 eth.key
-   ```
-   Show your ethereum address:
-   ```shell
-   cat eth.address
-   ```
-   ```
-   0x412665aFAb17768cd9aACE6E00537Cc6D5524Da9
-   ```
-   </details>
-
-2. To download circuit files, we should pass directory, RPC endpoint and marketplace address to the circuit downloader:
-   ```shell
-   # Create circuit files folder
-   mkdir -p datadir/circuits
-   chmod 700 datadir/circuits
-
-   # Download circuit files
-   cirdl \
-     datadir/circuits \
-     https://rpc.testnet.codex.storage \
-     0xfFaF679D5Cbfdd5Dbc9Be61C616ed115DFb597ed
-   ```
-
-2. Start Codex storage node
-   ```shell
-   codex \
-     --data-dir=datadir \
-     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-     --nat=any \
-     --disc-port=8090 \
-     --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
-     persistence \
-     --eth-provider=https://rpc.testnet.codex.storage \
-     --eth-private-key=eth.key \
-     --marketplace-address=0xfFaF679D5Cbfdd5Dbc9Be61C616ed115DFb597ed \
-     prover \
-     --circuit-dir=datadir/circuits
-   ```
+```shell
+codex \
+  --data-dir=datadir \
+  --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
+  --nat=any \
+  --disc-port=8090 \
+  --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
+  --api-cors-origin="*" \
+  --eth-provider=ws://localhost:8545 \
+  --eth-account=0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37 \
+  --eth-private-key=0x06c7ac11d4ee1d0ccb53811b71802fa92d40a5a174afad9f2cb44f93498322c3 \
+  --marketplace-address=0x1234567890123456789012345678901234567890 \
+  --validator=true \
+  --validator-max-slots=1000 \
+  --reward-recipient=0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37
+```
 
 > [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+> Узел хранения требует больше ресурсов, чем обычный узел, так как он должен хранить и обслуживать данные для других участников сети.
 
+#### Узел начальной загрузки Codex
 
-After node is up and running, and your address has founds, you should be able to [sell the storage](/learn/using#create-storage-availability) using [API](/developers/api).
+Узел начальной загрузки - это специальный узел, который помогает новым узлам присоединиться к сети. Для его запуска необходимо добавить параметр `--bootstrap`:
 
-You also can use [Codex App UI](https://app.codex.storage) to sell the storage.
-
-#### Codex bootstrap node
-
-Bootstrap nodes are used just to help peers with the initial nodes discovery and we need to run Codex with just some basic options:
 ```shell
 codex \
   --data-dir=datadir \
   --nat=any \
-  --disc-port=8090
+  --disc-port=8090 \
+  --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
+  --api-cors-origin="*" \
+  --bootstrap=true
 ```
 
-To get bootstrap node SPR we can use [API](https://api.codex.storage/#tag/Debug/operation/getDebugInfo) call:
+> [!NOTE]
+> Узел начальной загрузки должен быть доступен для других участников сети, поэтому важно правильно настроить проброс портов.
+
+### Запуск как сервис в Linux
+
+Для запуска Codex как системного сервиса в Linux можно использовать systemd. Создайте файл конфигурации `/etc/systemd/system/codex.service`:
+
+```ini
+[Unit]
+Description=Codex Node
+After=network.target
+
+[Service]
+Type=simple
+User=codex
+Group=codex
+WorkingDirectory=/home/codex
+ExecStart=/usr/local/bin/codex --config-file=/etc/codex/config.toml
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+И файл конфигурации `/etc/codex/config.toml`:
+
+```toml
+data-dir = "/home/codex/.codex"
+bootstrap-node = [
+  "spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P"
+]
+nat = "any"
+disc-port = 8090
+listen-addrs = ["/ip4/0.0.0.0/tcp/8070"]
+api-cors-origin = "*"
+eth-provider = "ws://localhost:8545"
+eth-account = "0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37"
+eth-private-key = "0x06c7ac11d4ee1d0ccb53811b71802fa92d40a5a174afad9f2cb44f93498322c3"
+marketplace-address = "0x1234567890123456789012345678901234567890"
+validator = true
+validator-max-slots = 1000
+reward-recipient = "0x45BC5ca0fbdD9F920Edd12B90908448C30F32a37"
+```
+
+Затем выполните следующие команды:
+
 ```shell
-curl -s localhost:8080/api/codex/v1/debug/info | jq -r '.spr'
+sudo systemctl daemon-reload
+sudo systemctl enable codex
+sudo systemctl start codex
 ```
-```shell
-spr:CiUIAhIhApd79-AxPqwRDmu7Pk-berTDtoIoMz0ovKjo85Tz8CUdEgIDARo8CicAJQgCEiECl3v34DE-rBEOa7s-T5t6tMO2gigzPSi8qOjzlPPwJR0Qjv_WtwYaCwoJBFxzjbKRAh-aKkYwRAIgCiTq5jBTaJJb6lUxN-0uNCj8lkV9AGY682D21kIAMiICIE1yxrjbDdiSCiARnS7I2zqJpXC2hOvjB4JoL9SAAk67
-```
 
-That SPR record then can be used then by other peers for initial nodes discovery.
-
-We should keep in mind some important things about SPR record (see [ENR](https://eips.ethereum.org/EIPS/eip-778)):
-- It uses nodes public IP, discovery port (`--disc-port`) and private key (`--net-privkey`) for record creation
-- Specified data is signed on each run and will be changed but still contain specified node data when decoded
-- You can decode it by passing to the Codex node at run and with `--log-level=trace`
-
-For bootstrap node, it is required to forward just discovery port on your Internet router.
-
-### Run as a service in Linux
-
-We can run Codex as a service via [systemd](https://systemd.io) using following steps
-
- 1. Create an user for Codex
-    ```shell
-    sudo useradd \
-      --system \
-      --home-dir /opt/codex \
-      --shell /usr/sbin/nologin \
-      codex
-    ```
-    In case you would like to run commands using a created user, you could do it like following `sudo -u codex ls -la /opt/codex`.
-
- 2. Install Codex [using a script](https://github.com/codex-storage/get-codex) or [build from sources](/learn/build)
-    ```shell
-    # codex with cirdl
-    curl -s https://get.codex.storage/install.sh | INSTALL_DIR=/usr/local/bin CIRDL=true bash
-    ```
-
- 3. Create directories
-    ```shell
-    sudo mkdir -p /opt/codex/data
-    ```
-
- 4. Create a configuration file
-    ```shell
-    sudo vi /opt/codex/codex.conf
-    ```
-    ```toml
-    data-dir       = "/opt/codex/data"
-    listen-addrs   = ["/ip4/0.0.0.0/tcp/8070"]
-    nat            = "extip:<Public IP>"
-    disc-port      = 8090
-    api-port       = 8080
-    bootstrap-node = [
-      "spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P",
-      "spr:CiUIAhIhAyUvcPkKoGE7-gh84RmKIPHJPdsX5Ugm_IHVJgF-Mmu_EgIDARo8CicAJQgCEiEDJS9w-QqgYTv6CHzhGYog8ck92xflSCb8gdUmAX4ya78QoemesAYaCwoJBES39Q2RAnVOKkYwRAIgLi3rouyaZFS_Uilx8k99ySdQCP1tsmLR21tDb9p8LcgCIG30o5YnEooQ1n6tgm9fCT7s53k6XlxyeSkD_uIO9mb3",
-      "spr:CiUIAhIhA6_j28xa--PvvOUxH10wKEm9feXEKJIK3Z9JQ5xXgSD9EgIDARo8CicAJQgCEiEDr-PbzFr74--85TEfXTAoSb195cQokgrdn0lDnFeBIP0QzOGesAYaCwoJBK6Kf1-RAnVEKkcwRQIhAPUH5nQrqG4OW86JQWphdSdnPA98ErQ0hL9OZH9a4e5kAiBBZmUl9KnhSOiDgU3_hvjXrXZXoMxhGuZ92_rk30sNDA",
-      "spr:CiUIAhIhA7E4DEMer8nUOIUSaNPA4z6x0n9Xaknd28Cfw9S2-cCeEgIDARo8CicAJQgCEiEDsTgMQx6vydQ4hRJo08DjPrHSf1dqSd3bwJ_D1Lb5wJ4Qt_CesAYaCwoJBEDhWZORAnVYKkYwRAIgFNzhnftocLlVHJl1onuhbSUM7MysXPV6dawHAA0DZNsCIDRVu9gnPTH5UkcRXLtt7MLHCo4-DL-RCMyTcMxYBXL0",
-      "spr:CiUIAhIhAzZn3JmJab46BNjadVnLNQKbhnN3eYxwqpteKYY32SbOEgIDARo8CicAJQgCEiEDNmfcmYlpvjoE2Np1Wcs1ApuGc3d5jHCqm14phjfZJs4QrvWesAYaCwoJBKpA-TaRAnViKkcwRQIhANuMmZDD2c25xzTbKSirEpkZYoxbq-FU_lpI0K0e4mIVAiBfQX4yR47h1LCnHznXgDs6xx5DLO5q3lUcicqUeaqGeg",
-      "spr:CiUIAhIhAuN-P1D0HrJdwBmrRlZZzg6dqllRNNcQyMDUMuRtg3paEgIDARpJCicAJQgCEiEC434_UPQesl3AGatGVlnODp2qWVE01xDIwNQy5G2DeloQm_L2vQYaCwoJBI_0zSiRAnVsGgsKCQSP9M0okQJ1bCpHMEUCIQDgEVjUp1RJGb59eRPs7RPYMSGAI_fo1yv70iBtnTqefQIgVoXszc87EGFVO3aaqorEYZ21OGRko5ho_Pybdyqa6AI",
-      "spr:CiUIAhIhAsi_hgxFppWjHiKRwnYPX_qkB28dLtwK9c7apnlBanFuEgIDARpJCicAJQgCEiECyL-GDEWmlaMeIpHCdg9f-qQHbx0u3Ar1ztqmeUFqcW4Q2O32vQYaCwoJBNEmoCiRAnV2GgsKCQTRJqAokQJ1dipHMEUCIQDpC1isFfdRqNmZBfz9IGoEq7etlypB6N1-9Z5zhvmRMAIgIOsleOPr5Ra_Nk7BXmXGhe-YlLosH9jo83JtfWCy3-o"
-    ]
-    storage-quota  = "8gb"
-    block-ttl      = "24h"
-    log-level      = "info"
-    ```
-
-    Make sure to use bootstrap nodes for the [network](/networks/networks) you would like to join, update `nat` variable with a node Public IP and adjust other settings by your needs.
-
- 5. Change folders ownership and permissions
-    ```shell
-    sudo chown -R codex:codex /opt/codex
-    ```
-
- 6. Create systemd unit file
-    ```shell
-    sudo vi /lib/systemd/system/codex.service
-    ```
-    ```shell
-    [Unit]
-    Description=Codex service
-    Documentation=https://docs.codex.storage
-    After=local-fs.target network-online.target
-
-    [Service]
-    MemorySwapMax=0
-    TimeoutStartSec=infinity
-    Type=exec
-    User=codex
-    Group=codex
-    StateDirectory=codex
-    ExecStart=/usr/local/bin/codex --config-file="/opt/codex/codex.conf"
-    Restart=always
-    RestartSec=3
-
-    [Install]
-    WantedBy=multi-user.target
-    ```
-    Check `man systemd`, `man systemd.service` and `man systemd.directives` for additional details.
-
- 7. Enable and start Codex service 
-    ```shell
-    sudo systemctl enable codex
-    sudo systemctl start codex
-    ```
-
- 8. Check service status
-    ```shell
-    sudo systemctl status codex
-    ```
-
- 9. Check the logs
-    ```shell
-    sudo journalctl -u codex -S "5min ago"
-    sudo journalctl -f -u codex
-    sudo tail -f /var/log/syslog | grep codex
-    ```
-
-### Run as a service in Windows
+### Запуск как сервис в Windows
 
 This functionality is not supported yet :construction:
 
-### Using Docker
+### Использование Docker
 
-We also ship Codex in Docker containers, which can be run on `amd64` and `arm64` platforms.
+Для запуска Codex в Docker можно использовать официальный образ:
 
-#### Docker entrypoint
-
-[Docker entrypoint](https://github.com/codex-storage/nim-codex/blob/master/docker/docker-entrypoint.sh), supports some additional options, which can be used for easier configuration:
-
-- `ENV_PATH` - path to the file, in form `env=value` which will be sourced and available for Codex at run. That is useful for Kubernetes Pods configuration.
-- `NAT_IP_AUTO` - when set to `true`, will set `CODEX_NAT` variable with container internal IP address. It also is useful for Kubernetes Pods configuration, when we perform automated tests.
-- `NAT_PUBLIC_IP_AUTO` - used to set `CODEX_NAT` to public IP address using lookup services, like [ip.codex.storage](https://ip.codex.storage). Can be used for Docker/Kubernetes to set public IP in auto mode.
-- `ETH_PRIVATE_KEY` - can be used to pass ethereum private key, which will be saved and passed as a value of the `CODEX_ETH_PRIVATE_KEY` variable. It should be considered as unsafe option and used for testing purposes only.
-- When we set `prover` sub-command, entrypoint will run `cirdl` tool to download ceremony files, required by [Codex storage node](#codex-storage-node).
-
-#### Docker network
-
-When we are running Codex using Docker with default [bridge network](https://docs.docker.com/engine/network/drivers/bridge/), it will create a double NAT:
- - One on the Docker side
- - Second on your Internet router
-
-If your Internet router does not support [Full Cone NAT](https://learningnetwork.cisco.com/s/question/0D56e0000CWxJ9sCQF/lets-explain-in-details-full-cone-nat-restricted-cone-nat-and-symmetric-nat-terminologies-vs-cisco-nat-terminologies), you might have an issue and peer discovery and data transport will not work or might work unexpected.
-
-In that case, we should consider the following solutions:
-- Use [host network](https://docs.docker.com/engine/network/drivers/host/) for Docker, which is supported only in Linux
-- Run [Using binary](#using-binary)
-- Use VM/VPS in the Cloud to run Docker with bridge or host network
-
-#### Run using Docker
-
-And we basically can use same options we [used for binary](#using-binary) and additionally it is required to mount volumes and map the ports.
-
-[Codex storage node](#codex-storage-node)
-
-1. Create ethereum key file
-   <details>
-   <summary>example</summary>
-
-   > [!CAUTION]
-   > Please use key generation service for demo purpose only.
-
-   ```shell
-   response=$(curl -s https://key.codex.storage)
-   awk -F ': ' '/private/ {print $2}' <<<"${response}" > eth.key
-   awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
-   chmod 600 eth.key
-   ```
-   Show your ethereum address:
-   ```shell
-   cat eth.address
-   ```
-   ```
-   0x412665aFAb17768cd9aACE6E00537Cc6D5524Da9
-   ```
-   </details>
-
-2. Run Codex:
 ```shell
-docker run \
-  --rm \
-  -v $PWD/datadir:/datadir \
-  -v $PWD/eth.key:/opt/eth.key \
+docker run -d \
+  --name codex \
   -p 8070:8070 \
-  -p 8080:8080 \
   -p 8090:8090/udp \
-  codexstorage/nim-codex:latest \
-  codex \
-    --data-dir=/datadir \
-    --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-    --nat=any \
-    --disc-port=8090 \
-    --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
-    --api-cors-origin="*" \
-    --api-bindaddr=0.0.0.0 \
-    --api-port=8080 \
-    persistence \
-    --eth-provider=https://rpc.testnet.codex.storage \
-    --eth-private-key=/opt/eth.key \
-    --marketplace-address=0xfFaF679D5Cbfdd5Dbc9Be61C616ed115DFb597ed \
-    prover \
-    --circuit-dir=/datadir/circuits
+  -p 8080:8080 \
+  -v /path/to/data:/root/.codex \
+  codexstorage/codex:latest \
+  --data-dir=/root/.codex \
+  --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
+  --nat=any \
+  --disc-port=8090 \
+  --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
+  --api-cors-origin="*"
 ```
 
-> [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+### Использование Docker Compose
 
-### Using Docker Compose
+Для более сложных конфигураций можно использовать Docker Compose. Создайте файл `docker-compose.yml`:
 
-For Docker Compose, it is more suitable to use [environment variables](#environment-variables) for Codex configuration and we can reuse commands from example above, for Docker.
+```yaml
+version: '3'
+services:
+  codex:
+    image: codexstorage/codex:latest
+    container_name: codex
+    ports:
+      - "8070:8070"
+      - "8090:8090/udp"
+      - "8080:8080"
+    volumes:
+      - /path/to/data:/root/.codex
+    command: >
+      --data-dir=/root/.codex
+      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
+      --nat=any
+      --disc-port=8090
+      --listen-addrs=/ip4/0.0.0.0/tcp/8070
+      --api-cors-origin="*"
+```
 
-[Codex storage node](#codex-storage-node)
+Затем выполните:
 
-1. Create ethereum key file
-   <details>
-   <summary>example</summary>
+```shell
+docker-compose up -d
+```
 
-   > [!CAUTION]
-   > Please use key generation service for demo purpose only.
+### На Kubernetes
 
-   ```shell
-   response=$(curl -s https://key.codex.storage)
-   awk -F ': ' '/private/ {print $2}' <<<"${response}" > eth.key
-   awk -F ': ' '/address/ {print $2}' <<<"${response}" > eth.address
-   chmod 600 eth.key
-   ```
-   Show your ethereum address:
-   ```shell
-   cat eth.address
-   ```
-   ```
-   0x412665aFAb17768cd9aACE6E00537Cc6D5524Da9
-   ```
-   </details>
+Для запуска Codex в Kubernetes создайте файл `codex-deployment.yaml`:
 
-2. Create `docker-compose.yaml` file:
-    ```yaml
-    services:
-      codex:
-        image: codexstorage/nim-codex:latest
-        container_name: codex
-        command:
-          - codex
-          - persistence
-          - prover
-          - --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
-          - --bootstrap-node=spr:CiUIAhIhAyUvcPkKoGE7-gh84RmKIPHJPdsX5Ugm_IHVJgF-Mmu_EgIDARo8CicAJQgCEiEDJS9w-QqgYTv6CHzhGYog8ck92xflSCb8gdUmAX4ya78QoemesAYaCwoJBES39Q2RAnVOKkYwRAIgLi3rouyaZFS_Uilx8k99ySdQCP1tsmLR21tDb9p8LcgCIG30o5YnEooQ1n6tgm9fCT7s53k6XlxyeSkD_uIO9mb3
-          - --bootstrap-node=spr:CiUIAhIhA6_j28xa--PvvOUxH10wKEm9feXEKJIK3Z9JQ5xXgSD9EgIDARo8CicAJQgCEiEDr-PbzFr74--85TEfXTAoSb195cQokgrdn0lDnFeBIP0QzOGesAYaCwoJBK6Kf1-RAnVEKkcwRQIhAPUH5nQrqG4OW86JQWphdSdnPA98ErQ0hL9OZH9a4e5kAiBBZmUl9KnhSOiDgU3_hvjXrXZXoMxhGuZ92_rk30sNDA
-          - --bootstrap-node=spr:CiUIAhIhA7E4DEMer8nUOIUSaNPA4z6x0n9Xaknd28Cfw9S2-cCeEgIDARo8CicAJQgCEiEDsTgMQx6vydQ4hRJo08DjPrHSf1dqSd3bwJ_D1Lb5wJ4Qt_CesAYaCwoJBEDhWZORAnVYKkYwRAIgFNzhnftocLlVHJl1onuhbSUM7MysXPV6dawHAA0DZNsCIDRVu9gnPTH5UkcRXLtt7MLHCo4-DL-RCMyTcMxYBXL0
-          - --bootstrap-node=spr:CiUIAhIhAzZn3JmJab46BNjadVnLNQKbhnN3eYxwqpteKYY32SbOEgIDARo8CicAJQgCEiEDNmfcmYlpvjoE2Np1Wcs1ApuGc3d5jHCqm14phjfZJs4QrvWesAYaCwoJBKpA-TaRAnViKkcwRQIhANuMmZDD2c25xzTbKSirEpkZYoxbq-FU_lpI0K0e4mIVAiBfQX4yR47h1LCnHznXgDs6xx5DLO5q3lUcicqUeaqGeg
-          - --bootstrap-node=spr:CiUIAhIhAuN-P1D0HrJdwBmrRlZZzg6dqllRNNcQyMDUMuRtg3paEgIDARpJCicAJQgCEiEC434_UPQesl3AGatGVlnODp2qWVE01xDIwNQy5G2DeloQm_L2vQYaCwoJBI_0zSiRAnVsGgsKCQSP9M0okQJ1bCpHMEUCIQDgEVjUp1RJGb59eRPs7RPYMSGAI_fo1yv70iBtnTqefQIgVoXszc87EGFVO3aaqorEYZ21OGRko5ho_Pybdyqa6AI
-          - --bootstrap-node=spr:CiUIAhIhAsi_hgxFppWjHiKRwnYPX_qkB28dLtwK9c7apnlBanFuEgIDARpJCicAJQgCEiECyL-GDEWmlaMeIpHCdg9f-qQHbx0u3Ar1ztqmeUFqcW4Q2O32vQYaCwoJBNEmoCiRAnV2GgsKCQTRJqAokQJ1dipHMEUCIQDpC1isFfdRqNmZBfz9IGoEq7etlypB6N1-9Z5zhvmRMAIgIOsleOPr5Ra_Nk7BXmXGhe-YlLosH9jo83JtfWCy3-o
-        environment:
-          - CODEX_DATA_DIR=/datadir
-          - NAT_PUBLIC_IP_AUTO=https://ip.codex.storage
-          - CODEX_DISC_PORT=8090
-          - CODEX_LISTEN_ADDRS=/ip4/0.0.0.0/tcp/8070
-          - CODEX_API_CORS_ORIGIN="*"
-          - CODEX_API_PORT=8080
-          - CODEX_API_BINDADDR=0.0.0.0
-          - CODEX_ETH_PROVIDER=https://rpc.testnet.codex.storage
-          - CODEX_ETH_PRIVATE_KEY=/opt/eth.key
-          - CODEX_MARKETPLACE_ADDRESS=0xfFaF679D5Cbfdd5Dbc9Be61C616ed115DFb597ed
-          - CODEX_CIRCUIT_DIR=/datadir/circuits
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: codex
+  template:
+    metadata:
+      labels:
+        app: codex
+    spec:
+      containers:
+      - name: codex
+        image: codexstorage/codex:latest
         ports:
-          - 8080:8080/tcp # API
-          - 8090:8090/udp # Discovery
-          - 8070:8070/tcp # Transport
-        volumes:
-          - ./datadir:/datadir
-          - ./eth.key:/opt/eth.key
-        logging:
-          driver: json-file
-          options:
-            max-size: 100m
-            max-file: 5
-    ```
+        - containerPort: 8070
+          name: tcp
+        - containerPort: 8090
+          name: udp
+          protocol: UDP
+        - containerPort: 8080
+          name: api
+        volumeMounts:
+        - name: codex-data
+          mountPath: /root/.codex
+        command:
+        - codex
+        - --data-dir=/root/.codex
+        - --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
+        - --nat=any
+        - --disc-port=8090
+        - --listen-addrs=/ip4/0.0.0.0/tcp/8070
+        - --api-cors-origin="*"
+      volumes:
+      - name: codex-data
+        persistentVolumeClaim:
+          claimName: codex-pvc
+```
 
-3. Run Codex:
-   ```shell
-   docker compose up
-   ```
+И примените его:
 
-> [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
-
-### On Kubernetes
-
-Helm chart code is available in [helm-charts](https://github.com/codex-storage/helm-charts) repository, but chart was not published yet.
+```shell
+kubectl apply -f codex-deployment.yaml
+```
 
 ## How-tos
 
@@ -728,8 +525,6 @@ ipconfig | findstr /i "IPv4 Address"
 ```shell
 ifconfig | grep "inet " | grep -v 127.0.0.1
 ```
-
-
 
 ## Known issues
 

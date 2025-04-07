@@ -1,5 +1,5 @@
-# Codex API
+# API Codex
 
- Codex uses REST API to interact with the node and we can use HTTP client for interaction and configuration.
+Codex использует REST API для взаимодействия с узлом, и мы можем использовать HTTP-клиент для взаимодействия и настройки.
 
- API specification can be found on the [api.codex.storage](https://api.codex.storage) and it is generated based on [openapi.yaml](https://github.com/codex-storage/nim-codex/blob/master/openapi.yaml). We also generate a [Postman Collection](https://api.codex.storage/postman.json).
+Спецификация API доступна на [api.codex.storage](https://api.codex.storage) и генерируется на основе [openapi.yaml](https://github.com/codex-storage/nim-codex/blob/master/openapi.yaml). Мы также генерируем [Postman Collection](https://api.codex.storage/postman.json).

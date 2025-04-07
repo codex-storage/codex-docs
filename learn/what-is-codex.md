@@ -1,39 +1,39 @@
-# What is Codex?
+# Что такое Codex?
 
-Codex is a decentralised data storage protocol. Its primary features are strong censorship resistance and durability guarantees. It has a reference implementation by the same name, written in nim. It serves as the storage layer of the [Logos](https://logos.co/) tech stack. Alongside the trustless agreement layer, [Nomos](http://nomos.tech), and the communications layer, [Waku](http://waku.org), it is one of the Logos Collective's foundational projects.
+Codex - это децентрализованный протокол хранения данных. Его основные особенности - сильная устойчивость к цензуре и гарантии долговечности. Он имеет эталонную реализацию с тем же названием, написанную на nim. Он служит слоем хранения в стеке технологий [Logos](https://logos.co/). Наряду с уровнем бездоверительных соглашений [Nomos](http://nomos.tech) и уровнем коммуникаций [Waku](http://waku.org), он является одним из фундаментальных проектов Logos Collective.
 
 <br/>
 
 <p><iframe width="560" height="315" src="https://www.youtube.com/embed/XH-R2oJO7P4" title="" frameBorder="0"   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowFullScreen><br>Powered by <a href="https://youtubeembedcode.com">youtube embed code</a> and <a href="https://snabblan.io/">snabblån utan uc</a></iframe></p>
 
-### Motive
+### Мотивация
 
-The remote storage landscape is dominated by an increasingly small number of internet powerhouses—Google, Microsoft, Amazon, etc. While these services score highly in terms of user experience and convenience, centralised cloud data storage suffers from the following drawbacks:
+Ландшафт удаленного хранения данных доминируется все меньшим числом интернет-гигантов - Google, Microsoft, Amazon и т.д. Хотя эти сервисы получают высокие оценки с точки зрения пользовательского опыта и удобства, централизованное облачное хранение данных страдает от следующих недостатков:
 
-- Censorship
+- Цензура
 
-- Lack of data ownership
+- Отсутствие владения данными
 
-- Breaches and outages
+- Утечки и простои
 
-- High cost
+- Высокая стоимость
 
-Centralised cloud storage providers have an established history of censoring data and, as de facto owners of said data, have the power to do so according to their own standards. Furthermore, centralised platforms have fallen victim to major data breaches and service outages on numerous occasions.
+Централизованные провайдеры облачного хранения имеют устоявшуюся историю цензурирования данных и, как де-факто владельцы этих данных, имеют право делать это согласно своим собственным стандартам. Более того, централизованные платформы неоднократно становились жертвами крупных утечек данных и простоев сервисов.
 
-Such incidents have created a gap in the market for a decentralised, censorship-resistant alternative. Existing peer-to-peer storage and file-sharing networks address some of these issues—such as robustness in the face of network disruptions, and desirable resistance to censorship. Yet without adequate incentives and strong data durability guarantees, they make for unsuitable foundations upon which to build truly unstoppable applications.
+Такие инциденты создали пробел на рынке для децентрализованной, устойчивой к цензуре альтернативы. Существующие одноранговые сети хранения и обмена файлами решают некоторые из этих проблем - такие как устойчивость к сбоям сети и желаемая устойчивость к цензуре. Однако без адекватных стимулов и сильных гарантий долговечности данных они не подходят в качестве основы для создания действительно неостановимых приложений.
 
-Existing decentralised storage solutions purport to improve upon early P2P file-sharing platforms like eDonkey and Gnutella. However, the market still lacks a decentralised storage solution that is efficient in terms of storage and bandwidth usage, while offering performance and durability guarantees comparable to incumbents. 
+Существующие децентрализованные решения для хранения данных претендуют на улучшение ранних P2P-платформ обмена файлами, таких как eDonkey и Gnutella. Однако рынку все еще не хватает децентрализованного решения для хранения, которое было бы эффективным с точки зрения использования хранилища и пропускной способности, при этом предлагая гарантии производительности и долговечности, сопоставимые с существующими решениями.
 
 <br/>
 
-### Decentralising data storage
+### Децентрализация хранения данных
 
-Codex began in 2021 to address a need for a durable, decentralised storage layer for the web3 tech stack.
+Codex был создан в 2021 году для удовлетворения потребности в долговечном, децентрализованном уровне хранения для стека технологий web3.
 
-The name "Codex" refers to an ancient form of book—an allusion to the data storage engine's extremely robust—99.99%—durability guarantees.
+Название "Codex" отсылает к древней форме книги - намек на чрезвычайно надежные - 99,99% - гарантии долговечности механизма хранения данных.
 
-Codex was announced as a core Logos Collective protocol in June 2023.
+Codex был объявлен как основной протокол Logos Collective в июне 2023 года.
 
-### Testnet
+### Тестовая сеть
 
-Codex is currently in the testnet phase. The client implementation is free and open software. If you're interested, we encourage you to try Codex, connect to the testnet and experiment with its features. [Get started here](./quick-start.md)
+Codex в настоящее время находится в фазе тестовой сети. Клиентская реализация является свободным и открытым программным обеспечением. Если вы заинтересованы, мы призываем вас попробовать Codex, подключиться к тестовой сети и поэкспериментировать с его функциями. [Начните здесь](./quick-start.md)

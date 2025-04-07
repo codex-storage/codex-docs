@@ -1,123 +1,86 @@
-# Description and architecture
+# Описание и архитектура
 
-Codex is building a durable data storage engine that is fully decentralised, providing corruption and censorship resistance to web3 applications. It innately protects network participants by giving hosts plausible deniability over the data they store, and clients provable durability guarantees—up to 99.99%—while remaining storage and bandwidth efficient.
+Codex создает надежный механизм хранения данных, который полностью децентрализован и обеспечивает устойчивость к коррупции и цензуре для web3-приложений. Он изначально защищает участников сети, предоставляя хостам правдоподобное отрицание ответственности за хранимые ими данные, а клиентам - доказуемые гарантии долговечности - до 99,99%, оставаясь при этом эффективным с точки зрения хранения и пропускной способности.
 
-These four key features combine to differentiate Codex from existing projects in the decentralised storage niche:
+Эти четыре ключевые особенности объединяются, чтобы отличить Codex от существующих проектов в нише децентрализованного хранения:
 
-- **Erasure coding:** Provides efficient data redundancy, which increases data durability guarantees.
+- **Кодирование с исправлением ошибок:** Обеспечивает эффективную избыточность данных, что повышает гарантии долговечности данных.
 
-- **ZK-based proof-of-retrievability:** For lightweight data durability assurances.
+- **Доказательство извлекаемости на основе ZK:** Для легких гарантий долговечности данных.
 
-- **Lazy repair mechanism:** For efficient data reconstruction and loss prevention.
+- **Механизм ленивого восстановления:** Для эффективного восстановления данных и предотвращения потерь.
 
-- **Incentivization:**  To encourage rational behaviour, widespread network participation, and the efficient provision of finite network resources.
+- **Стимулирование:** Для поощрения рационального поведения, широкого участия в сети и эффективного предоставления ограниченных сетевых ресурсов.
 
+### Стимулируемая децентрализация
 
-### Incentivized decentralisation
+Механизмы стимулирования - это один из ключевых элементов, отсутствующих в традиционных файлообменных сетях. Codex считает, что надежная структура стимулирования на основе рынка обеспечит широкое участие всех типов узлов, описанных ниже.
 
-Incentivization mechanisms are one of the key pieces missing from traditional file-sharing networks. Codex believes that a robust marketplace-based incentive structure will ensure wide participation across the node types detailed below.
+Разработка адекватной структуры стимулирования обусловлена следующими целями:
 
-The development of an adequate incentive structure is driven by the following goals: 
+- Спрос и предложение для поощрения оптимального использования сетевых ресурсов.
 
-- Supply and demand to encourage optimum network resource usage.
+- Увеличение участия путем предоставления узлам возможности использовать свои конкурентные преимущества для максимизации прибыли.
 
-- Increase participation by enabling nodes to utilise their competitive advantages to maximise profits.
+- Предотвращение спама и сдерживание вредоносного участия.
 
-- Prevent spam and discourage malicious participation. 
+Хотя структура стимулирования Codex еще не окончательно определена, она будет включать рынок участников, желающих хранить данные, и тех, кто предоставляет хранилище, размещающих залог, причем последние будут делать ставки на открытые контракты на хранение. Эта структура направлена на обеспечение согласования стимулов участников, в результате чего Codex будет функционировать как задумано.
 
-Although still to be finalised, the Codex incentive structure will involve a marketplace of participants who want to store data, and those provisioning storage posting collateral, with the latter bidding on open storage contracts. This structure aims to ensure that participants' incentives align, resulting in Codex functioning as intended.
+### Сетевая архитектура
 
+Codex состоит из нескольких типов узлов, каждый из которых выполняет свою роль в работе сети. Аналогично, требования к оборудованию для каждого типа узла различаются, что позволяет участвовать тем, кто использует устройства с ограниченными ресурсами.
 
-### Network architecture
+**Узлы хранения**
 
-Codex is composed of multiple node types, each taking a different role in the network's operation. Similarly, the hardware demands for each node type vary, enabling those operating resource-restricted devices to participate.
+Как надежные поставщики долгосрочного хранения Codex, узлы хранения размещают залог на основе залога, размещенного на стороне запроса контрактов, и количества слотов, которые имеет контракт. Это связано с долговечностью, требуемой пользователем. Непредоставление периодических доказательств владения данными приводит к штрафам за сокращение.
 
-**Storage nodes**
+**Узел-агрегатор**
 
-As Codex's long-term reliable storage providers, storage nodes stake collateral based on the collateral posted on the request side of contracts, and the number of slots that a contract has. This is tied to the durability demanded by the user. Failure to provide periodic proof of data possession results in slashing penalties.
+Метод разгрузки кодирования с исправлением ошибок, генерации доказательств и агрегации доказательств клиентским узлом с низкими ресурсами, в настоящее время находится в разработке и будет частью следующего выпуска Codex во втором/четвертом квартале следующего года.
 
-**Aggregator Node**
+**Клиентские узлы**
 
-A method for off-loading erasure coding, proof generation and proof aggregation by a client node with low-resources, currently a WIP and will be part of subsequent Codex release Q2/Q4 next year.
+Клиентские узлы делают запросы к другим узлам на хранение, поиск и извлечение данных. Большая часть сети Codex будет состоять из клиентских узлов, и эти участники могут одновременно выступать в качестве кэширующих узлов для компенсации стоимости потребляемых сетевых ресурсов.
 
-**Client nodes**
+Когда узел берет на себя обязательство по контракту на хранение и пользователь загружает данные, сеть будет активно проверять, что узел хранения находится в сети и что данные доступны для извлечения. Затем узлы хранения случайным образом опрашиваются для передачи доказательств владения данными в течение интервала, соответствующего продолжительности контракта и гарантии извлекаемости, которую предоставляет протокол.
 
-Client nodes make requests for other nodes to store, find, and retrieve data. Most of the Codex network will be Client nodes, and these participants can double as caching nodes to offset the cost of the network resources they consume. 
+Если узел хранения отправляет недействительные доказательства или не предоставляет их вовремя, сеть исключает узел хранения из слота, и слот станет доступным для первого узла, который сгенерирует действительное доказательство для этого слота.
 
-When a node commits to a storage contract and a user uploads data, the network will proactively verify that the storage node is online and that the data is retrievable. Storage nodes are then randomly queried to broadcast proofs of data possession over an interval corresponding to the contract duration and 9's of retrievability guarantee the protocol provides.
+Когда контракт перепубликуется, часть залога неисправного узла оплачивает комиссию за пропускную способность нового узла хранения. Кодирование с исправлением ошибок дополняет схему восстановления, позволяя восстанавливать отсутствующие фрагменты из данных в других слотах в рамках того же контракта на хранение, размещенного на безупречных узлах хранения.
 
-If the storage node sends invalid proofs or fails to provide them in time, the network evicts the storage node from the slot, and the slot will become available for the first node that generates a valid proof for that slot. 
+![архитектура](/learn/architecture.png)
 
-When the contract is reposted, some of the faulty node's collateral pays for the new storage node's bandwidth fees. Erasure coding complements the repair scheme by allowing the reconstruction of the missing chunks from data in other slots within the same storage contract hosted by faultless storage nodes.
+### Архитектура рынка ###
 
+Рынок состоит из смарт-контракта, развернутого в блокчейне, и модулей покупки и продажи, которые являются частью программного обеспечения узла. Модуль покупки отвечает за размещение запросов на хранение в смарт-контракте. Модуль продаж является его аналогом, который поставщики хранилищ используют для определения того, какие запросы на хранение их интересуют.
 
-![architect](/learn/architecture.png)
+#### Смарт-контракт ####
 
-### Marketplace architecture ###
+Смарт-контракт облегчает сопоставление между поставщиками хранилищ и клиентами хранилищ. Клиент хранилища может запросить определенный объем хранилища на определенный срок. Этот запрос затем размещается в блокчейне, чтобы поставщики хранилищ могли его увидеть и решить, хотят ли они заполнить слот в запросе.
 
-The marketplace consists of a smart contract that is deployed on-chain, and the
-purchasing and sales modules that are part of the node software. The purchasing
-module is responsible for posting storage requests to the smart contract. The
-sales module is its counterpart that storage providers use to determine which
-storage requests they are interested in.
+Основные параметры запроса на хранение:
+- количество байтов хранилища, которое запрашивается
+- идентификатор контента (CID) данных, которые должны быть сохранены
+- срок, на который должны быть сохранены данные
+- количество слотов (на основе параметров кодирования с исправлением ошибок)
+- количество токенов для оплаты хранения
 
-#### Smart contract ####
+На уровне протокола клиент хранилища свободен в определении этих параметров по своему усмотрению, чтобы он мог выбрать уровень долговечности, подходящий для данных, и скорректировать его с учетом изменяющихся цен на хранение. Приложения, построенные на Codex, могут предоставлять рекомендации своим пользователям по выбору правильных параметров, аналогично тому, как кошельки Ethereum помогают с определением комиссий за газ.
 
-The smart contract facilitates matching between storage providers and storage
-clients. A storage client can request a certain amount of storage for a certain
-duration. This request is then posted on-chain, so that storage providers can
-see it, and decide whether they want to fill a slot in the request.
+Смарт-контракт также проверяет, что поставщики хранилищ выполняют свои обещания. Поставщики хранилищ размещают залог, когда обещают заполнить слот запроса на хранение. От них ожидается предоставление периодических доказательств хранения в контракт, либо напрямую, либо через агрегатор. Если они неоднократно не делают этого, их залог может быть конфискован. Их слот затем присуждается другому поставщику хранилищ.
 
-The main parameters of a storage request are:
-- the amount of bytes of storage that is requested
-- a content identifier (CID) of the data that should be stored
-- the duration for which the data should be stored
-- the number of slots (based on the erasure coding parameters)
-- an amount of tokens to pay for the storage
+Смарт-контракт указывает, когда определенный поставщик хранилищ должен предоставить доказательство хранения. Это делается не с фиксированным интервалом времени, а определяется стохастически, чтобы гарантировать, что поставщик хранилищ не может предсказать, когда он должен предоставить следующее доказательство хранения.
 
-At the protocol level a storage client is free to determine these parameters as
-it sees fit, so that it can choose a level of durability that is suitable for
-the data, and adjust for changing storage prices. Applications built on Codex
-can provide guidance to their users for picking the correct parameters,
-analogous to how Ethereum wallets help with determining gas fees.
+#### Покупка ####
 
-The smart contract also checks that storage providers keep their promises.
-Storage providers post collateral when they promise to fill a slot of a storage
-request. They are expected to post periodic storage proofs to the contract,
-either directly or through an aggregator. If they fail to do so repeatedly, then
-their collateral can be forfeited. Their slot is then awarded to another storage
-provider.
+Модуль покупки в программном обеспечении узла взаимодействует со смарт-контрактом от имени оператора узла. Он размещает запросы на хранение и обрабатывает любые другие взаимодействия, которые требуются в течение срока действия запроса. Например, когда запрос отменяется из-за недостаточного количества заинтересованных поставщиков хранилищ, модуль покупки может вывести токены, связанные с запросом.
 
-The smart contract indicates when a certain storage provider has to provide a
-storage proof. This is not done on a fixed time interval, but determined
-stochastically to ensure that it is not possible for a storage provider to
-predict when it should provide the next storage proof.
+#### Продажи ####
 
-#### Purchasing ####
+Модуль продаж является аналогом модуля продаж. Он отслеживает смарт-контракт, чтобы получать уведомления о входящих запросах на хранение. Он ведет список наиболее перспективных запросов, которые он может выполнить. Он будет отдавать предпочтение тем запросам, которые имеют высокое вознаграждение и низкий залог. Как только он найдет подходящий запрос, он попытается сначала зарезервировать, а затем заполнить слот, загрузив связанные данные, создав доказательство хранения и разместив его в смарт-контракте. Затем он продолжит отслеживать смарт-контракт, чтобы предоставлять ему доказательства хранения, когда они потребуются.
 
-The purchasing module in the node software interacts with the smart contract on
-behalf of the node operator. It posts storage requests, and handles any other
-interactions that are required during the lifetime of the request. For instance,
-when a request is canceled because there are not enough interested storage
-providers, then the purchasing module can withdraw the tokens that were
-associated with the request.
+Модуль продаж содержит стратегию максимальных усилий для определения того, какие запросы на хранение его интересуют. Со временем мы ожидаем появления более специализированных стратегий для удовлетворения потребностей, например, крупных поставщиков по сравнению с поставщиками, которые запускают узел из дома.
 
-#### Sales ####
+### Белая книга ###
 
-The sales module is the counterpart to the sales module. It monitors the smart
-contract to be notified of incoming storage requests. It keeps a list of the
-most promising requests that it can fulfill. It will favor those requests that
-have a high reward and low collateral. As soon as it finds a suitable request,
-it will then try to first reserve and then fill a slot by downloading the
-associated data, creating a storage proof, and posting it to the smart contract.
-It will then continue to monitor the smart contract to provide it with storage
-proofs when they are required.
-
-The sales module contains a best effort strategy for determining which storage
-requests it is interested in. Over time, we expect more specialized strategies
-to emerge to cater to the needs of e.g. large providers versus providers that
-run a node from their home.
-
-### Whitepaper ###
-
-Read the [Codex whitepaper](/learn/whitepaper)
+Прочитайте [белую книгу Codex](/learn/whitepaper)

@@ -1,276 +1,276 @@
 ---
 outline: [1, 3]
 ---
-# Codex Tokenomics Litepaper - Testnet Version
+# Лайтбук по токеномике Codex - Версия для тестовой сети
 
-**Codex: A Decentralized Storage Protocol for Durable Information**
+**Codex: Децентрализованный протокол хранения для долговременной информации**
 
-# Legal Notices
+# Юридические уведомления
 
-*The information contained in this document is intended to be made available for informational purposes only and does not constitute a prospectus, nor an offer to buy, a solicitation or an invitation to buy, or a recommendation for any token or any security. Neither this document nor any of its content should be considered as creating any expectations or forming the basis of any contract, commitment or binding obligation. No information herein should be considered to contain or be relied upon as a promise, representation, warranty or guarantee, whether express or implied and whether as to the past, present or the future in relation to the projects and matters described herein. The information presented is a summary and does not purport to be accurate, reliable or complete. This document is under continuous legal review and may be amended or supplemented at any time without prior notice.  No responsibility will be borne for the accuracy, reliability or completeness of information contained herein. Because of the high degree of risk and uncertainty described above, undue reliance should not be placed by anyone on any matters described in this document. Any tokens referenced in this document have not been registered under any securities laws and may not be offered or sold in any jurisdiction where such offer or sale would be prohibited.*
+*Информация, содержащаяся в этом документе, предназначена только для информационных целей и не является проспектом, предложением о покупке, приглашением к покупке или рекомендацией для любого токена или ценной бумаги. Ни этот документ, ни какое-либо его содержание не должны рассматриваться как создание каких-либо ожиданий или формирование основы любого контракта, обязательства или обязательства. Никакая информация здесь не должна рассматриваться как содержащая или полагаться на обещание, представление, гарантию или гарантию, будь то явная или подразумеваемая и будь то в отношении прошлого, настоящего или будущего в отношении проектов и вопросов, описанных здесь. Представленная информация является кратким изложением и не претендует на точность, надежность или полноту. Этот документ находится в постоянном юридическом рассмотрении и может быть изменен или дополнен в любое время без предварительного уведомления. Никакая ответственность не будет нести за точность, надежность или полноту информации, содержащейся здесь. Из-за высокой степени риска и неопределенности, описанных выше, никто не должен полагаться на какие-либо вопросы, описанные в этом документе. Любые токены, упомянутые в этом документе, не были зарегистрированы в соответствии с какими-либо законами о ценных бумагах и не могут быть предложены или проданы в любой юрисдикции, где такое предложение или продажа были бы запрещены.*
 
-*This document may contain forward-looking statements that are based only on current expectations, estimates, forecasts, assumptions and projections about the technology, industry and markets in general. The forward looking statements, projects, content and any other matters described in this document are subject to a high degree of risk and uncertainty. The roadmap, results, project descriptions, technical details, functionalities, and other features are subject to change based on, among other things, market conditions, technical developments, and regulatory environment. The actual development and results, including the order and the timeline, might differ materially from those anticipated in these forward-looking statements.*
+*Этот документ может содержать прогнозные заявления, которые основаны только на текущих ожиданиях, оценках, прогнозах, предположениях и проекциях о технологии, отрасли и рынках в целом. Прогнозные заявления, проекты, содержание и любые другие вопросы, описанные в этом документе, подвержены высокой степени риска и неопределенности. Дорожная карта, результаты, описания проектов, технические детали, функциональность и другие функции могут быть изменены на основе, среди прочего, рыночных условий, технических разработок и нормативной среды. Фактическая разработка и результаты, включая порядок и сроки, могут существенно отличаться от тех, которые ожидаются в этих прогнозных заявлениях.*
 
-*The information contained in this document does not constitute financial, legal, tax, investment, professional or other advice and should not be treated as such.*
+*Информация, содержащаяся в этом документе, не является финансовой, юридической, налоговой, инвестиционной, профессиональной или иной консультацией и не должна рассматриваться как таковая.*
 
-# Overview
+# Обзор
 
-## Scope
+## Область применения
 
-This document describes the Codex Tokenomics with elements that reflect the Testnet deployment of the Codex Protocol.
+Этот документ описывает токеномику Codex с элементами, отражающими развертывание тестовой сети протокола Codex.
 
-## What Codex Does
+## Что делает Codex
 
-Codex is a state-of-the-art decentralized storage platform that offers a novel solution that enhances data durability guarantees for storing vast amounts of data while eliminating any reliance on centralized institutions that could lead to a single point of failure.
+Codex - это современная децентрализованная платформа хранения, которая предлагает новое решение, повышающее гарантии долговечности данных для хранения огромных объемов данных, устраняя при этом любую зависимость от централизованных учреждений, которые могут привести к единой точке отказа.
 
-While centralized storage systems such as Google Cloud tout eleven nines of durability, durable file storage in distributed systems that provide censorship resistance and privacy are a vital prerequisite to use cases such as preserving factual records of history in network states.
+В то время как централизованные системы хранения, такие как Google Cloud, заявляют о одиннадцати девятках долговечности, долговременное хранение файлов в распределенных системах, обеспечивающих устойчивость к цензуре и конфиденциальность, является жизненно важным предварительным условием для использования, такого как сохранение фактических записей истории в сетевых состояниях.
 
-While no system can guarantee absolute protection against data loss, through its technical architecture, economic incentives, and algorithmic encoding, Codex is designed to provide highly decentralized data storage with high durability, resiliency to cloud failures, and resistance to censorship.
+Хотя ни одна система не может гарантировать абсолютную защиту от потери данных, благодаря своей технической архитектуре, экономическим стимулам и алгоритмическому кодированию, Codex разработан для обеспечения высоко децентрализованного хранения данных с высокой долговечностью, устойчивостью к сбоям облака и устойчивостью к цензуре.
 
-## How Codex Works
+## Как работает Codex
 
-Codex operates as a network of storage nodes, referred to herein as **Storage Providers** (SP), that store user data for the duration of a contract entered into by SPs and storage users, referred to herein simply as **Clients**.
+Codex работает как сеть узлов хранения, называемых здесь **Поставщиками Хранения** (SP), которые хранят пользовательские данные в течение срока контракта, заключенного между SP и пользователями хранения, называемыми здесь просто **Клиентами**.
 
-Storage contracts are initiated by a **Client** requesting to store a specified amount of data, for a specified amount of time, and at a specific price per the full contract. **Storage Providers** commit to slots to store redundant fragments of this data.
+Контракты на хранение инициируются **Клиентом**, запрашивающим хранение определенного объема данных на определенный срок и по определенной цене за весь контракт. **Поставщики Хранения** берут на себя обязательства по слотам для хранения избыточных фрагментов этих данных.
 
-The fact that **SPs** must post collateral (stake) in order to fill a slot helps protect against Sybil attacks, promoting diversity in storage nodes fulfilling each contract. Additionally, this collateral acts as an economic incentive to ensure that **SPs** fulfill their obligations to periodically prove that they are still in possession of the data in question.
+Тот факт, что **SP** должны размещать залог (стейкать) для заполнения слота, помогает защититься от атак Сибил, способствуя разнообразию узлов хранения, выполняющих каждый контракт. Кроме того, этот залог действует как экономический стимул для обеспечения того, чтобы **SP** выполняли свои обязательства по периодическому доказательству того, что они все еще владеют рассматриваемыми данными.
 
-This is achieved by periodic challenges to **SPs** to provide cryptographic proofs that demonstrate the data they have contracted to store can be retrieved. Codex incorporates Zero Knowledge (ZK) and Data Availability Sampling (DAS) to achieve low-cost, highly efficient, and reliable data loss detection.
+Это достигается путем периодических вызовов **SP** для предоставления криптографических доказательств, демонстрирующих, что данные, которые они обязались хранить, могут быть извлечены. Codex включает Zero Knowledge (ZK) и Data Availability Sampling (DAS) для достижения недорогого, высокоэффективного и надежного обнаружения потери данных.
 
-**SPs** are required to respond to these challenges, sending their proofs to **Validators,** who verify the validity of the proofs and posts to the blockchain only the absence of a proof. This reduces costs of validating proofs, while not affecting the **Protocol**’s security.
+**SP** должны отвечать на эти вызовы, отправляя свои доказательства **Валидаторам**, которые проверяют действительность доказательств и публикуют в блокчейне только отсутствие доказательства. Это снижает затраты на проверку доказательств, не влияя на безопасность **Протокола**.
 
-Should SPs fail to prove a fixed number of times they still have the data in question, or send an invalid proof, their collateral is partially slashed. The slash penalty is a fixed percentage of the total collateral. This slashing continues until a certain number of slashings is reached, at which point the entire collateral is slashed. At this moment, the SP slot is considered “abandoned”. The slashed collateral is used as an incentive for a new **SP** to take over the failed slot through the “slot recovery mechanism” (discussed further later). This ensures the collateral provides an economic incentive to ensure the durability of the data.
+Если SP не докажут фиксированное количество раз, что они все еще владеют рассматриваемыми данными, или отправят недействительное доказательство, их залог частично сокращается. Штраф за сокращение - это фиксированный процент от общего залога. Это сокращение продолжается до тех пор, пока не будет достигнуто определенное количество сокращений, после чего весь залог сокращается. В этот момент слот SP считается "оставленным". Сокращенный залог используется как стимул для нового **SP** взять на себя неудачный слот через "механизм восстановления слота" (обсуждается далее). Это гарантирует, что залог обеспечивает экономический стимул для обеспечения долговечности данных.
 
-Codex is thus designed such that rational behavior for **SPs** consists of storing the data in the most space-efficient manner to minimize excess storage costs, while balancing the need for enough redundancy to recover from the possibility of data loss/corruption by the penalty of forfeiture of their collateral (slashing).
+Таким образом, Codex разработан таким образом, что рациональное поведение для **SP** состоит в хранении данных наиболее эффективным с точки зрения пространства способом для минимизации избыточных затрат на хранение, при этом балансируя необходимость достаточной избыточности для восстановления от возможности потери/повреждения данных штрафом за конфискацию их залога (сокращение).
 
-While Codex’s tech maximizes recoverability and durability in the event of partial data loss, Codex’s economic incentives coordinate rational actors to provide a stable and predictable environment for data storage users. At the heart of these economic incentives is the Codex utility token (CDX), which serves as the collateral to protect file durability and facilitate slot repair, and the means of payment to coordinate successful storage contracts.
+Хотя технология Codex максимизирует восстанавливаемость и долговечность в случае частичной потери данных, экономические стимулы Codex координируют рациональных участников для обеспечения стабильной и предсказуемой среды для пользователей хранения данных. В основе этих экономических стимулов лежит утилитарный токен Codex (CDX), который служит залогом для защиты долговечности файлов и облегчения восстановления слотов, а также средством платежа для координации успешных контрактов на хранение.
 
-# Contract Lifecycle
+# Жизненный цикл контракта
 
-The marketplace coordinates matching **Clients** who want to pay for storing files with **Storage Providers** who are offering storage space and posting collateral in order to earn payments for the contract.
+Рынок координирует сопоставление **Клиентов**, которые хотят платить за хранение файлов, с **Поставщиками Хранения**, которые предлагают пространство для хранения и размещают залог для получения платежей по контракту.
 
-## Contract Request Initiation
+## Инициация запроса контракта
 
-As a design principle, **Clients** should post the deal terms they are looking for, and Storage Providers prioritize which deals meet their criteria and pose the best deals to take.
+Как принцип проектирования, **Клиенты** должны публиковать условия сделки, которые они ищут, а Поставщики Хранения определяют приоритеты, какие сделки соответствуют их критериям и представляют лучшие сделки для принятия.
 
-When the contract request is created, the **Client** deposits the full price of the length of the contract at that time. This deposit acts as a spam prevention mechanism and ensures that **SP** time and resources are not wasted filling slots for deals that a **Client** does not complete payment for.
+Когда создается запрос на контракт, **Клиент** вносит полную цену за длительность контракта на тот момент. Этот депозит действует как механизм предотвращения спама и гарантирует, что время и ресурсы **SP** не тратятся на заполнение слотов для сделок, за которые **Клиент** не завершает оплату.
 
-## Storage Providers Fill Requests
+## Поставщики Хранения заполняют запросы
 
-Ahead of matching with storage contracts, **Storage Providers** specify their aggregate availabilities for new contracts.
+Перед сопоставлением с контрактами на хранение **Поставщики Хранения** указывают свою совокупную доступность для новых контрактов.
 
-Based on each **SPs’** availabilities, a queue is created for each **SP**, ranking the open **Client** request for contract deals with the most favorable deals at the top. Over time, this queue resolves by pairing **SPs** with contracts that are compatible with their availabilities, starting with the highest ranked deals first.
+На основе доступности каждого **SP** создается очередь для каждого **SP**, ранжирующая открытые запросы **Клиента** на контрактные сделки с наиболее благоприятными сделками наверху. Со временем эта очередь разрешается путем сопоставления **SP** с контрактами, совместимыми с их доступностью, начиная с сделок с самым высоким рейтингом.
 
-At launch, **SPs** will not be able to customize the queue creation algorithm, which means **SPs** with the same availabilities will have identical queues (other than differences due to a randomness function that increases **SP** diversity per each contract). In the future, **SPs** are expected to be able to customize their queue ranking algorithm.
+При запуске **SP** не смогут настраивать алгоритм создания очереди, что означает, что **SP** с одинаковой доступностью будут иметь идентичные очереди (за исключением различий из-за функции случайности, которая увеличивает разнообразие **SP** для каждого контракта). В будущем ожидается, что **SP** смогут настраивать свой алгоритм ранжирования очереди.
 
-If a **SP** matches with a storage contract and they're eligible to reserve a slot in the contract, they reserve an open slot, download the slot data from the **Client** or existing **SPs** whose data can be used to reconstruct the slot’s contents, create an initial storage proof, and submit this proof, along with collateral, to the **Protocol**.
+Если **SP** сопоставляется с контрактом на хранение и они имеют право зарезервировать слот в контракте, они резервируют открытый слот, загружают данные слота от **Клиента** или существующих **SP**, чьи данные могут быть использованы для восстановления содержимого слота, создают начальное доказательство хранения и отправляют это доказательство вместе с залогом в **Протокол**.
 
-Note that a slot is not considered confirmed as filled until after an **SP** both posts associated collateral and produces a proof for the slot.
+Обратите внимание, что слот не считается подтвержденным как заполненный до тех пор, пока **SP** не разместит связанный залог и не создаст доказательство для слота.
 
-## Contract Expires Before Beginning
+## Контракт истекает до начала
 
-If there are still empty slots when the timeout/expiry for the contract request expires, the deal is terminated.
+Если все еще есть пустые слоты, когда истекает таймаут/срок действия запроса на контракт, сделка прекращается.
 
-The **Storage Providers** who did fill slots, if any, are compensated for the amount of time which they did store the slot data, at the contract requests specified price per TB per Month. The remainder of the **Client**’s deposit is returned. 
+**Поставщики Хранения**, которые заполнили слоты, если таковые имеются, получают компенсацию за время, в течение которого они хранили данные слота, по указанной в запросе на контракт цене за ТБ в месяц. Остаток депозита **Клиента** возвращается.
 
-As there is a high probability of having at least a few slots occupied, there should be no need for further penalties on the **Client** to prevent spam requests and incentivise **Clients** to submit attractive deals.
+Поскольку существует высокая вероятность наличия хотя бы нескольких занятых слотов, не должно быть необходимости в дополнительных штрафах для **Клиента** для предотвращения спам-запросов и стимулирования **Клиентов** к подаче привлекательных сделок.
 
-## Contract Begins
+## Контракт начинается
 
-The contract begins if *all* slots are occupied, that is, **SPs** have downloaded the data, posted collateral, and posted proofs before the timeout/expiry for the contract request is reached.
+Контракт начинается, если *все* слоты заняты, то есть **SP** загрузили данные, разместили залог и опубликовали доказательства до достижения таймаута/срока действия запроса на контракт.
 
-At this moment, a *protocol fee* is applied on the user’s deposit. The proceedings are burned.
+В этот момент применяется *комиссия протокола* к депозиту пользователя. Поступления сжигаются.
 
-The remaining of the client’s deposit is held by the protocol and will be used to pay **SPs** at the end of the contract.
+Остаток депозита клиента удерживается протоколом и будет использоваться для оплаты **SP** в конце контракта.
 
-## Contract is Running
+## Контракт выполняется
 
-**Storage Providers** must submit proofs to **Validators** according to the storage request’s proof frequency, a parameter set by the Client in the request.
+**Поставщики Хранения** должны отправлять доказательства **Валидаторам** в соответствии с частотой доказательств запроса на хранение, параметром, установленным Клиентом в запросе.
 
-### Missing Proofs
+### Отсутствующие доказательства
 
-If an **SP** fails to submit proofs within the rolling last periods, they are partially slashed. The penalty is a fixed percentage of the collateral. Upon provision of a proof after being partially slashed, the SP should top up the missing collateral.
+Если **SP** не отправляет доказательства в течение последних периодов, они частично сокращаются. Штраф - это фиксированный процент от залога. После предоставления доказательства после частичного сокращения SP должен пополнить недостающий залог.
 
-Should the SP be slashed enough times, their entire collateral will be slashed and confiscated, and the SP is considered to have abandoned its slot. The provision of a correct proof at this moment will not revert the start of the slot recovery mechanism.
+Если SP будет сокращен достаточное количество раз, весь их залог будет сокращен и конфискован, и SP считается оставившим свой слот. Предоставление правильного доказательства в этот момент не отменит начало механизма восстановления слота.
 
-## A Slot in the Contract is Abandoned
+## Слот в контракте оставлен
 
-When an **SP** fails to submit enough proofs such that they are slashed enough times, their slot is considered abandoned. In order to incentivize a new **SP** to come in and takeover the abandoned slot (slot recovery), 50% of the collateral confiscated from the **SP** which has abandoned the slot is used as an incentive to the new **SP**. The remaining confiscated collateral is burned.
+Когда **SP** не отправляет достаточное количество доказательств, так что они сокращаются достаточное количество раз, их слот считается оставленным. Для стимулирования нового **SP** прийти и взять на себя оставленный слот (восстановление слота), 50% залога, конфискованного у **SP**, который оставил слот, используется как стимул для нового **SP**. Оставшийся конфискованный залог сжигается.
 
-This helps align the economic incentive for **SPs** to take over abandoned slots before filling new deals, since they can effectively earn forfeited collateral for taking over and fulfilling abandoned slots.
+Это помогает согласовать экономический стимул для **SP** взять на себя оставленные слоты перед заполнением новых сделок, поскольку они могут эффективно заработать конфискованный залог за взятие на себя и выполнение оставленных слотов.
 
-## Contract Defaults
+## Контракт не выполняется
 
-If, at any time during the life of the storage contract, the number of slots currently in an abandoned state (not yet recovered), meets or exceeds the maximum number of storage slots that can be lost before the data is unrecoverable, then the entire storage deal is considered to be in a *failed* state.
+Если в любой момент в течение срока действия контракта на хранение количество слотов, находящихся в оставленном состоянии (еще не восстановленных), достигает или превышает максимальное количество слотов хранения, которые могут быть потеряны до того, как данные станут невосстановимыми, то вся сделка хранения считается находящейся в состоянии *сбоя*.
 
-Each **Storage Providers** posted collateral is burned. This incentivizes **SPs** not to let storage deals to be at risk of defaulting. **SPs** are incentivized to *proactively* avoid this by diversifying their infrastructure and the storage contracts they enter, and *reactively* by backing up their own slot data, or even backing up data from other slots so they can better assist slot recovery, as the deal approaches a failed state.
+Каждый залог, размещенный **Поставщиками Хранения**, сжигается. Это стимулирует **SP** не допускать, чтобы сделки хранения подвергались риску невыполнения обязательств. **SP** стимулируются *проактивно* избегать этого путем диверсификации своей инфраструктуры и контрактов на хранение, в которые они вступают, и *реактивно* путем резервного копирования своих собственных данных слота или даже резервного копирования данных из других слотов, чтобы они могли лучше помочь восстановлению слота, когда сделка приближается к состоянию сбоя.
 
-Clients also receive back any leftover from their original payment.
+Клиенты также получают обратно любой остаток от их первоначального платежа.
 
-## Contract Ends Its Full Duration
+## Контракт завершает свой полный срок
 
-When a started contract reaches its pre-specified duration without having previously defaulted, the contract completes.
+Когда начатый контракт достигает своего предварительно указанного срока без предварительного невыполнения обязательств, контракт завершается.
 
-All collateral is returned to **SPs t**hat currently fill the slots (note due to slot recovery these are not necessarily the same **SPs** that filled the slots at contract inception), and all remaining payment is returned to the client.
+Весь залог возвращается **SP**, которые в настоящее время заполняют слоты (обратите внимание, что из-за восстановления слота это не обязательно те же **SP**, которые заполняли слоты при начале контракта), и весь оставшийся платеж возвращается клиенту.
 
-Deals can not be automatically rolled forward or extended. If a **Client** desires to continue a deal, they must create a new storage contract request. Otherwise, Clients can retrieve their data.
+Сделки не могут быть автоматически продлены или продлены. Если **Клиент** желает продолжить сделку, он должен создать новый запрос на контракт хранения. В противном случае Клиенты могут получить свои данные.
 
-# CDX Testnet  Tokenomics
+# Токеномика CDX в тестовой сети
 
-The CDX token does not exist in the Testnet Phase. The description below refers to the mechanics of a Testnet token and not CDX itself and will be referred to as *CDX (Testnet token)* for this purpose.
+Токен CDX не существует в фазе тестовой сети. Описание ниже относится к механике тестового токена, а не к самому CDX, и для этой цели будет называться *CDX (тестовый токен)*.
 
-For the avoidance of doubt, the *CDX (Testnet token)* are virtual items with no value of any kind and they are not convertible to any other currency, token, or any other form of property. They are solely intended to be utilised for the purposes of enabling the tokenomics and facilitating the different roles in this Testnet Phase.
+Для избежания сомнений, *CDX (тестовый токен)* являются виртуальными предметами без какой-либо ценности и не конвертируются в какую-либо другую валюту, токен или любую другую форму собственности. Они предназначены исключительно для использования в целях включения токеномики и облегчения различных ролей в этой фазе тестовой сети.
 
-## Roles
+## Роли
 
-The Codex protocol has two primary roles fulfilled by network participants.
+Протокол Codex имеет две основные роли, выполняемые участниками сети.
 
-- **Clients**: pay Storage Providers in *CDX (Testnet token)* to securely store their data on the Codex network for an agreed upon amount of time.
-- **Storage Providers**: post *CDX (Testnet token)* collateral to enter into storage contracts with Clients in exchange for a *CDX (Testnet token)* denominated payment.
-- **Validators**: post *CDX (Testnet token)* collateral to validate storage proofs in exchange for a *CDX (Testnet token)* denominated payment.
+- **Клиенты**: платят Поставщикам Хранения в *CDX (тестовый токен)* за безопасное хранение своих данных в сети Codex на согласованный срок.
+- **Поставщики Хранения**: размещают залог в *CDX (тестовый токен)* для вступления в контракты на хранение с Клиентами в обмен на платеж, номинированный в *CDX (тестовый токен)*.
+- **Валидаторы**: размещают залог в *CDX (тестовый токен)* для проверки доказательств хранения в обмен на платеж, номинированный в *CDX (тестовый токен)*.
 
-## Token Utility
+## Утилита токена
 
-The *CDX (Testnet token)* is used as both a form of posted collateral and a means of payment in order to secure the network and access its services.
+*CDX (тестовый токен)* используется как форма размещенного залога и средство платежа для защиты сети и доступа к ее услугам.
 
-Collateral is primarily used as a spam and sybil-attack prevention mechanism, liability insurance (e.g. compensating Clients in case of catastrophic loss of data), and to enforce rational behavior.
+Залог в основном используется как механизм предотвращения спама и атак Сибил, страхование ответственности (например, компенсация Клиентам в случае катастрофической потери данных) и для обеспечения рационального поведения.
 
-Payments are made by Clients to Providers for services rendered, such as for storing data for a certain amount of time or retrieving data. This is implemented through the Marketplace contract, which serves as an escrow. Data in a storage contract is distributed into slots where each is, ideally, hosted by a different Storage Provider.
+Платежи производятся Клиентами Поставщикам за оказанные услуги, такие как хранение данных в течение определенного времени или извлечение данных. Это реализуется через контракт Marketplace, который служит эскроу. Данные в контракте хранения распределяются по слотам, где каждый, в идеале, размещается на разных Поставщиках Хранения.
 
-### **For Clients**
+### **Для Клиентов**
 
-- Pay storage costs and fees in *CDX (Testnet token)* for storing files.
+- Оплата затрат на хранение и комиссий в *CDX (тестовый токен)* за хранение файлов.
 
-### **For Storage Providers**
+### **Для Поставщиков Хранения**
 
-- Post collateral in *CDX (Testnet token)* when committing to new storage contracts. This collateral is slashed if they do not fulfill their agreed upon services.
-- Earn *CDX (Testnet token)* from the collateral of slashed Storage Providers by participating in the slot recovery mechanism.
-- Earn *CDX (Testnet token)* from Clients when successfully completing the storage service.
+- Размещение залога в *CDX (тестовый токен)* при принятии обязательств по новым контрактам хранения. Этот залог сокращается, если они не выполняют свои согласованные услуги.
+- Заработок *CDX (тестовый токен)* от залога сокращенных Поставщиков Хранения путем участия в механизме восстановления слота.
+- Заработок *CDX (тестовый токен)* от Клиентов при успешном завершении услуги хранения.
 
-### For Validators
+### Для Валидаторов
 
-- Post collateral in *CDX (Testnet token)* to operate the validation service. This collateral is slashed if they do not mark a proof as missing within a predetermined period.
-- Earn *CDX (Testnet token)* from the collateral of slashed Storage Providers by marking proofs as missed
+- Размещение залога в *CDX (тестовый токен)* для работы службы валидации. Этот залог сокращается, если они не отмечают доказательство как отсутствующее в течение предопределенного периода.
+- Заработок *CDX (тестовый токен)* от залога сокращенных Поставщиков Хранения путем отметки доказательств как пропущенных
 
-Figure below depicts the flow of the *CDX (Testnet token)* token within the system.
+На рисунке ниже показан поток *CDX (тестовый токен)* в системе.
 
-![Flow of the *CDX token within the system](/learn/tokenomics-token-flow.png)
+![Поток *CDX токена в системе](/learn/tokenomics-token-flow.png)
 
-## Value Capture and Accrual Mechanisms
+## Механизмы захвата и накопления стоимости
 
-Codex creates *value* to participants:
+Codex создает *ценность* для участников:
 
-- Clients can benefit from storing data with strong durability guarantees;
-- Storage Providers can earn yield from their spare resources or capital by providing a service.
-- Validators earn payouts for marking proofs as missing.
+- Клиенты могут получить выгоду от хранения данных с сильными гарантиями долговечности;
+- Поставщики Хранения могут получать доход от своих свободных ресурсов или капитала, предоставляя услугу.
+- Валидаторы получают выплаты за отметку доказательств как отсутствующих.
 
-Clients need *CDX (Testnet token)* tokens to request storage deals. *CDX (Testnet token)* captures the value created to Clients by being a *Value Transfer Token* to them.
+Клиентам нужны токены *CDX (тестовый токен)* для запроса сделок хранения. *CDX (тестовый токен)* захватывает ценность, созданную для Клиентов, будучи для них *Токеном Передачи Ценности*.
 
-Storage Providers and Validators are rewarded in *CDX (Testnet token)* token and also need it as a proof of commitment to the Protocol. They risk being slashed in exchange for rewards. *CDX (Testnet token)* captures the value created to Providers by being a *Work Token* to them.
+Поставщики Хранения и Валидаторы вознаграждаются токеном *CDX (тестовый токен)* и также нуждаются в нем как в доказательстве приверженности Протоколу. Они рискуют быть сокращенными в обмен на вознаграждения. *CDX (тестовый токен)* захватывает ценность, созданную для Поставщиков, будучи для них *Токеном Работы*.
 
-The following mechanisms describe how the value accrues to the *CDX (Testnet token)* token.
+Следующие механизмы описывают, как ценность накапливается в токене *CDX (тестовый токен)*.
 
-### Protocol Fee over Contracts
+### Комиссия протокола за контракты
 
-If the contract is canceled before it starts, Client's deposited amount is charged a small penalty and returned, aiding to prevent low quality spam deal requests.
+Если контракт отменяется до его начала, с депонированной суммы Клиента взимается небольшой штраф и возвращается, что помогает предотвратить запросы сделок низкого качества спама.
 
-If the contract successfully initiates, the protocol collects a fee for facilitating the transaction. The remaining amount is made available for payments to Storage Providers.
+Если контракт успешно инициируется, протокол взимает комиссию за облегчение транзакции. Оставшаяся сумма становится доступной для платежей Поставщикам Хранения.
 
-The collected fees are burned in both cases. This creates a small but constant deflationary force on the token supply, which is proportional to the product demand.
+Собранные комиссии сжигаются в обоих случаях. Это создает небольшую, но постоянную дефляционную силу на предложение токена, которая пропорциональна спросу на продукт.
 
-## Behavior & Motivations
+## Поведение и мотивации
 
-### Clients
+### Клиенты
 
-Clients have the following rational behavior:
+Клиенты имеют следующее рациональное поведение:
 
-- Requesting storage from the network with a fee at fair market rates
-- Providing data to storage nodes that meet their criteria
+- Запрос хранения от сети с комиссией по справедливым рыночным ставкам
+- Предоставление данных узлам хранения, которые соответствуют их критериям
 
-They may also exhibit the following adversarial behavior, whether for profit driven, malicious, or censorship motivations:
+Они также могут демонстрировать следующее враждебное поведение, будь то по мотивам прибыли, злонамеренности или цензуры:
 
-- Requesting storage from the network but never making the data available for any or all slots
-- Requesting storage from the network but not releasing the data within required time period to begin the contract successfully
-- Requesting storage from the network but not releasing the data to specific Providers
-- Attacking SPs that host their data to attempt to relieve their payment obligations at the end of the contract.
+- Запрос хранения от сети, но никогда не предоставление данных доступными для любых или всех слотов
+- Запрос хранения от сети, но не предоставление данных в течение требуемого периода времени для успешного начала контракта
+- Запрос хранения от сети, но не предоставление данных конкретным Поставщикам
+- Атака на SP, которые размещают их данные, чтобы попытаться освободить свои платежные обязательства в конце контракта.
 
-### **Storage Providers**
+### **Поставщики Хранения**
 
-Storage Providers have the following rational behavior:
+Поставщики Хранения имеют следующее рациональное поведение:
 
-- Committing to slots of storage contracts to earn a fee.
-- Providing proofs of storage for their committed slots to avoid collateral slashing penalties.
-- Releasing the data to anyone who requests it.
-- Committing to failed slots of storage contracts to maintain the integrity of the data
+- Принятие обязательств по слотам контрактов хранения для получения комиссии.
+- Предоставление доказательств хранения для их обязательных слотов для избежания штрафов за сокращение залога.
+- Предоставление данных любому, кто их запрашивает.
+- Принятие обязательств по неудачным слотам контрактов хранения для поддержания целостности данных
 
-They may also exhibit the following adversarial behavior, whether for profit driven, malicious, or censorship motivations:
+Они также могут демонстрировать следующее враждебное поведение, будь то по мотивам прибыли, злонамеренности или цензуры:
 
-- Reserving a contract slot but never filling it (attempt to prevent contract from starting)
-- Ceasing to provide proofs mid the lifespan of a contract
-- Producing proofs, but not making data available for other nodes to retrieve
+- Резервирование слота контракта, но никогда его заполнение (попытка предотвратить начало контракта)
+- Прекращение предоставления доказательств в середине срока действия контракта
+- Создание доказательств, но не предоставление данных доступными для других узлов для извлечения
 
-### Validators
+### Валидаторы
 
-Validators have the following rational behavior:
+Валидаторы имеют следующее рациональное поведение:
 
-- Marking a proof as missing to earn a fee
-- Tracking the history of missed proofs of a **SP**
-- Triggering the Slot Recovery Mechanism when an **SP** reaches the maximum allowed number of missed proofs
+- Отметка доказательства как отсутствующего для получения комиссии
+- Отслеживание истории пропущенных доказательств **SP**
+- Запуск механизма восстановления слота, когда **SP** достигает максимально допустимого количества пропущенных доказательств
 
-They may also exhibit the following adversarial behavior, whether for profit driven, malicious, or censorship motivations:
+Они также могут демонстрировать следующее враждебное поведение, будь то по мотивам прибыли, злонамеренности или цензуры:
 
-- Colluding with SPs to ignore missed proofs
-- Observing a missed proof but do not post it onchain
+- Сговор с SP для игнорирования пропущенных доказательств
+- Наблюдение пропущенного доказательства, но не публикация его в блокчейне
 
-## Incentive Mechanisms
+## Механизмы стимулирования
 
-The following mechanisms help incentivize the expected behavior of each role and mitigate the detrimental ones.
+Следующие механизмы помогают стимулировать ожидаемое поведение каждой роли и смягчать вредные.
 
-### Clients Provide Full Payment Upfront
+### Клиенты предоставляют полную оплату заранее
 
-Clients must deposit the full amount in *CDX (Testnet token)* that covers the entirety of the storage contract duration upfront. This indicates their pledge to pay a certain amount for the storage contract, though the contract only begins when and if all data slots are filled by Storage Providers.
+Клиенты должны внести полную сумму в *CDX (тестовый токен)*, которая покрывает весь срок действия контракта хранения заранее. Это указывает на их обязательство заплатить определенную сумму за контракт хранения, хотя контракт начинается только тогда и если все слоты данных заполнены Поставщиками Хранения.
 
-### Delayed Payment to Storage Providers
+### Отложенный платеж Поставщикам Хранения
 
-Storage Providers only receive payment related to the provision of services at the end of the contract duration.
+Поставщики Хранения получают платеж, связанный с предоставлением услуг, только в конце срока действия контракта.
 
-### Collateral Requirement
+### Требование залога
 
-In order to fill a data slot, Storage Providers first stake and commit the required collateral in the form of the *CDX  (Testnet token)* for that slot which is then subject to slashing if they do not post a proof to confirm the slot.
+Для заполнения слота данных Поставщики Хранения сначала размещают и обязуются предоставить требуемый залог в форме *CDX (тестовый токен)* для этого слота, который затем подлежит сокращению, если они не публикуют доказательство для подтверждения слота.
 
-Validators also need to post collateral to participate in the validation service.
+Валидаторы также должны размещать залог для участия в службе валидации.
 
-### Proof of Storage
+### Доказательство хранения
 
-Contracts only start when all data slots are filled. Slots are only considered filled after a Storage Provider has posted collateral and the associated proof for its slot.
+Контракты начинаются только тогда, когда все слоты данных заполнены. Слоты считаются заполненными только после того, как Поставщик Хранения разместил залог и связанное с ним доказательство для своего слота.
 
-Once the contract begins, Storage Providers regularly provide proof of storage.
+После начала контракта Поставщики Хранения регулярно предоставляют доказательство хранения.
 
-### **Slashing for Missed Proofs of Storage**
+### **Сокращение за пропущенные доказательства хранения**
 
-At any point during the duration of the storage contract, the storage provider is slashed if it fails to provide a certain number of proof of storage in a row. Should the SP resume providing proof of storage, it needs to top up the slashed collateral. The penalty is a fixed percentage of the total collateral.
+В любой момент в течение срока действия контракта на хранение поставщик хранения сокращается, если он не предоставляет определенное количество доказательств хранения подряд. Если SP возобновляет предоставление доказательств хранения, он должен пополнить сокращенный залог. Штраф представляет собой фиксированный процент от общего залога.
 
-### Slot Recovery Mechanism
+### Механизм восстановления слота
 
-If a Storage Provider does not submit the required storage proofs when required, after a number of slashings their entire collateral will be seized. A portion of the confiscated collateral is used as an incentive for the new Storage Provider who recovers and starts serving the abandoned slot. The remainder of the confiscated collateral in *CDX (Testnet token)* is burned.
+Если поставщик хранения не отправляет требуемые доказательства хранения, когда это необходимо, после определенного количества сокращений весь его залог будет конфискован. Часть конфискованного залога используется как стимул для нового поставщика хранения, который восстанавливает и начинает обслуживать оставленный слот. Оставшаяся часть конфискованного залога в *CDX (тестовый токен)* сжигается.
 
-### Slashing Defaulted Contract
+### Сокращение невыполненного контракта
 
-If, at any point during the duration of the storage contract, the number of data slots currently abandoned (and not yet recovered) reaches or surpasses the maximum allowable lost slots (meaning the data becomes irretrievable), then the entire storage contract is deemed to be *failed*.
+Если в любой момент в течение срока действия контракта на хранение количество оставленных (и еще не восстановленных) слотов данных достигает или превышает максимально допустимое количество потерянных слотов (что означает, что данные становятся невосстанавливаемыми), то весь контракт на хранение считается *невыполненным*.
 
-At this stage, collaterals of all Storage Providers serving data slots in the contract are entirely slashed.
+На этом этапе залоги всех поставщиков хранения, обслуживающих слоты данных в контракте, полностью сокращаются.
 
-### Client Reimbursement
+### Возмещение клиентам
 
-If at any point during the contract, sufficient slots are abandoned such that the data is not fully recoverable, Clients receive back any leftover from their original payment.
+Если в любой момент в течение контракта достаточное количество слотов оставлено, так что данные не могут быть полностью восстановлены, клиенты получают обратно любой остаток от их первоначального платежа.
 
-## Token Lifecycle
+## Жизненный цикл токена
 
-### Burning
+### Сжигание
 
-*CDX (Testnet token)* tokens are burned in these instances:
+*CDX (тестовый токен)* сжигаются в следующих случаях:
 
-- When a storage deal contract fails to initiate, a small portion of the Client's payment for the storage deal is burned. This serves primarily as a mechanism to deter spam and ensure that deal requests are submitted at market-appropriate prices for storage.
-- When a storage deal contract successfully initiates, the protocol applies a fee for facilitating the transaction.
-- Whenever a Storage Provider misses a certain number of storage proofs, a portion of the collateral is slashed and burned.
-- Once the slot recovery mechanism resolves, the remaining of the abandoning Storage Provider’s collateral is burned.
+- Когда контракт на хранение не может быть инициирован, небольшая часть платежа клиента за сделку хранения сжигается. Это служит в первую очередь механизмом для предотвращения спама и обеспечения того, чтобы запросы сделок подавались по рыночным ценам для хранения.
+- Когда контракт на хранение успешно инициируется, протокол взимает комиссию за облегчение транзакции.
+- Когда поставщик хранения пропускает определенное количество доказательств хранения, часть залога сокращается и сжигается.
+- После разрешения механизма восстановления слота оставшаяся часть залога оставившего поставщика хранения сжигается.

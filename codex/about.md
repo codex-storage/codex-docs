@@ -1,3 +1,3 @@
-# About Codex
+# О Codex
 
- Work in progress :construction:
+ В процессе разработки :construction:

@@ -1,23 +1,23 @@
-# Requirements
+# Требования
 
-> **Note:** Using the Codex Installer is the recommended only if you agree to provide your node information to make the Codex experience better. If you don't agree to the disclaimer, please consider [setting up Codex manually](/learn/quick-start.md)
+> **Примечание:** Использование установщика Codex рекомендуется только в том случае, если вы согласны предоставить информацию о вашем узле для улучшения работы Codex. Если вы не согласны с отказом от ответственности, пожалуйста, рассмотрите возможность [ручной настройки Codex](/learn/quick-start.md)
 
 <br />
 
-To make sure that your Codex node is running smoothly, you will need to make sure that your machine has the following requirements :
+Чтобы обеспечить бесперебойную работу вашего узла Codex, необходимо убедиться, что ваша машина соответствует следующим требованиям:
 
-## Dependencies
+## Зависимости
 
 - git
 - npm
 
-## Port Forwarding
+## Проброс портов
 
-Codex requires two ports to be open on your machine in order to function properly. However, please note that the **ports provided below are configurable** based on your preference :
+Для правильной работы Codex требуется, чтобы на вашей машине были открыты два порта. Обратите внимание, что **порты, указанные ниже, настраиваются** в соответствии с вашими предпочтениями:
 
-   | Protocol | Service   | Port   |
-   | -------- | --------- | ------ |
-   | UDP      | Discovery | Default : `8090` |
-   | TCP      | Transport | Default : `8070` |
+   | Протокол | Сервис     | Порт   |
+   | -------- | ---------- | ------ |
+   | UDP      | Discovery  | По умолчанию: `8090` |
+   | TCP      | Transport  | По умолчанию: `8070` |
 
-If you are not familiar with port forwarding, you can follow the instructions [here](https://www.noip.com/support/knowledgebase/general-port-forwarding-guide/).
+Если вы не знакомы с пробросом портов, вы можете следовать инструкциям [здесь](https://www.noip.com/support/knowledgebase/general-port-forwarding-guide/).

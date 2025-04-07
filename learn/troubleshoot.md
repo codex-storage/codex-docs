@@ -1,30 +1,30 @@
 ---
 outline: [2, 3]
 ---
-# Troubleshoot
+# Устранение неполадок
 
-Having trouble getting your Codex node connected to the testnet? Here's a list of common Codex connection conundrums and steps to diagnose and solve them. If your troubles are not addressed here, check our open issues on Github or reach out via our Discord server.
+Проблемы с подключением вашего узла Codex к тестовой сети? Вот список распространенных проблем подключения Codex и шаги для их диагностики и решения. Если ваши проблемы не рассматриваются здесь, проверьте наши открытые проблемы на Github или свяжитесь с нами через наш Discord-сервер.
 
-## Some basics
+## Основы
 
-You've probably already considered these. But just in case:
+Вы, вероятно, уже рассмотрели это. Но на всякий случай:
 
-1. Are you using a VPN? Make sure it's configured correctly to forward the right ports, and make sure you announce your node by the public IP address where you can be reached.
-1. Are you using a firewall or other security software? Make sure it's configured to allow incoming connections to Codex's discovery and peer-to-peer ports.
+1. Используете ли вы VPN? Убедитесь, что он правильно настроен для переадресации нужных портов, и убедитесь, что вы объявляете свой узел по публичному IP-адресу, по которому к вам можно обратиться.
+1. Используете ли вы брандмауэр или другое программное обеспечение безопасности? Убедитесь, что он настроен на разрешение входящих подключений к портам обнаружения и одноранговой сети Codex.
 
-## Check your announce address
+## Проверьте ваш объявляемый адрес
 
-Your node announces your public address to the network, so other nodes can connect to you. A common issue is connection failure due to incorrect announce addresses. Follow these steps to check your announce address.
+Ваш узел объявляет ваш публичный адрес в сети, чтобы другие узлы могли подключиться к вам. Распространенной проблемой является сбой подключения из-за неправильных объявляемых адресов. Следуйте этим шагам, чтобы проверить ваш объявляемый адрес.
 
-1. Go to a whats-my-ip site, or `ip.codex.storage` and note the IP address.
-1. Go into your router/modem WAN settings and find the public IP address.
-1. These two addresses should match.
-1. If they do not, it's possible that A) you're behind a VPN. In this case, it's up to you to disable the VPN or make sure all forwarding is configured correctly. or B) Your internet-service-provider has placed your uplink behind a secondary NAT. ISPs do this to save public IP addresses. The address assigned to your router/moderm is not a 'true' public internet address. Usually this issue can be solved by your ISP. Contact customer support and ask them to give you a public address (sometimes also called Dynamic IP address).
-1. Call Codex's debug/info endpoint. See the [Using Codex](/learn/using) for the details.
-1. In the JSON response, you'll find "announceAddresses".
-1. The IP address listed there should match your public IP.
-1. If the announce address in the JSON is incorrect, you can adjust it manually by changing Codex's CLI argument `--nat` or setting the environment variable `CODEX_NAT`. After you've changed your announce address and restarted your node, please allow some time (20-30mins) for the network to disseminate the updated address.
+1. Перейдите на сайт whats-my-ip или `ip.codex.storage` и запишите IP-адрес.
+1. Перейдите в настройки WAN вашего маршрутизатора/модема и найдите публичный IP-адрес.
+1. Эти два адреса должны совпадать.
+1. Если они не совпадают, возможно, что A) вы находитесь за VPN. В этом случае вам нужно отключить VPN или убедиться, что вся переадресация настроена правильно. или B) Ваш интернет-провайдер поместил ваше восходящее соединение за вторичным NAT. Интернет-провайдеры делают это для экономии публичных IP-адресов. Адрес, назначенный вашему маршрутизатору/модему, не является "истинным" публичным интернет-адресом. Обычно эту проблему может решить ваш интернет-провайдер. Свяжитесь со службой поддержки и попросите их предоставить вам публичный адрес (иногда также называемый динамическим IP-адресом).
+1. Вызовите конечную точку отладки/информации Codex. Смотрите [Использование Codex](/learn/using) для подробностей.
+1. В JSON-ответе вы найдете "announceAddresses".
+1. IP-адрес, указанный там, должен соответствовать вашему публичному IP.
+1. Если объявляемый адрес в JSON неверен, вы можете настроить его вручную, изменив аргумент командной строки Codex `--nat` или установив переменную окружения `CODEX_NAT`. После того, как вы изменили свой объявляемый адрес и перезапустили узел, пожалуйста, дайте некоторое время (20-30 минут) для распространения обновленного адреса в сети.
 
-If you've performed these steps and haven't found any issues, your announce address is probably not the problem.
+Если вы выполнили эти шаги и не нашли никаких проблем, ваш объявляемый адрес, вероятно, не является проблемой.
 
 
