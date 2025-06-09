@@ -95,14 +95,15 @@ codex persistence [OPTIONS]... command
 
 The following options are available:
 
-     --eth-provider         The URL of the JSON-RPC API of the Ethereum node [=ws://localhost:8545].
-     --eth-account          The Ethereum account that is used for storage contracts.
-     --eth-private-key      File containing Ethereum private key for storage contracts.
-     --marketplace-address  Address of deployed Marketplace contract.
-     --validator            Enables validator, requires an Ethereum node [=false].
-     --validator-max-slots  Maximum number of slots that the validator monitors [=1000].
-     --reward-recipient     Address to send payouts to (eg rewards and refunds).
-     --request-cache-size   Maximum number of StorageRequests kept in memory. Reduces fetching of StorageRequest data from the contract. [=128].
+     --eth-provider             The URL of the JSON-RPC API of the Ethereum node [=ws://localhost:8545].
+     --eth-account              The Ethereum account that is used for storage contracts.
+     --eth-private-key          File containing Ethereum private key for storage contracts.
+     --marketplace-address      Address of deployed Marketplace contract.
+     --validator                Enables validator, requires an Ethereum node [=false].
+     --validator-max-slots      Maximum number of slots that the validator monitors [=1000].
+     --reward-recipient         Address to send payouts to (eg rewards and refunds).
+     --request-cache-size       Maximum number of StorageRequests kept in memory. Reduces fetching of StorageRequest data from the contract. [=128].
+     --max-priority-fee-per-gas Sets the default maximum priority fee per gas for Ethereum EIP-1559 transactions, in wei, when not provided by the network.
 
 Available sub-commands:
 
