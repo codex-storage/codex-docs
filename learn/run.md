@@ -541,6 +541,10 @@ We also ship Codex in Docker containers, which can be run on `amd64` and `arm64`
 - `NAT_PUBLIC_IP_AUTO` - used to set `CODEX_NAT` to public IP address using lookup services, like [ip.codex.storage](https://ip.codex.storage). Can be used for Docker/Kubernetes to set public IP in auto mode.
 - `ETH_PRIVATE_KEY` - can be used to pass ethereum private key, which will be saved and passed as a value of the `CODEX_ETH_PRIVATE_KEY` variable. It should be considered as unsafe option and used for testing purposes only.
 - When we set `prover` sub-command, entrypoint will run `cirdl` tool to download ceremony files, required by [Codex storage node](#codex-storage-node).
+- `BOOTSTRAP_NODE_URL` - Codex node API URL in form of `http://bootstrap:8080`, to be used to get it's SPR as a bootstrap node. That is useful for Docker and Kubernetes configuration.
+- `NETWORK` - is a helper variable to simply a specific network join. It helps to automate `BOOTSTRAP_NODE_FROM_URL` variable.
+- `BOOTSTRAP_NODE_FROM_URL` - can be used to pass SPR nodes from an URL like [spr.codex.storage/testnet](https://spr.codex.storage/testnet).
+- `MARKETPLACE_ADDRESS_FROM_URL` - can be used to pass a Marketplace contract address from an URL like [marketplace.codex.storage/codex-testnet/latest](https://marketplace.codex.storage/codex-testnet/latest).
 
 #### Docker network
 
