@@ -190,7 +190,7 @@ enode://6ba0e8b5d968ca8eb2650dd984cdcf50acc01e4ea182350e990191aadd79897801b79455
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Token       | [`0x34a22f3911De437307c6f4485931779670f78764`](https://explorer.testnet.codex.storage/address/0x34a22f3911De437307c6f4485931779670f78764) |
 | Verifier    | [`0x1f60B2329775545AaeF743dbC3571e699405263e`](https://explorer.testnet.codex.storage/address/0x1f60B2329775545AaeF743dbC3571e699405263e) |
-| Marketplace | [`0x7c7a749DE7156305E55775e7Ab3931abd6f7300E`](https://explorer.testnet.codex.storage/address/0x7c7a749DE7156305E55775e7Ab3931abd6f7300E) |
+| Marketplace | [`0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B`](https://explorer.testnet.codex.storage/address/0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B) |
 
 ### Endpoints
 
