@@ -164,6 +164,10 @@ codex --config-file=/path/to/your/config.toml
 
 Please check [Run as a service in Linux](#run-as-a-service-in-linux) for a full example of configuration file.
 
+## Auto-discovery
+
+Codex support marketplace contract auto-discovery based on the chain id, this mapping is done in the [source code](https://github.com/codex-storage/nim-codex/blob/master/codex/contracts/deployment.nim). In that way we can skip `--marketplace-address` argument and use it just to override a discovered value.
+
 ## Run
 
 Basically, we can run Codex in three different modes:
@@ -284,7 +288,7 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
 
 3. Fill-up your ethereum address with ETH and Tokens based on the the [network](/networks/networks) you would like to join.
 
-4. Specify bootstrap nodes and marketplace address based on the [network](/networks/networks) you would like to join.
+4. Specify bootstrap nodes based on the [network](/networks/networks) you would like to join.
 
 5. Run the node:
    ```shell
@@ -297,12 +301,11 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
      --api-cors-origin="*" \
      persistence \
      --eth-provider=https://rpc.testnet.codex.storage \
-     --eth-private-key=eth.key \
-     --marketplace-address=0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B
+     --eth-private-key=eth.key
    ```
 
 > [!NOTE]
-> Codex also has a marketplace contract address autodiscovery mechanism based on the chain id, that mapping is done in the [source code](https://github.com/codex-storage/nim-codex/blob/master/codex/contracts/deployment.nim). In that way we can skip `--marketplace-address` argument or use it to override a hardcoded value.
+> We could skip `--marketplace-address` argument and rely on marketplace contract [Auto-discovery](#auto-discovery).
 
 After node is up and running, and your address has founds, you should be able to [Purchase storage](/learn/using#purchase-storage) using [API](/developers/api).
 
@@ -342,7 +345,7 @@ To download circuit files and make them available to Codex app, we have a stand-
    ```
    </details>
 
-2. To download circuit files, we should pass directory, RPC endpoint and marketplace address to the circuit downloader:
+2. To download circuit files, we should pass directory, RPC endpoint and optionally marketplace address to the circuit downloader:
    ```shell
    # Create circuit files folder
    mkdir -p datadir/circuits
@@ -351,8 +354,7 @@ To download circuit files and make them available to Codex app, we have a stand-
    # Download circuit files
    cirdl \
      datadir/circuits \
-     https://rpc.testnet.codex.storage \
-     0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B
+     https://rpc.testnet.codex.storage
    ```
 
 2. Start Codex storage node
@@ -366,14 +368,15 @@ To download circuit files and make them available to Codex app, we have a stand-
      persistence \
      --eth-provider=https://rpc.testnet.codex.storage \
      --eth-private-key=eth.key \
-     --marketplace-address=0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B \
      prover \
      --circuit-dir=datadir/circuits
    ```
 
 > [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+> You would need to pass a bootstrap nodes and blockchain RPC endpoint based on the [network](/networks/networks) you would like to join.
 
+> [!NOTE]
+> We could skip `--marketplace-address` argument and rely on marketplace contract [Auto-discovery](#auto-discovery).
 
 After node is up and running, and your address has founds, you should be able to [sell the storage](/learn/using#create-storage-availability) using [API](/developers/api).
 
@@ -609,13 +612,15 @@ docker run \
     persistence \
     --eth-provider=https://rpc.testnet.codex.storage \
     --eth-private-key=/opt/eth.key \
-    --marketplace-address=0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B \
     prover \
     --circuit-dir=/datadir/circuits
 ```
 
 > [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+> You would need to pass a bootstrap nodes and blockchain RPC endpoint based on the [network](/networks/networks) you would like to join.
+
+> [!NOTE]
+> We could skip `--marketplace-address` argument and rely on marketplace contract [Auto-discovery](#auto-discovery).
 
 ### Using Docker Compose
 
@@ -672,7 +677,6 @@ For Docker Compose, it is more suitable to use [environment variables](#environm
           - CODEX_API_BINDADDR=0.0.0.0
           - CODEX_ETH_PROVIDER=https://rpc.testnet.codex.storage
           - CODEX_ETH_PRIVATE_KEY=/opt/eth.key
-          - CODEX_MARKETPLACE_ADDRESS=0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B
           - CODEX_CIRCUIT_DIR=/datadir/circuits
         ports:
           - 8080:8080/tcp # API
@@ -694,7 +698,10 @@ For Docker Compose, it is more suitable to use [environment variables](#environm
    ```
 
 > [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+> You would need to pass a bootstrap nodes and blockchain RPC endpoint based on the [network](/networks/networks) you would like to join.
+
+> [!NOTE]
+> We could skip `CODEX_MARKETPLACE_ADDRESS` variable and rely on marketplace contract [Auto-discovery](#auto-discovery).
 
 ### On Kubernetes
 
@@ -751,8 +758,6 @@ ipconfig | findstr /i "IPv4 Address"
 ```shell
 ifconfig | grep "inet " | grep -v 127.0.0.1
 ```
-
-
 
 ## Known issues
 
