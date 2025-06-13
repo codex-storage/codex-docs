@@ -7,7 +7,7 @@ As for now, Codex is implemented only in [Nim](https://nim-lang.org) and can be 
 
 It is a command-line application which may be run in a different ways:
  - [Using binary](#using-binary)
- - [Run as a daemon in Linux](#run-as-a-daemon-in-linux) (not supported yet)
+ - [Run as a service in Linux](#run-as-a-service-in-linux)
  - [Run as a service in Windows](#run-as-a-service-in-windows) (not supported yet)
  - [Using Docker](#using-docker)
  - [Using Docker Compose](#using-docker-compose)
@@ -66,12 +66,13 @@ The following options are available:
  -d, --data-dir             The directory where codex will store configuration and data
                             [=/root/.cache/codex].
  -i, --listen-addrs         Multi Addresses to listen on [=/ip4/0.0.0.0/tcp/0].
- -a, --nat                  IP Addresses to announce behind a NAT [=127.0.0.1].
- -e, --disc-ip              Discovery listen address [=0.0.0.0].
+ -a, --nat                  NAT traversal method for determining the public address. 
+                            Options: any, none, upnp, pmp, extip:<IP> [any]
  -u, --disc-port            Discovery (UDP) port [=8090].
      --net-privkey          Source of network (secp256k1) private key file path or name [=key].
  -b, --bootstrap-node       Specifies one or more bootstrap nodes to use when connecting to the network.
      --max-peers            The maximum number of peers to connect to [=160].
+     --num-threads          Number of worker threads (\"0\" = use as many threads as there are CPU cores available).
      --agent-string         Node agent string which is used as identifier in network [=Codex].
      --api-bindaddr         The REST API bind address [=127.0.0.1].
  -p, --api-port             The REST Api port [=8080].
@@ -94,13 +95,15 @@ codex persistence [OPTIONS]... command
 
 The following options are available:
 
-     --eth-provider         The URL of the JSON-RPC API of the Ethereum node [=ws://localhost:8545].
-     --eth-account          The Ethereum account that is used for storage contracts.
-     --eth-private-key      File containing Ethereum private key for storage contracts.
-     --marketplace-address  Address of deployed Marketplace contract.
-     --validator            Enables validator, requires an Ethereum node [=false].
-     --validator-max-slots  Maximum number of slots that the validator monitors [=1000].
-     --reward-recipient     Address to send payouts to (eg rewards and refunds).
+     --eth-provider             The URL of the JSON-RPC API of the Ethereum node [=ws://localhost:8545].
+     --eth-account              The Ethereum account that is used for storage contracts.
+     --eth-private-key          File containing Ethereum private key for storage contracts.
+     --marketplace-address      Address of deployed Marketplace contract.
+     --validator                Enables validator, requires an Ethereum node [=false].
+     --validator-max-slots      Maximum number of slots that the validator monitors [=1000].
+     --reward-recipient         Address to send payouts to (eg rewards and refunds).
+     --request-cache-size       Maximum number of StorageRequests kept in memory. Reduces fetching of StorageRequest data from the contract. [=128].
+     --max-priority-fee-per-gas Sets the default maximum priority fee per gas for Ethereum EIP-1559 transactions, in wei, when not provided by the network.
 
 Available sub-commands:
 
@@ -159,6 +162,12 @@ The Codex node can then read the configuration from this file using the `--confi
 codex --config-file=/path/to/your/config.toml
 ```
 
+Please check [Run as a service in Linux](#run-as-a-service-in-linux) for a full example of configuration file.
+
+## Auto-discovery
+
+Codex support marketplace contract auto-discovery based on the chain id, this mapping is done in the [source code](https://github.com/codex-storage/nim-codex/blob/master/codex/contracts/deployment.nim). In that way we can skip `--marketplace-address` argument and use it just to override a discovered value.
+
 ## Run
 
 Basically, we can run Codex in three different modes:
@@ -200,7 +209,7 @@ Also, to make your Codex node accessible for other network participants, it is r
 codex \
   --data-dir=datadir \
   --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-  --nat=<your public IP>
+  --nat=any
 ```
 
 > [!TIP]
@@ -211,7 +220,7 @@ After that, node will announce itself using your public IP, default UDP ([discov
 codex \
   --data-dir=datadir \
   --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-  --nat=`curl -s https://ip.codex.storage` \
+  --nat=any \
   --disc-port=8090 \
   --listen-addrs=/ip4/0.0.0.0/tcp/8070
 ```
@@ -231,14 +240,14 @@ Basically, for P2P communication we should specify and configure two ports:
 | 1 | UDP      | [Discovery](https://docs.libp2p.io/concepts/discovery-routing/overview/) | `--disc-port`    | `--disc-port=8090`                     |
 | 2 | TCP      | [Transport](https://docs.libp2p.io/concepts/transports/overview/)        | `--listen-addrs` | `--listen-addrs=/ip4/0.0.0.0/tcp/8070` |
 
-And, also it is required to setup port-forwarding on your Internet router, to make your node accessible for participants [^port-forwarding].
+And, also it is required to setup [port-forwarding](#port-forwarding) on your Internet router, to make your node accessible for participants.
 
 So, a fully working basic configuration will looks like following:
 ```shell
 codex \
   --data-dir=datadir \
   --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-  --nat=`curl -s https://ip.codex.storage` \
+  --nat=any \
   --disc-port=8090 \
   --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
   --api-cors-origin="*"
@@ -279,25 +288,24 @@ And to be able to purchase a storage, we should run [Codex node with marketplace
 
 3. Fill-up your ethereum address with ETH and Tokens based on the the [network](/networks/networks) you would like to join.
 
-4. Specify bootstrap nodes and marketplace address based on the [network](/networks/networks) you would like to join.
+4. Specify bootstrap nodes based on the [network](/networks/networks) you would like to join.
 
 5. Run the node:
    ```shell
    codex \
      --data-dir=datadir \
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-     --nat=`curl -s https://ip.codex.storage` \
+     --nat=any \
      --disc-port=8090 \
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
      --api-cors-origin="*" \
      persistence \
      --eth-provider=https://rpc.testnet.codex.storage \
-     --eth-private-key=eth.key \
-     --marketplace-address=0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B
+     --eth-private-key=eth.key
    ```
 
 > [!NOTE]
-> Codex also has a marketplace contract address autodiscovery mechanism based on the chain id, that mapping is done in the [source code](https://github.com/codex-storage/nim-codex/blob/master/codex/contracts/deployment.nim). In that way we can skip `--marketplace-address` argument or use it to override a hardcoded value.
+> We could skip `--marketplace-address` argument and rely on marketplace contract [Auto-discovery](#auto-discovery).
 
 After node is up and running, and your address has founds, you should be able to [Purchase storage](/learn/using#purchase-storage) using [API](/developers/api).
 
@@ -337,7 +345,7 @@ To download circuit files and make them available to Codex app, we have a stand-
    ```
    </details>
 
-2. To download circuit files, we should pass directory, RPC endpoint and marketplace address to the circuit downloader:
+2. To download circuit files, we should pass directory, RPC endpoint and optionally marketplace address to the circuit downloader:
    ```shell
    # Create circuit files folder
    mkdir -p datadir/circuits
@@ -346,8 +354,7 @@ To download circuit files and make them available to Codex app, we have a stand-
    # Download circuit files
    cirdl \
      datadir/circuits \
-     https://rpc.testnet.codex.storage \
-     0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B
+     https://rpc.testnet.codex.storage
    ```
 
 2. Start Codex storage node
@@ -355,20 +362,21 @@ To download circuit files and make them available to Codex app, we have a stand-
    codex \
      --data-dir=datadir \
      --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-     --nat=`curl -s https://ip.codex.storage` \
+     --nat=any \
      --disc-port=8090 \
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
      persistence \
      --eth-provider=https://rpc.testnet.codex.storage \
      --eth-private-key=eth.key \
-     --marketplace-address=0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B \
      prover \
      --circuit-dir=datadir/circuits
    ```
 
 > [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+> You would need to pass a bootstrap nodes and blockchain RPC endpoint based on the [network](/networks/networks) you would like to join.
 
+> [!NOTE]
+> We could skip `--marketplace-address` argument and rely on marketplace contract [Auto-discovery](#auto-discovery).
 
 After node is up and running, and your address has founds, you should be able to [sell the storage](/learn/using#create-storage-availability) using [API](/developers/api).
 
@@ -380,7 +388,7 @@ Bootstrap nodes are used just to help peers with the initial nodes discovery and
 ```shell
 codex \
   --data-dir=datadir \
-  --nat=`curl -s https://ip.codex.storage` \
+  --nat=any \
   --disc-port=8090
 ```
 
@@ -395,15 +403,129 @@ spr:CiUIAhIhApd79-AxPqwRDmu7Pk-berTDtoIoMz0ovKjo85Tz8CUdEgIDARo8CicAJQgCEiECl3v3
 That SPR record then can be used then by other peers for initial nodes discovery.
 
 We should keep in mind some important things about SPR record (see [ENR](https://eips.ethereum.org/EIPS/eip-778)):
-- It uses node IP (`--nat`), discovery port (`--disc-port`) and private key (`--net-privkey`) for record creation
+- It uses nodes public IP, discovery port (`--disc-port`) and private key (`--net-privkey`) for record creation
 - Specified data is signed on each run and will be changed but still contain specified node data when decoded
 - You can decode it by passing to the Codex node at run and with `--log-level=trace`
 
 For bootstrap node, it is required to forward just discovery port on your Internet router.
 
-### Run as a daemon in Linux
+### Run as a service in Linux
 
-This functionality is not supported yet :construction:
+We can run Codex as a service via [systemd](https://systemd.io) using following steps
+
+ 1. Create an user for Codex
+    ```shell
+    sudo useradd \
+      --system \
+      --home-dir /opt/codex \
+      --shell /usr/sbin/nologin \
+      codex
+    ```
+    In case you would like to run commands using a created user, you could do it like following `sudo -u codex ls -la /opt/codex`.
+
+ 2. Install Codex [using a script](https://github.com/codex-storage/get-codex) or [build from sources](/learn/build)
+    ```shell
+    # codex with cirdl
+    curl -s https://get.codex.storage/install.sh | INSTALL_DIR=/usr/local/bin CIRDL=true bash
+    ```
+
+ 3. Create directories
+    ```shell
+    sudo mkdir -p /opt/codex/data
+    sudo mkdir -p /opt/codex/logs
+    ```
+
+ 4. Create a configuration file
+    ```shell
+    sudo vi /opt/codex/codex.conf
+    ```
+    ```toml
+    data-dir       = "/opt/codex/data"
+    listen-addrs   = ["/ip4/0.0.0.0/tcp/8070"]
+    nat            = "extip:<Public IP>"
+    disc-port      = 8090
+    api-port       = 8080
+    bootstrap-node = [
+      "spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P",
+      "spr:CiUIAhIhAyUvcPkKoGE7-gh84RmKIPHJPdsX5Ugm_IHVJgF-Mmu_EgIDARo8CicAJQgCEiEDJS9w-QqgYTv6CHzhGYog8ck92xflSCb8gdUmAX4ya78QoemesAYaCwoJBES39Q2RAnVOKkYwRAIgLi3rouyaZFS_Uilx8k99ySdQCP1tsmLR21tDb9p8LcgCIG30o5YnEooQ1n6tgm9fCT7s53k6XlxyeSkD_uIO9mb3",
+      "spr:CiUIAhIhA6_j28xa--PvvOUxH10wKEm9feXEKJIK3Z9JQ5xXgSD9EgIDARo8CicAJQgCEiEDr-PbzFr74--85TEfXTAoSb195cQokgrdn0lDnFeBIP0QzOGesAYaCwoJBK6Kf1-RAnVEKkcwRQIhAPUH5nQrqG4OW86JQWphdSdnPA98ErQ0hL9OZH9a4e5kAiBBZmUl9KnhSOiDgU3_hvjXrXZXoMxhGuZ92_rk30sNDA",
+      "spr:CiUIAhIhA7E4DEMer8nUOIUSaNPA4z6x0n9Xaknd28Cfw9S2-cCeEgIDARo8CicAJQgCEiEDsTgMQx6vydQ4hRJo08DjPrHSf1dqSd3bwJ_D1Lb5wJ4Qt_CesAYaCwoJBEDhWZORAnVYKkYwRAIgFNzhnftocLlVHJl1onuhbSUM7MysXPV6dawHAA0DZNsCIDRVu9gnPTH5UkcRXLtt7MLHCo4-DL-RCMyTcMxYBXL0",
+      "spr:CiUIAhIhAzZn3JmJab46BNjadVnLNQKbhnN3eYxwqpteKYY32SbOEgIDARo8CicAJQgCEiEDNmfcmYlpvjoE2Np1Wcs1ApuGc3d5jHCqm14phjfZJs4QrvWesAYaCwoJBKpA-TaRAnViKkcwRQIhANuMmZDD2c25xzTbKSirEpkZYoxbq-FU_lpI0K0e4mIVAiBfQX4yR47h1LCnHznXgDs6xx5DLO5q3lUcicqUeaqGeg",
+      "spr:CiUIAhIhAuN-P1D0HrJdwBmrRlZZzg6dqllRNNcQyMDUMuRtg3paEgIDARpJCicAJQgCEiEC434_UPQesl3AGatGVlnODp2qWVE01xDIwNQy5G2DeloQm_L2vQYaCwoJBI_0zSiRAnVsGgsKCQSP9M0okQJ1bCpHMEUCIQDgEVjUp1RJGb59eRPs7RPYMSGAI_fo1yv70iBtnTqefQIgVoXszc87EGFVO3aaqorEYZ21OGRko5ho_Pybdyqa6AI",
+      "spr:CiUIAhIhAsi_hgxFppWjHiKRwnYPX_qkB28dLtwK9c7apnlBanFuEgIDARpJCicAJQgCEiECyL-GDEWmlaMeIpHCdg9f-qQHbx0u3Ar1ztqmeUFqcW4Q2O32vQYaCwoJBNEmoCiRAnV2GgsKCQTRJqAokQJ1dipHMEUCIQDpC1isFfdRqNmZBfz9IGoEq7etlypB6N1-9Z5zhvmRMAIgIOsleOPr5Ra_Nk7BXmXGhe-YlLosH9jo83JtfWCy3-o"
+    ]
+    storage-quota  = "8gb"
+    block-ttl      = "24h"
+    log-level      = "info"
+    ```
+
+    Make sure to use bootstrap nodes for the [network](/networks/networks) you would like to join, update `nat` variable with a node Public IP and adjust other settings by your needs.
+
+ 5. Change folders ownership and permissions
+    ```shell
+    sudo chown -R codex:codex /opt/codex
+    ```
+
+ 6. Create systemd unit file
+    ```shell
+    sudo vi /lib/systemd/system/codex.service
+    ```
+    ```shell
+    [Unit]
+    Description=Codex service
+    Documentation=https://docs.codex.storage
+    After=local-fs.target network-online.target
+
+    [Service]
+    MemorySwapMax=0
+    TimeoutStartSec=infinity
+    Type=exec
+    User=codex
+    Group=codex
+    StateDirectory=codex
+    ExecStart=/usr/local/bin/codex --config-file="/opt/codex/codex.conf"
+    Restart=always
+    RestartSec=3
+    StandardOutput=append:/opt/codex/logs/codex.log
+    StandardError=append:/opt/codex/logs/codex.log
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+    Check `man systemd`, `man systemd.service` and `man systemd.directives` for additional details.
+
+ 7. Enable and start Codex service 
+    ```shell
+    sudo systemctl enable codex
+    sudo systemctl start codex
+    ```
+
+ 8. Check service status
+    ```shell
+    sudo systemctl status codex
+    ```
+
+ 9. Enable logs rotation using logrotate
+    ```shell
+    sudo vi /etc/logrotate.d/codex
+    ```
+    ```logrotate
+    /opt/codex/logs/*.log {
+      daily
+      missingok
+      rotate 5
+      copytruncate
+      nocreate
+      nomail
+      dateext
+      dateyesterday
+    }
+    ```
+
+ 1. Check the logs
+    ```shell
+    tail -f /opt/codex/logs/codex.log
+    ```
 
 ### Run as a service in Windows
 
@@ -422,6 +544,10 @@ We also ship Codex in Docker containers, which can be run on `amd64` and `arm64`
 - `NAT_PUBLIC_IP_AUTO` - used to set `CODEX_NAT` to public IP address using lookup services, like [ip.codex.storage](https://ip.codex.storage). Can be used for Docker/Kubernetes to set public IP in auto mode.
 - `ETH_PRIVATE_KEY` - can be used to pass ethereum private key, which will be saved and passed as a value of the `CODEX_ETH_PRIVATE_KEY` variable. It should be considered as unsafe option and used for testing purposes only.
 - When we set `prover` sub-command, entrypoint will run `cirdl` tool to download ceremony files, required by [Codex storage node](#codex-storage-node).
+- `BOOTSTRAP_NODE_URL` - Codex node API URL in form of `http://bootstrap:8080`, to be used to get it's SPR as a bootstrap node. That is useful for Docker and Kubernetes configuration.
+- `NETWORK` - is a helper variable to simply a specific network join. It helps to automate `BOOTSTRAP_NODE_FROM_URL` variable.
+- `BOOTSTRAP_NODE_FROM_URL` - can be used to pass SPR nodes from an URL like [spr.codex.storage/testnet](https://spr.codex.storage/testnet).
+- `MARKETPLACE_ADDRESS_FROM_URL` - can be used to pass a Marketplace contract address from an URL like [marketplace.codex.storage/codex-testnet/latest](https://marketplace.codex.storage/codex-testnet/latest).
 
 #### Docker network
 
@@ -477,7 +603,7 @@ docker run \
   codex \
     --data-dir=/datadir \
     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P \
-    --nat=`curl -s https://ip.codex.storage` \
+    --nat=any \
     --disc-port=8090 \
     --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
     --api-cors-origin="*" \
@@ -486,13 +612,15 @@ docker run \
     persistence \
     --eth-provider=https://rpc.testnet.codex.storage \
     --eth-private-key=/opt/eth.key \
-    --marketplace-address=0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B \
     prover \
     --circuit-dir=/datadir/circuits
 ```
 
 > [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+> You would need to pass a bootstrap nodes and blockchain RPC endpoint based on the [network](/networks/networks) you would like to join.
+
+> [!NOTE]
+> We could skip `--marketplace-address` argument and rely on marketplace contract [Auto-discovery](#auto-discovery).
 
 ### Using Docker Compose
 
@@ -537,8 +665,8 @@ For Docker Compose, it is more suitable to use [environment variables](#environm
           - --bootstrap-node=spr:CiUIAhIhA6_j28xa--PvvOUxH10wKEm9feXEKJIK3Z9JQ5xXgSD9EgIDARo8CicAJQgCEiEDr-PbzFr74--85TEfXTAoSb195cQokgrdn0lDnFeBIP0QzOGesAYaCwoJBK6Kf1-RAnVEKkcwRQIhAPUH5nQrqG4OW86JQWphdSdnPA98ErQ0hL9OZH9a4e5kAiBBZmUl9KnhSOiDgU3_hvjXrXZXoMxhGuZ92_rk30sNDA
           - --bootstrap-node=spr:CiUIAhIhA7E4DEMer8nUOIUSaNPA4z6x0n9Xaknd28Cfw9S2-cCeEgIDARo8CicAJQgCEiEDsTgMQx6vydQ4hRJo08DjPrHSf1dqSd3bwJ_D1Lb5wJ4Qt_CesAYaCwoJBEDhWZORAnVYKkYwRAIgFNzhnftocLlVHJl1onuhbSUM7MysXPV6dawHAA0DZNsCIDRVu9gnPTH5UkcRXLtt7MLHCo4-DL-RCMyTcMxYBXL0
           - --bootstrap-node=spr:CiUIAhIhAzZn3JmJab46BNjadVnLNQKbhnN3eYxwqpteKYY32SbOEgIDARo8CicAJQgCEiEDNmfcmYlpvjoE2Np1Wcs1ApuGc3d5jHCqm14phjfZJs4QrvWesAYaCwoJBKpA-TaRAnViKkcwRQIhANuMmZDD2c25xzTbKSirEpkZYoxbq-FU_lpI0K0e4mIVAiBfQX4yR47h1LCnHznXgDs6xx5DLO5q3lUcicqUeaqGeg
-          - --bootstrap-node=spr:CiUIAhIhAgybmRwboqDdUJjeZrzh43sn5mp8jt6ENIb08tLn4x01EgIDARo8CicAJQgCEiECDJuZHBuioN1QmN5mvOHjeyfmanyO3oQ0hvTy0ufjHTUQh4ifsAYaCwoJBI_0zSiRAnVsKkcwRQIhAJCb_z0E3RsnQrEePdJzMSQrmn_ooHv6mbw1DOh5IbVNAiBbBJrWR8eBV6ftzMd6ofa5khNA2h88OBhMqHCIzSjCeA
-          - --bootstrap-node=spr:CiUIAhIhAntGLadpfuBCD9XXfiN_43-V3L5VWgFCXxg4a8uhDdnYEgIDARo8CicAJQgCEiECe0Ytp2l-4EIP1dd-I3_jf5XcvlVaAUJfGDhry6EN2dgQsIufsAYaCwoJBNEmoCiRAnV2KkYwRAIgXO3bzd5VF8jLZG8r7dcLJ_FnQBYp1BcxrOvovEa40acCIDhQ14eJRoPwJ6GKgqOkXdaFAsoszl-HIRzYcXKeb7D9
+          - --bootstrap-node=spr:CiUIAhIhAuN-P1D0HrJdwBmrRlZZzg6dqllRNNcQyMDUMuRtg3paEgIDARpJCicAJQgCEiEC434_UPQesl3AGatGVlnODp2qWVE01xDIwNQy5G2DeloQm_L2vQYaCwoJBI_0zSiRAnVsGgsKCQSP9M0okQJ1bCpHMEUCIQDgEVjUp1RJGb59eRPs7RPYMSGAI_fo1yv70iBtnTqefQIgVoXszc87EGFVO3aaqorEYZ21OGRko5ho_Pybdyqa6AI
+          - --bootstrap-node=spr:CiUIAhIhAsi_hgxFppWjHiKRwnYPX_qkB28dLtwK9c7apnlBanFuEgIDARpJCicAJQgCEiECyL-GDEWmlaMeIpHCdg9f-qQHbx0u3Ar1ztqmeUFqcW4Q2O32vQYaCwoJBNEmoCiRAnV2GgsKCQTRJqAokQJ1dipHMEUCIQDpC1isFfdRqNmZBfz9IGoEq7etlypB6N1-9Z5zhvmRMAIgIOsleOPr5Ra_Nk7BXmXGhe-YlLosH9jo83JtfWCy3-o
         environment:
           - CODEX_DATA_DIR=/datadir
           - NAT_PUBLIC_IP_AUTO=https://ip.codex.storage
@@ -549,7 +677,6 @@ For Docker Compose, it is more suitable to use [environment variables](#environm
           - CODEX_API_BINDADDR=0.0.0.0
           - CODEX_ETH_PROVIDER=https://rpc.testnet.codex.storage
           - CODEX_ETH_PRIVATE_KEY=/opt/eth.key
-          - CODEX_MARKETPLACE_ADDRESS=0xd53a4181862f42641ccA02Fb4CED7D7f19C6920B
           - CODEX_CIRCUIT_DIR=/datadir/circuits
         ports:
           - 8080:8080/tcp # API
@@ -571,16 +698,70 @@ For Docker Compose, it is more suitable to use [environment variables](#environm
    ```
 
 > [!NOTE]
-> You would need to pass a bootstrap nodes, blockchain RPC endpoint and marketplace address based on the [network](/networks/networks) you would like to join.
+> You would need to pass a bootstrap nodes and blockchain RPC endpoint based on the [network](/networks/networks) you would like to join.
+
+> [!NOTE]
+> We could skip `CODEX_MARKETPLACE_ADDRESS` variable and rely on marketplace contract [Auto-discovery](#auto-discovery).
 
 ### On Kubernetes
 
 Helm chart code is available in [helm-charts](https://github.com/codex-storage/helm-charts) repository, but chart was not published yet.
+
+## How-tos
+
+### NAT Configuration 
+
+Use the `--nat` CLI flag to specify how your codex node should handle NAT traversal. Below are the available options:
+
+**any**(default): This option will automatically try to detect your public IP by checking the routing table or using UPnP/PMP NAT traversal techniques. If successful, it will use the detected public IP and port for the announce address.
+
+**upnp**: This option exclusively uses [UPnP](https://en.wikipedia.org/wiki/Universal_Plug_and_Play) to detect the public IP and create a port mapping entry, if your device supports UPnP.
+
+**pmp**: This option uses only [NAT-PMP](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol) to detect the public IP and create a port mapping entry, if your device supports NAT-PMP.
+
+**extIP:[Your Public IP]**:Use this option if you want to manually specify an external IP address and port for the announce address. When selecting this option, you'll need to configure **port forwarding** on your router to ensure that incoming traffic is directed to the correct internal IP and port.
+
+### Port Forwarding 
+
+If you're running on a private network, you'll need to set up port forwarding to ensure seamless communication between the codex node and its peers. It's also recommended to configure appropriate firewall rules for TCP and UDP traffic.
+While the specific steps required vary based on your router, they can be summarised as follows:
+1. Find your public IP address by either visiting [ip-codex](https://ip.codex.storage/) or running `curl ip.codex.storage`
+2. Identify your [private](#determine-your-private-ip) IP address 
+3. Access your router's settings by entering its IP address (typically [http://192.168.1.1](http://192.168.1.1/)) in your web browser
+4. Sign in with administrator credentials and locate the port forwarding settings
+5. Set up the discovery port forwarding rule with these settings:
+    - External Port: 8090
+    - Internal Port: 8090
+    - Protocol: UDP
+    - IP Address: Your device's private IP address
+6. Set up the libp2p port forwarding rule with these settings:
+    - External Port: 8070
+    - Internal Port: 8070
+    - Protocol: TCP
+    - IP Address: Your device's private IP address
+
+#### Determine your private IP
+
+To determine your private IP address, run the appropriate command for your OS:
+
+**Linux**: 
+```shell
+ip addr show | grep "inet " | grep -v 127.0.0.1
+```
+
+**Windows**: 
+```shell
+ipconfig | findstr /i "IPv4 Address"
+```
+
+**MacOs**: 
+```shell
+ifconfig | grep "inet " | grep -v 127.0.0.1
+```
 
 ## Known issues
 
 [^multivalue-env-var]: Environment variables like `CODEX_BOOTSTRAP_NODE` and `CODEX_LISTEN_ADDRS` does not support multiple values. Please check [[Feature request] Support multiple SPR records via environment variable #525](https://github.com/codex-storage/nim-codex/issues/525), for more information.
 [^sub-commands]: Sub-commands `persistence` and `persistence prover` can't be set via environment variables.
 [^data-dir]: We should set data-dir explicitly when we use GitHub releases - [[BUG] Change codex default datadir from compile-time to run-time #923](https://github.com/codex-storage/nim-codex/issues/923)
-[^port-forwarding]: [NAT traversal #753](https://github.com/codex-storage/nim-codex/issues/753) is not implemented yet and we would need to setup port-forwarding for discovery and transport protocols.
 [^eth-account]: Please ignore `--eth-account` CLI option - [Drop support for --eth-account #727](https://github.com/codex-storage/nim-codex/issues/727).
