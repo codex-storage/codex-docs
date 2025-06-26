@@ -185,8 +185,6 @@ We can run Codex in a simple way like following:
 ```shell
 codex
 ```
-> [!WARNING]
-> This command may not work properly when we use GitHub releases [^data-dir].
 
 But, it will use a default `data-dir` value and we can pass a custom one:
 ```shell
@@ -763,5 +761,4 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 
 [^multivalue-env-var]: Environment variables like `CODEX_BOOTSTRAP_NODE` and `CODEX_LISTEN_ADDRS` does not support multiple values. Please check [[Feature request] Support multiple SPR records via environment variable #525](https://github.com/codex-storage/nim-codex/issues/525), for more information.
 [^sub-commands]: Sub-commands `persistence` and `persistence prover` can't be set via environment variables.
-[^data-dir]: We should set data-dir explicitly when we use GitHub releases - [[BUG] Change codex default datadir from compile-time to run-time #923](https://github.com/codex-storage/nim-codex/issues/923)
 [^eth-account]: Please ignore `--eth-account` CLI option - [Drop support for --eth-account #727](https://github.com/codex-storage/nim-codex/issues/727).
