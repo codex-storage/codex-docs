@@ -123,6 +123,7 @@ export default withMermaid({
         text: 'Codex networks',
         collapsed: false,
         items: [
+          { text: 'Devnet', link: '/networks/devnet' },
           { text: 'Testnet', link: '/networks/testnet' }
         ]
       },

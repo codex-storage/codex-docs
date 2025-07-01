@@ -1,11 +1,11 @@
 # Codex networks
 
  At Codex, we are launching several networks which are used for different purposes
- | Network            | Status                  | Blockchain                                                              | Purpose                                                                 |
- | ------------------ | ----------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
- | Devnet             | :building_construction: | [Geth PoA](https://geth.ethereum.org/docs/fundamentals/private-network) | Dedicated for development purposes and following latest `master` builds |
- | [Testnet](testnet) | :white_check_mark:      | [Geth PoA](https://geth.ethereum.org/docs/fundamentals/private-network) | A public network for testing purposes, following latest releases        |
- | Mainnet            | :construction:          | :construction:                                                          | A main public network                                                   |
+ | Network            | Status            | Blockchain                                                               | Purpose                                                                 |
+ | ------------------ | ------------------ | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+ | [Devnet](devnet)   | :white_check_mark: | [Status Network](https://status.network/)                               | Dedicated for development purposes and following latest `master` builds |
+ | [Testnet](testnet) | :white_check_mark: | [Geth PoA](https://geth.ethereum.org/docs/fundamentals/private-network) | A public network for testing purposes, following latest releases        |
+ | Mainnet            | :construction:     | :construction:                                                          | A main public network                                                   |
 
  The main difference between networks are following
  - Network purpose
