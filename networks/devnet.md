@@ -24,7 +24,7 @@ Please check [Status Network Docs](https://docs.status.network) for additional d
 
 | # | Service         | URL                                                                            |
 | - | --------------- | ------------------------------------------------------------------------------ |
-| 1 | Geth Public RPC | [public.sepolia.rpc.status.network](https://public.sepolia.rpc.status.network) |
+| 1 | Public RPC      | [public.sepolia.rpc.status.network](https://public.sepolia.rpc.status.network) |
 | 2 | Block explorer  | [sepoliascan.status.network](https://sepoliascan.status.network)               |
 | 3 | Faucet ETH      | [faucet.status.network](https://faucet.status.network)                         |
 | 4 | Faucet TST      | [faucet-tst.devnet.codex.storage](https://faucet-tst.devnet.codex.storage)     |
