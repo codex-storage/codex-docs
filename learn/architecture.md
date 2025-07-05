@@ -104,7 +104,7 @@ associated with the request.
 
 #### Sales ####
 
-The sales module is the counterpart to the sales module. It monitors the smart
+The sales module is the counterpart to the purchasing module. It monitors the smart
 contract to be notified of incoming storage requests. It keeps a list of the
 most promising requests that it can fulfill. It will favor those requests that
 have a high reward and low collateral. As soon as it finds a suitable request,
