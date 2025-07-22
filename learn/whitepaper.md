@@ -378,7 +378,7 @@ Reconstruction can be triggered based on the observed state in various ways:
 - if an individual node is missing a slot proof (or more generally, a series of proofs), reconstruction can start. The advantage of this option is that the consequences of failing a proof only depend on the node itself, and not on other nodes.
 -  reconstruction can also be triggered by the observed system state, i.e. the number of nodes that have missed the last proof (or more in general some of the last proofs). In fact, thanks to the properties of RS codes, whenever a slot is being repaired, all slot's data are regenerated. As a consequence, the cost of repair is independent of the number of slots being repaired, and by triggering repair only after multiple slots are observed lost (the so called "lazy repair"), we can drastically reduce the cost of repair.
 
-In our model, we assume reconstruction that uses a combination of the above too triggers. 
+In our model, we assume reconstruction that uses a combination of the above two triggers. 
 - Reconstruction is triggered based on the observed system state, allowing for lazy repair, by triggering it when $l_0$ of the slots is considered lost.
 - A single slot is considered lost if it was missing the last $l_1$ proofs.
 
