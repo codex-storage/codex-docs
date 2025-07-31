@@ -27,7 +27,7 @@ features:
     link: /networks/networks
     icon: 🚦
   - title: Developers
-    details: Build and Codex and
+    details: Build Codex
     link: /developers/api
     icon: 🏗️
 ---
