@@ -160,6 +160,95 @@ export default withMermaid({
       label: 'English',
       lang: 'en'
     },
+    // Russian
+    ru: {
+      label: 'Русский',
+      lang: 'ru-RU',
+      link: '/ru',
+      themeConfig: {
+        nav: [
+          { text: 'Whitepaper', link: '/ru/learn/whitepaper' },
+          { text: 'Tokenomics Litepaper', link: '/ru/learn/tokenomics-litepaper' },
+          {
+            text: 'Codex',
+            items: [
+              { text: 'О проекте', link: '/ru/codex/about' },
+              { text: 'Безопасность', link: '/ru/codex/security' },
+              { text: 'Политика конфиденциальности', link: '/ru/codex/privacy-policy' },
+              { text: 'Условия использования', link: '/ru/codex/terms-of-use' }
+            ]
+          }
+        ],
+        editLink: {
+          pattern: 'https://github.com/codex-storage/codex-docs/edit/master/:path',
+          text: 'Редактировать эту страницу на GitHub',
+        },
+        siteTitle: 'Codex • Документация',
+        logoLink: '/ru/learn/what-is-codex',
+        sidebar: [
+          {
+            text: 'Введение',
+            collapsed: false,
+            items: [
+              { text: 'Что такое Codex?', link: '/ru/learn/what-is-codex' },
+              { text: 'Архитектура', link: '/ru/learn/architecture' },
+              { text: 'Whitepaper', link: '/ru/learn/whitepaper' },
+              { text: 'Tokenomics Litepaper', link: '/ru/learn/tokenomics-litepaper' }
+            ]
+          },
+          {
+            text: 'Установка Codex с помощью установщика',
+            collapsed: false,
+            items: [
+              { text: 'Отказ от ответственности', link: '/ru/codex/installer-disclaimer' },
+              { text: 'Требования', link: '/ru/learn/installer/requirements' },
+              { text: 'Установка и запуск Codex', link: '/ru/learn/installer/install-and-run' },
+              { text: 'Загрузка/Скачивание', link: '/ru/learn/installer/upload-and-download' },
+            ]
+          },
+          {
+            text: 'Установка Codex вручную',
+            collapsed: false,
+            items: [
+              { text: 'Отказ от ответственности', link: '/ru/codex/disclaimer' },
+              { text: 'Быстрый старт', link: '/ru/learn/quick-start' },
+              { text: 'Сборка Codex', link: '/ru/learn/build' },
+              { text: 'Запуск Codex', link: '/ru/learn/run' },
+              { text: 'Использование Codex', link: '/ru/learn/using' },
+              { text: 'Локальное тестирование с двумя клиентами', link: '/ru/learn/local-two-client-test' },
+              { text: 'Локальный маркетплейс', link: '/ru/learn/local-marketplace' },
+              { text: 'Поток загрузки', link: '/ru/learn/download-flow' },
+              { text: 'Устранение неполадок', link: '/ru/learn/troubleshoot' }
+            ]
+          },
+          {
+            text: 'Сети Codex',
+            collapsed: false,
+            items: [
+              { text: 'Devnet', link: '/ru/networks/devnet' },
+              { text: 'Testnet', link: '/ru/networks/testnet' }
+            ]
+          },
+          {
+            text: 'Разработчики',
+            collapsed: false,
+            items: [
+              { text: 'API', link: '/ru/developers/api' }
+            ]
+          },
+          {
+            text: 'Codex',
+            collapsed: false,
+            items: [
+              { text: 'О проекте', link: '/ru/codex/about' },
+              { text: 'Безопасность', link: '/ru/codex/security' },
+              { text: 'Политика конфиденциальности', link: '/ru/codex/privacy-policy' },
+              { text: 'Условия использования', link: '/ru/codex/terms-of-use' }
+            ]
+          }
+        ],
+      }
+    },
     // Korean
     ko: {
       label: '한국어',
