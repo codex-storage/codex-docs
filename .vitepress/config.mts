@@ -336,6 +336,84 @@ export default withMermaid({
           }
         ],
       }
+    },
+    // Spanish
+    es: {
+      label: 'Español',
+      lang: 'es-ES',
+      link: '/es',
+      themeConfig: {
+        nav: [
+          { text: 'Whitepaper', link: '/es/learn/whitepaper' },
+          { text: 'Tokenomics Litepaper', link: '/es/learn/tokenomics-litepaper' },
+          {
+            text: 'Codex',
+            items: [
+              { text: 'Acerca de Codex', link: '/es/codex/about' },
+              { text: 'Seguridad', link: '/es/codex/security' },
+              { text: 'Política de privacidad', link: '/es/codex/privacy-policy' },
+              { text: 'Términos de uso', link: '/es/codex/terms-of-use' }
+            ]
+          }
+        ],
+        editLink: {
+          pattern: 'https://github.com/codex-storage/codex-docs/edit/master/:path',
+          text: 'Redactar esta página en GitHub',
+        },
+        siteTitle: 'Codex • Documentación',
+        logoLink: '/es/learn/what-is-codex',
+        sidebar: [
+          {
+            text: 'Introducción',
+            collapsed: false,
+            items: [
+              { text: '¿Qué es Codex?', link: '/es/learn/what-is-codex' },
+              { text: 'Arquitectura', link: '/es/learn/architecture' },
+              { text: 'Whitepaper', link: '/es/learn/whitepaper' },
+              { text: 'Tokenomics Litepaper', link: '/es/learn/tokenomics-litepaper' }
+            ]
+          },
+          {
+            text: 'Instalar Codex manualmente',
+            collapsed: false,
+            items: [
+              { text: 'Descargo de responsabilidad', link: '/es/codex/disclaimer' },
+              { text: 'Inicio rápido', link: '/es/learn/quick-start' },
+              { text: 'Compilar Codex', link: '/es/learn/build' },
+              { text: 'Ejecutar Codex', link: '/es/learn/run' },
+              { text: 'Usar Codex', link: '/es/learn/using' },
+              { text: 'Prueba local de dos clientes', link: '/es/learn/local-two-client-test' },
+              { text: 'Mercado local', link: '/es/learn/local-marketplace' },
+              { text: 'Flujo de descarga', link: '/es/learn/download-flow' },
+              { text: 'Solucionar problemas', link: '/es/learn/troubleshoot' }
+            ]
+          },
+          {
+            text: 'Redes Codex',
+            collapsed: false,
+            items: [
+              { text: 'Devnet', link: '/es/networks/devnet' },
+              { text: 'Testnet', link: '/es/networks/testnet' }
+            ]
+          },
+          {
+            text: 'Desarrolladores',
+            collapsed: false,
+            items: [
+              { text: 'API', link: '/developers/api' }
+            ]
+          },
+          {
+            text: 'Codex',
+            collapsed: false,
+            items: [{ text: 'Acerca de', link: '/es/codex/about' },
+              { text: 'Seguridad', link: '/es/codex/security' },
+              { text: 'Política de privacidad', link: '/es/codex/privacy-policy' },
+              { text: 'Términos de uso', link: '/es/codex/terms-of-use' }
+            ]
+          }
+        ],
+      }
     }
   }
 })

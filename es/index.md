@@ -9,25 +9,25 @@ hero:
   actions:
     - theme: brand
       text: ¿Qué es Codex?
-      link: /learn/what-is-codex
+      link: /es/learn/what-is-codex
     - theme: alt
       text: Inicio rápido
-      link: /learn/quick-start
+      link: /es/learn/quick-start
     - theme: alt
       text: Unirse a la Red de Pruebas Codex
-      link: /networks/testnet
+      link: /es/networks/testnet
 
 features:
   - title: Aprender
     details: Obtén más información sobre Codex
-    link: /learn/what-is-codex
+    link: /es/learn/what-is-codex
     icon: 📚
   - title: Redes
     details: Participa en la red Codex como operador de almacenamiento o Comprador
-    link: /networks/networks
+    link: /es/networks/networks
     icon: 🚦
   - title: Desarrolladores
     details: Construye con Codex
-    link: /developers/api
+    link: /es/developers/api
     icon: 🏗️
 ---
