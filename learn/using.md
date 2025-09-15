@@ -16,9 +16,6 @@ Command line interpreter on [Linux/macOS](#linux-macos) and [Windows](#windows) 
 2. [Upload a file](#upload-a-file)
 3. [Download a file](#download-a-file)
 4. [Local data](#local-data)
-5. [Create storage availability](#create-storage-availability)
-6. [Purchase storage](#purchase-storage)
-7. [View purchase status](#view-purchase-status)
 
 ### Debug
 An easy way to check that your node is up and running is:
@@ -70,85 +67,6 @@ curl http://localhost:8080/api/codex/v1/data \
   -w '\n'
 ```
 
-### Create storage availability
-> [!WARNING]
-> This step requires that Codex was started with the [`prover`](/learn/run#codex-storage-node) option.
-
-In order to start selling storage space to the network, you must configure your node with the following command. Once configured, the node will monitor on-chain requests-for-storage and will automatically enter into contracts that meet these specifications. In order to enter and maintain storage contracts, your node is required to submit zero-knowledge storage proofs. The calculation of these proofs will increase the CPU and RAM usage of Codex.
-
-```shell
-curl -X POST \
-  http://localhost:8080/api/codex/v1/sales/availability \
-  -H 'Content-Type: application/json' \
-  -w '\n' \
-  -d '{
-    "totalSize": "8000000",
-    "duration": "7200",
-    "minPricePerBytePerSecond": "1000",
-    "totalCollateral": "80000000"
-  }'
-```
-
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
-
-### Purchase storage
-To purchase storage space from the network, first you must upload your data. Once you have the CID, use the following to create a request-for-storage.
-
-Set your CID:
-
-```shell
-# paste your CID from the previous step here between the quotes
-CID="..."
-echo "CID: ${CID}"
-```
-
-Next you can run:
-
-```shell
-curl -X POST \
-  "http://localhost:8080/api/codex/v1/storage/request/${CID}" \
-  -w '\n' \
-  -d '{
-    "duration": "3600",
-    "pricePerBytePerSecond": "2000",
-    "proofProbability": "5",
-    "expiry": "1200",
-    "nodes": 5,
-    "tolerance": 2,
-    "collateralPerByte": "1"
-  }'
-```
-
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
-
-When successful, this request will return a Purchase-ID.
-
-### View purchase status
-Using a Purchase-ID, you can check the status of your request-for-storage contract:
-
-```shell
-# paste your PURCHASE_ID from the previous step here between the quotes
-PURCHASE_ID="..."
-```
-
-Then:
-
-```shell
-curl "http://localhost:8080/api/codex/v1/storage/purchases/${PURCHASE_ID}" \
-  -w '\n'
-```
-
-This will display state and error information for your purchase.
-| State     | Description                                                                                                                                                                                            |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Pending   | Request is waiting for chain confirmation.                                                                                                                                                             |
-| Submitted | Request is on-chain. Hosts may now attempt to download the data.                                                                                                                                       |
-| Started   | Hosts have downloaded the data and provided proof-of-storage.                                                                                                                                          |
-| Failed    | The request was started, but (too many) hosts failed to provide proof-of-storage on time. While the data may still be available in the network, for the purpose of the purchase it is considered lost. |
-| Finished  | The request was started successfully and the duration has elapsed.                                                                                                                                     |
-| Expired   | (Not enough) hosts have submitted proof-of-storage before the request's expiry elapsed.                                                                                                                |
-| Errored   | An unfortunate state of affairs. The 'error' field should tell you more.                                                                                                                               |
-
 ## Windows
 
 ### Overview {#overview-windows}
@@ -156,9 +74,6 @@ This will display state and error information for your purchase.
 2. [Upload a file](#upload-a-file-windows)
 3. [Download a file](#download-a-file-windows)
 4. [Local data](#local-data-windows)
-5. [Create storage availability](#create-storage-availability-windows)
-6. [Purchase storage](#purchase-storage-windows)
-7. [View purchase status](#view-purchase-status-windows)
 
 ### Debug {#debug-windows}
 An easy way to check that your node is up and running is:
@@ -206,70 +121,6 @@ You can view which datasets are currently being stored by your node:
 ```batch
 curl http://localhost:8080/api/codex/v1/data
 ```
-
-### Create storage availability {#create-storage-availability-windows}
-> [!WARNING]
-> This step requires that Codex was started with the [`prover`](/learn/run#codex-storage-node) option.
-
-In order to start selling storage space to the network, you must configure your node with the following command. Once configured, the node will monitor on-chain requests-for-storage and will automatically enter into contracts that meet these specifications. In order to enter and maintain storage contracts, your node is required to submit zero-knowledge storage proofs. The calculation of these proofs will increase the CPU and RAM usage of Codex.
-
-```batch
-curl -X POST ^
-  http://localhost:8080/api/codex/v1/sales/availability ^
-  -H "Content-Type: application/json" ^
-  -d "{""totalSize"": ""8000000"", ""duration"": ""7200"", ""minPricePerBytePerSecond"": ""1000"", ""totalCollateral"": ""80000000""}"
-```
-
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/offerStorage).
-
-### Purchase storage {#purchase-storage-windows}
-To purchase storage space from the network, first you must upload your data. Once you have the CID, use the following to create a request-for-storage.
-
-Set your CID:
-
-```batch
-:: paste your CID from the previous step here between the quotes
-set CID="..."
-echo CID: %CID%
-```
-
-Next you can run:
-
-```batch
-curl -X POST ^
-  "http://localhost:8080/api/codex/v1/storage/request/%CID%" ^
-  -H "Content-Type: application/json" ^
-  -d "{""duration"": ""3600"",""pricePerBytePerSecond"": ""2000"", ""proofProbability"": ""5"", ""expiry"": ""1200"", ""nodes"": 5, ""tolerance"": 2, ""**collateralPerByte**"": ""1""}"
-```
-
-For descriptions of each parameter, please view the [spec](https://api.codex.storage/#tag/Marketplace/operation/createStorageRequest).
-
-When successful, this request will return a Purchase-ID.
-
-### View purchase status {#view-purchase-status-windows}
-Using a Purchase-ID, you can check the status of your request-for-storage contract:
-
-```batch
-:: paste your PURCHASE_ID from the previous step here between the quotes
-set PURCHASE_ID="..."
-```
-
-Then:
-
-```batch
-curl "http://localhost:8080/api/codex/v1/storage/purchases/%PURCHASE_ID%"
-```
-
-This will display state and error information for your purchase.
-| State     | Description                                                                                                                                                                                            |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Pending   | Request is waiting for chain confirmation.                                                                                                                                                             |
-| Submitted | Request is on-chain. Hosts may now attempt to download the data.                                                                                                                                       |
-| Started   | Hosts have downloaded the data and provided proof-of-storage.                                                                                                                                          |
-| Failed    | The request was started, but (too many) hosts failed to provide proof-of-storage on time. While the data may still be available in the network, for the purpose of the purchase it is considered lost. |
-| Finished  | The request was started successfully and the duration has elapsed.                                                                                                                                     |
-| Expired   | (Not enough) hosts have submitted proof-of-storage before the request's expiry elapsed.                                                                                                                |
-| Errored   | An unfortunate state of affairs. The 'error' field should tell you more.                                                                                                                               |
 
 ## Known issues
 1. We add a new line to the API calls to get more readable output, please check [[rest] Add line ending on responses #771](https://github.com/codex-storage/nim-codex/issues/771) for more details.

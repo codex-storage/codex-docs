@@ -74,6 +74,9 @@ Please follow the steps for your OS from the list:
 
 We may [run Codex in different modes](/learn/run#run), and for a quick start we will run [Codex node](/learn/run#codex-node), to be able to share files in the network.
 
+0. Obtain an SPR of the Codex network you want to join.
+Go to [networks](/networks/networks) 
+
 1. Run Codex
 
    **Linux/macOS**
@@ -84,7 +87,7 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 \
      --nat=any \
      --api-cors-origin="*" \
-     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
+     --bootstrap-node=<SPR HERE>
    ```
 
    **Windows**
@@ -118,11 +121,8 @@ We may [run Codex in different modes](/learn/run#run), and for a quick start we 
      --listen-addrs=/ip4/0.0.0.0/tcp/8070 ^
      --nat=any ^
      --api-cors-origin="*" ^
-     --bootstrap-node=spr:CiUIAhIhAiJvIcA_ZwPZ9ugVKDbmqwhJZaig5zKyLiuaicRcCGqLEgIDARo8CicAJQgCEiECIm8hwD9nA9n26BUoNuarCEllqKDnMrIuK5qJxFwIaosQ3d6esAYaCwoJBJ_f8zKRAnU6KkYwRAIgM0MvWNJL296kJ9gWvfatfmVvT-A7O2s8Mxp8l9c8EW0CIC-h-H-jBVSgFjg3Eny2u33qF7BDnWFzo7fGfZ7_qc9P
+     --bootstrap-node=<SPR HERE>
    ```
-
-   > [!TIP]
-   > In the example above we use [Codex Testnet](/networks/testnet#bootstrap-nodes) bootstrap nodes and thus we join Testnet. If you would like to join a different network, please use [appropriate value](/networks/networks).
 
 2. Configure port-forwarding for the TCP/UDP ports on your Internet router
    | Protocol | Service   | Port   |
@@ -141,7 +141,3 @@ Also, you can interact with Codex using [Codex API](/developers/api) and for a w
 ## Stay in touch
 
 Want to stay up-date, or looking for further assistance? Try our [discord-server](https://discord.gg/codex-storage).
-
-Ready to explore Codex functionality? Please [Join Codex Testnet](/networks/testnet).
-
-If you want to run Codex locally without joining the Testnet, consider trying the [Codex Two-Client Test](/learn/local-two-client-test) or the [Running a Local Codex Network with Marketplace Support](/learn/local-marketplace).
