@@ -13,9 +13,6 @@ hero:
     - theme: alt
       text: Quick start
       link: /learn/quick-start
-    - theme: alt
-      text: Join Codex Testnet
-      link: /networks/testnet
 
 features:
   - title: Learn

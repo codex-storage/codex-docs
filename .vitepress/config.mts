@@ -120,14 +120,6 @@ export default withMermaid({
         ]
       },
       {
-        text: 'Codex networks',
-        collapsed: false,
-        items: [
-          { text: 'Devnet', link: '/networks/devnet' },
-          { text: 'Testnet', link: '/networks/testnet' }
-        ]
-      },
-      {
         text: 'Developers',
         collapsed: false,
         items: [
@@ -308,13 +300,6 @@ export default withMermaid({
               { text: 'Local Marketplace', link: '/ko/learn/local-marketplace' },
               { text: 'Download Flow', link: '/ko/learn/download-flow' },
               { text: '문제 해결', link: '/ko/learn/troubleshoot' }
-            ]
-          },
-          {
-            text: 'Codex networks',
-            collapsed: false,
-            items: [
-              { text: '테스트넷', link: '/ko/networks/testnet' }
             ]
           },
           {
