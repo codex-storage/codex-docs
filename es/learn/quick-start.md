@@ -145,6 +145,4 @@ Also, you can interact with Codex using [Codex API](/developers/api) and for a w
 
 Want to stay up-date, or looking for further assistance? Try our [discord-server](https://discord.gg/codex-storage).
 
-Ready to explore Codex functionality? Please [Join Codex Testnet](/networks/testnet).
-
 If you want to run Codex locally without joining the Testnet, consider trying the [Codex Two-Client Test](/learn/local-two-client-test) or the [Running a Local Codex Network with Marketplace Support](/learn/local-marketplace).
