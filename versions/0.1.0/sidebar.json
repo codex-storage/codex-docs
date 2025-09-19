@@ -1,0 +1,122 @@
+{
+  "/": [
+    {
+      "text": "0.1.0 Introduction",
+      "collapsed": false,
+      "items": [
+        {
+          "text": "0.1.0 What is Codex?",
+          "link": "/learn/what-is-codex"
+        },
+        {
+          "text": "0.1.0 Architecture",
+          "link": "/learn/architecture"
+        },
+        {
+          "text": "0.1.0 Whitepaper",
+          "link": "/learn/whitepaper"
+        },
+        {
+          "text": "0.1.0 Tokenomics Litepaper",
+          "link": "/learn/tokenomics-litepaper"
+        }
+      ]
+    },
+    {
+      "text": "0.1.0 Setup Codex with Installer",
+      "collapsed": false,
+      "items": [
+        {
+          "text": "0.1.0 Disclaimer",
+          "link": "/codex/installer-disclaimer"
+        },
+        {
+          "text": "0.1.0 Requirements",
+          "link": "/learn/installer/requirements"
+        },
+        {
+          "text": "0.1.0 Install and Run Codex",
+          "link": "/learn/installer/install-and-run"
+        },
+        {
+          "text": "0.1.0 Upload/Download",
+          "link": "/learn/installer/upload-and-download"
+        }
+      ]
+    },
+    {
+      "text": "0.1.0 Setup Codex Manually",
+      "collapsed": false,
+      "items": [
+        {
+          "text": "0.1.0 Disclaimer",
+          "link": "/codex/disclaimer"
+        },
+        {
+          "text": "0.1.0 Quick start",
+          "link": "/learn/quick-start"
+        },
+        {
+          "text": "0.1.0 Build Codex",
+          "link": "/learn/build"
+        },
+        {
+          "text": "0.1.0 Run Codex",
+          "link": "/learn/run"
+        },
+        {
+          "text": "0.1.0 Using Codex",
+          "link": "/learn/using"
+        },
+        {
+          "text": "0.1.0 Local Two Client Test",
+          "link": "/learn/local-two-client-test"
+        },
+        {
+          "text": "0.1.0 Local Marketplace",
+          "link": "/learn/local-marketplace"
+        },
+        {
+          "text": "0.1.0 Download Flow",
+          "link": "/learn/download-flow"
+        },
+        {
+          "text": "0.1.0 Troubleshoot",
+          "link": "/learn/troubleshoot"
+        }
+      ]
+    },
+    {
+      "text": "0.1.0 Developers",
+      "collapsed": false,
+      "items": [
+        {
+          "text": "0.1.0 API",
+          "link": "/developers/api"
+        }
+      ]
+    },
+    {
+      "text": "0.1.0 Codex",
+      "collapsed": false,
+      "items": [
+        {
+          "text": "0.1.0 About",
+          "link": "/codex/about"
+        },
+        {
+          "text": "0.1.0 Security",
+          "link": "/codex/security"
+        },
+        {
+          "text": "0.1.0 Privacy Policy",
+          "link": "/codex/privacy-policy"
+        },
+        {
+          "text": "0.1.0 Terms of Use",
+          "link": "/codex/terms-of-use"
+        }
+      ]
+    }
+  ]
+}

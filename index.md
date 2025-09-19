@@ -2,6 +2,9 @@
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
+# It would be great if the /versions/0.0.1 links below could somehow use
+# LATEST_VERSION from versions.ts
+
 hero:
   name: Codex
   text: Decentralised data storage platform
@@ -9,18 +12,18 @@ hero:
   actions:
     - theme: brand
       text: What is Codex?
-      link: /learn/what-is-codex
+      link: ./versions/0.0.1/learn/what-is-codex
     - theme: alt
       text: Quick start
-      link: /learn/quick-start
+      link: ./versions/0.0.1/learn/quick-start
 
 features:
   - title: Learn
     details: Get more information about Codex
-    link: /learn/what-is-codex
+    link: ./versions/0.0.1/learn/what-is-codex
     icon: 📚
   - title: Developers
     details: Build Codex
-    link: /developers/api
+    link: ./versions/0.0.1/developers/api
     icon: 🏗️
 ---
