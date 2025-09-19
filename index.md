@@ -19,10 +19,6 @@ features:
     details: Get more information about Codex
     link: /learn/what-is-codex
     icon: 📚
-  - title: Networks
-    details: Participate in Codex network as a Storage operator or Buyer
-    link: /networks/networks
-    icon: 🚦
   - title: Developers
     details: Build Codex
     link: /developers/api
