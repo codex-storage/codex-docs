@@ -13,19 +13,12 @@ hero:
     - theme: alt
       text: Quick start
       link: /learn/quick-start
-    - theme: alt
-      text: Join Codex Testnet
-      link: /networks/testnet
 
 features:
   - title: Learn
     details: Get more information about Codex
     link: /learn/what-is-codex
     icon: 📚
-  - title: Networks
-    details: Participate in Codex network as a Storage operator or Buyer
-    link: /networks/networks
-    icon: 🚦
   - title: Developers
     details: Build Codex
     link: /developers/api

@@ -8,18 +8,6 @@ Make sure you have [built the client](/learn/build) or obtained [compiled binary
 
 ## Steps
 
-### 0. Setup blockchain node (optional)
-
-You need to have installed NodeJS and npm in order to spinup a local blockchain node.
-
-Go to directory `vendor/codex-contracts-eth` and run these two commands:
-```
-npm ci
-npm start
-```
-
-This will launch a local Ganache blockchain.
-
 ### 1. Launch Node #1
 
 Open a terminal and run:
@@ -40,23 +28,12 @@ Open a terminal and run:
     --listen-addrs="/ip4/127.0.0.1/tcp/8070"
   ```
 
-Optionally, if you want to use the Marketplace blockchain functionality, you need to also include these flags: `--persistence --eth-account=<account>`, where `account` can be one following:
-
-  - `0x70997970C51812dc3A010C7d01b50e0d17dc79C8`
-  - `0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC`
-  - `0x90F79bf6EB2c4f870365E785982E1f101E93b906`
-  - `0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65`
-
-**For each node use a different account!**
-
 | Argument       | Description                                                           |
 |----------------|-----------------------------------------------------------------------|
 | `data-dir`     | We specify a relative path where the node will store its data.        |
 | `listen-addrs` | Multiaddress where the node will accept connections from other nodes. |
 | `api-port`     | Port on localhost where the node will expose its API.                 |
 | `disc-port`    | Port the node will use for its discovery service.                     |
-| `persistence`  | Enables Marketplace functionality. Requires a blockchain connection.  |
-| `eth-account`  | Defines which blockchain account the node should use.                 |
 
 Codex uses sane defaults for most of its arguments. Here we specify some explicitly for the purpose of this walk-through.
 

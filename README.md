@@ -74,7 +74,6 @@
 
  Project structure
  - `learn` - All information to learn about Codex
- - `networks` - Codex networks related information
  - `developers` - Codex development process and guides
 
 

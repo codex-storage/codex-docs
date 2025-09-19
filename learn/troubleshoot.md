@@ -3,7 +3,7 @@ outline: [2, 3]
 ---
 # Troubleshoot
 
-Having trouble getting your Codex node connected to the testnet? Here's a list of common Codex connection conundrums and steps to diagnose and solve them. If your troubles are not addressed here, check our open issues on Github or reach out via our Discord server.
+Having trouble getting your Codex node connected? Here's a list of common Codex connection conundrums and steps to diagnose and solve them. If your troubles are not addressed here, check our open issues on Github or reach out via our Discord server.
 
 ## Some basics
 
